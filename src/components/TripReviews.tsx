@@ -109,7 +109,7 @@ function ReviewCard({ review }: { review: Review }) {
            {review.photos.slice(0, 4).map((photo, idx) => (
              <div key={idx} className="relative w-full h-full bg-zinc-50 overflow-hidden group">
                 <Image 
-                  src={normalizeImageUrl(photo)} 
+                  src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
                   alt={`Review photo ${idx + 1}`}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-110"

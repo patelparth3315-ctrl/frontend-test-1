@@ -55,6 +55,12 @@ export interface RoomOption {
   priceDelta: number;
 }
 
+export interface AvailableDate {
+  date: string;
+  capacity: number;
+  bookedCount: number;
+}
+
 export interface Trip {
   id: string;
   _id?: string;
@@ -75,7 +81,7 @@ export interface Trip {
   inclusions: string[];
   exclusions: string[];
   faqs: FAQ[];
-  availableDates: string[];
+  availableDates: AvailableDate[];
   variants: TripVariant[];
   travelOptions: TravelOption[];
   roomOptions: RoomOption[];

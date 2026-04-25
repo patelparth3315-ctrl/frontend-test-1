@@ -18,11 +18,13 @@ import CTASlider from "./CTASlider";
 import CinematicBanner from "./CinematicBanner";
 import PhotoSlider from "./PhotoSlider";
 
+import { Trip, Review, Blog } from "@/types";
+
 interface PageRendererProps {
   sections: any[];
-  trips: any[];
-  reviews: any[];
-  blogs: any[];
+  trips?: Trip[];
+  reviews?: Review[];
+  blogs?: Blog[];
 }
 
 export default function PageRenderer({ sections = [], trips = [], reviews = [], blogs = [] }: PageRendererProps) {
