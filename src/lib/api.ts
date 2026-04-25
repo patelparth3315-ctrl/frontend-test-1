@@ -1,6 +1,6 @@
 import { Trip, ItineraryDay } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://youthcamping-api.onrender.com/api";
 const IMAGE_BASE_URL = API_BASE_URL.replace("/api", "");
 
 export const normalizeImageUrl = (url: string | null | undefined): string | undefined => {
