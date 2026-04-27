@@ -48,9 +48,8 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
   const months = Object.keys(groupedDates);
 
   return (
-    <div className="space-y-12">
-      
     <div className="space-y-4 md:space-y-12">
+      
       
       {/* Compact Mobile Selection Area */}
       <section className="md:p-10 p-5 bg-white border border-zinc-100 rounded-[32px] md:rounded-[40px] shadow-sm">
