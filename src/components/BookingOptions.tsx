@@ -48,106 +48,58 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
   const months = Object.keys(groupedDates);
 
   return (
-    <div className="space-y-4 md:space-y-12">
+    <div className="space-y-12">
       
-      
-      {/* Compact Mobile Selection Area */}
-      <section className="md:p-10 p-5 bg-white border border-zinc-100 rounded-[32px] md:rounded-[40px] shadow-sm">
-        <h2 className="text-sm md:text-xl font-bold text-navy mb-4 md:mb-8">Configure your Trip</h2>
-        
-        <div className="space-y-6">
-          {/* Featured Image of Selected Starting Point */}
-          <div className="relative aspect-video w-full rounded-[24px] overflow-hidden shadow-lg mb-8">
-            <Image 
-              src={normalizeImageUrl(trip.variants[selectedVariant]?.image) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-              alt={trip.variants[selectedVariant]?.location || "Starting Point"} 
-              fill 
-              className="object-cover" 
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-            <div className="absolute bottom-4 left-6">
-              <p className="text-white font-bold text-xl leading-none mb-1">{trip.variants[selectedVariant]?.location}</p>
-              <p className="text-white/70 text-[10px] font-black uppercase tracking-widest">{trip.variants[selectedVariant]?.duration}</p>
-            </div>
-          </div>
-
-          {/* Choose Starting Location - Compact Pills on Mobile */}
-          <div>
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-3">Starting From</p>
-            <div className="flex flex-row overflow-x-auto no-scrollbar gap-2 md:gap-8 pb-1">
-              {(trip.variants || []).map((v, i) => (
-                <button 
-                  key={i}
-                  onClick={() => {
-                    setSelectedVariant(i);
-                    onVariantSelect?.(i);
-                  }}
-                  className={cn(
-                    "px-4 py-2 rounded-full border-2 text-[11px] font-bold transition-all shrink-0 whitespace-nowrap",
-                    selectedVariant === i ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-100 text-zinc-500 bg-zinc-50"
-                  )}
-                >
-                  {v.location} <span className="ml-1 opacity-60">₹{v.discountedPrice?.toLocaleString()}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Travelling Options - Compact Pills */}
-          {!trip.variants[selectedVariant]?.location.toLowerCase().includes("jalandhar") && trip.travelOptions && trip.travelOptions.length > 0 && (
-            <div>
-              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-3">Travel Mode</p>
-              <div className="flex flex-row overflow-x-auto no-scrollbar gap-2 pb-1">
-                {trip.travelOptions.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setSelectedTravel(i)}
-                    className={cn(
-                      "px-4 py-2 rounded-full border-2 text-[11px] font-bold transition-all shrink-0 whitespace-nowrap",
-                      selectedTravel === i ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-100 text-zinc-500 bg-zinc-50"
-                    )}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+      {/* Join us from Section */}
+      <section className="bg-white">
+        <h2 className="text-2xl font-bold text-[#D84E2D] mb-6">Join us from</h2>
+        <div className="flex flex-row overflow-x-auto no-scrollbar gap-5 pb-6">
+          {(trip.variants || []).map((v, i) => (
+            <div 
+              key={i}
+              onClick={() => {
+                setSelectedVariant(i);
+                onVariantSelect?.(i);
+              }}
+              className={cn(
+                "min-w-[200px] bg-white rounded-[24px] overflow-hidden border-2 transition-all p-4 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] cursor-pointer",
+                selectedVariant === i ? "border-[#D84E2D] scale-[1.02]" : "border-zinc-100"
+              )}
+            >
+              <div className="relative aspect-[4/3] rounded-[16px] overflow-hidden mb-4">
+                <Image 
+                  src={normalizeImageUrl(v.image) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
+                  alt={v.location} 
+                  fill 
+                  className="object-cover" 
+                />
+              </div>
+              <h3 className="font-bold text-navy text-xl mb-1">{v.location}</h3>
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-zinc-500 font-bold text-sm">₹{v.discountedPrice?.toLocaleString()}/-</span>
+                <div className="flex items-center gap-1.5 text-zinc-400">
+                  <Calendar className="w-4 h-4" />
+                  <span className="text-xs font-bold">{v.duration}</span>
+                </div>
               </div>
             </div>
-          )}
-
-          {/* Room Sharing - Compact Pills */}
-          <div>
-            <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-3">Room Sharing</p>
-            <div className="flex flex-row overflow-x-auto no-scrollbar gap-2 pb-1">
-              {(trip.roomOptions || []).map((opt, i) => (
-                <button
-                  key={i}
-                  onClick={() => setSelectedRoom(i)}
-                  className={cn(
-                    "px-4 py-2 rounded-full border-2 text-[11px] font-bold transition-all shrink-0 whitespace-nowrap",
-                    selectedRoom === i ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-100 text-zinc-500 bg-zinc-50"
-                  )}
-                >
-                  {opt.label}
-                </button>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
-      {/* Departure Dates */}
-      <section className="md:p-10 p-5 bg-zinc-50 border border-zinc-100 rounded-[32px] md:rounded-[40px] shadow-sm">
-        <h2 className="text-sm md:text-xl font-bold text-navy mb-4 md:mb-8">Departure Dates</h2>
+      {/* Dates Section */}
+      <section className="bg-white border-t border-zinc-200 pt-10">
+        <h2 className="text-lg font-bold text-navy mb-6">Dates from {trip.variants[selectedVariant]?.location}</h2>
         
-        {/* Month Tabs - Smaller for Mobile */}
-        <div className="flex flex-row overflow-x-auto no-scrollbar gap-2 mb-6 pb-1">
+        {/* Month Tabs - Orange theme */}
+        <div className="flex flex-row overflow-x-auto no-scrollbar gap-3 mb-8">
           {months.map((month) => (
             <button
               key={month}
               onClick={() => setActiveMonth(month)}
               className={cn(
-                "px-4 py-2 rounded-full border-2 text-[11px] font-bold transition-all shrink-0 whitespace-nowrap",
-                activeMonth === month ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-200 text-zinc-400 bg-white"
+                "px-6 py-2 rounded-lg font-bold text-sm transition-all",
+                activeMonth === month ? "bg-[#D84E2D] text-white shadow-lg" : "bg-white border border-zinc-200 text-zinc-400"
               )}
             >
               {month}
@@ -155,8 +107,8 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
           ))}
         </div>
 
-        {/* Circular Days - Compact for Mobile */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        {/* Circular Days - Specific style from image */}
+        <div className="flex flex-wrap gap-4 mb-10">
           {(groupedDates[activeMonth] || []).map((ad, i) => {
             const dateStr = new Date(ad.date).getDate().toString();
             return (
@@ -167,8 +119,10 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
                   onDateSelect?.(ad.date);
                 }}
                 className={cn(
-                  "w-10 h-10 rounded-full border-2 flex items-center justify-center font-bold text-xs transition-all",
-                  selectedDate === ad.date ? "border-red-500 bg-white text-red-500 shadow-md" : "border-zinc-200 text-zinc-400 bg-white"
+                  "w-12 h-12 rounded-full border-2 flex items-center justify-center font-bold text-sm transition-all",
+                  selectedDate === ad.date 
+                    ? "border-[#D84E2D] bg-white text-navy scale-110 shadow-md" 
+                    : "border-zinc-200 text-zinc-400 bg-white"
                 )}
               >
                 {dateStr}
@@ -177,7 +131,7 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
           })}
         </div>
 
-        <button className="w-full md:w-auto px-10 py-4 bg-red-600 text-white rounded-[20px] font-black uppercase text-xs tracking-widest hover:bg-red-700 transition-all shadow-xl shadow-red-100">
+        <button className="w-full py-4 bg-[#D84E2D] text-white rounded-[16px] font-black uppercase text-sm tracking-widest hover:brightness-110 transition-all shadow-xl shadow-orange-100">
            Book Now
         </button>
       </section>
