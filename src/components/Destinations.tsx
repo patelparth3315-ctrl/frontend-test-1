@@ -1,12 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import DestinationInquiryModal from "./DestinationInquiryModal";
 
 interface Destination {
   name: string;
   img: string;
+  duration?: string;
+  subtext?: string;
 }
 
 interface DestinationsProps {
@@ -18,12 +22,37 @@ interface DestinationsProps {
   destinations?: Destination[];
 }
 
-const defaultDestinations = [
-  { name: "MALDIVES", img: "https://youthcamping.in/wp-content/uploads/2024/05/maldives.jpg" },
-  { name: "SINGAPORE", img: "https://youthcamping.in/wp-content/uploads/2024/05/singapore.jpg" },
-  { name: "THAILAND", img: "https://youthcamping.in/wp-content/uploads/2024/05/thailand.jpg" },
-  { name: "MALAYSIA", img: "https://youthcamping.in/wp-content/uploads/2024/05/malaysia.jpg" },
-  { name: "BALI", img: "https://youthcamping.in/wp-content/uploads/2024/05/bali.jpg" },
+const defaultDestinations: Destination[] = [
+  { 
+    name: "MALDIVES", 
+    img: "https://youthcamping.in/wp-content/uploads/2024/05/maldives.jpg",
+    duration: "5 Days 4 Nights",
+    subtext: "Luxury overwater villas and crystal clear lagoons"
+  },
+  { 
+    name: "SINGAPORE", 
+    img: "https://youthcamping.in/wp-content/uploads/2024/05/singapore.jpg",
+    duration: "4 Days 3 Nights",
+    subtext: "City in a garden and world-class attractions"
+  },
+  { 
+    name: "THAILAND", 
+    img: "https://youthcamping.in/wp-content/uploads/2024/05/thailand.jpg",
+    duration: "6 Days 5 Nights",
+    subtext: "Tropical beaches and vibrant street life"
+  },
+  { 
+    name: "MALAYSIA", 
+    img: "https://youthcamping.in/wp-content/uploads/2024/05/malaysia.jpg",
+    duration: "5 Days 4 Nights",
+    subtext: "Modern skyscrapers and ancient rainforests"
+  },
+  { 
+    name: "BALI", 
+    img: "https://youthcamping.in/wp-content/uploads/2024/05/bali.jpg",
+    duration: "7 Days 6 Nights",
+    subtext: "Spiritual retreats and world-famous surf breaks"
+  },
 ];
 
 export default function Destinations({ 
@@ -35,6 +64,7 @@ export default function Destinations({
   destinations = [] 
 }: DestinationsProps) {
   const items = destinations.length > 0 ? destinations : defaultDestinations;
+  const [selectedDest, setSelectedDest] = useState<Destination | null>(null);
 
   return (
     <section className="py-24 px-6 md:px-10 bg-[#EEEEEE] overflow-hidden">
@@ -73,6 +103,7 @@ export default function Destinations({
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
               viewport={{ once: true }}
+              onClick={() => setSelectedDest(dest)}
               className="relative min-w-[240px] md:min-w-[260px] flex-1 aspect-[3/4] rounded-[32px] overflow-hidden group snap-start shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] cursor-pointer bg-white"
             >
               <img 
@@ -82,7 +113,7 @@ export default function Destinations({
               />
               <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60" />
               <div className="absolute inset-0 flex items-center justify-center p-6">
-                <h3 className="text-3xl md:text-4xl font-semibold text-white tracking-tighter drop-shadow-2xl text-center">
+                <h3 className="text-3xl md:text-4xl font-semibold text-white tracking-tighter drop-shadow-2xl text-center uppercase italic">
                   {dest.name}
                 </h3>
               </div>
@@ -90,6 +121,12 @@ export default function Destinations({
           ))}
         </div>
       </div>
+
+      <DestinationInquiryModal 
+        isOpen={!!selectedDest}
+        onClose={() => setSelectedDest(null)}
+        destination={selectedDest}
+      />
     </section>
   );
 }

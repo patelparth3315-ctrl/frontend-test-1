@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import TravelTimeline from "@/components/TravelTimeline";
+
 import AboutTrip from "@/components/AboutTrip";
 import TripBookingSection from "@/components/TripBookingSection";
 import TripHighlightsList from "@/components/TripHighlightsList";
@@ -24,8 +25,13 @@ import StickyBookingCard from "@/components/StickyBookingCard";
 import Link from "next/link";
 import TripSubNav from "@/components/TripSubNav";
 import { normalizeImageUrl } from "@/lib/api";
+import TripGallerySection from "@/components/TripGallerySection";
+import InclusionsExclusions from "@/components/InclusionsExclusions";
+
 
 export default async function TripDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+
+
   const { slug } = await params;
   const trip = await fetchTripBySlug(slug);
 
@@ -66,69 +72,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
           </h1>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-20 h-auto md:h-[600px]">
-          {/* Column 1: Vertical Tall */}
-          <div className="relative aspect-[4/3] md:aspect-auto md:col-span-1 rounded-[32px] overflow-hidden shadow-2xl group">
-            <Image 
-              src={normalizeImageUrl(trip.heroImage) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-              alt="" 
-              fill 
-              className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-            />
-            <div className="absolute bottom-6 right-6 z-10 md:hidden">
-              <button className="bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-3 text-[10px] font-black uppercase tracking-widest shadow-2xl hover:bg-white transition-all hover:scale-105">
-                <ImageIcon className="w-4 h-4 text-primary-orange" /> 
-                See all photos
-              </button>
-            </div>
-          </div>
-          
-          {/* Gallery - Hidden on Mobile */}
-          <div className="hidden md:grid md:col-span-3 grid-cols-3 gap-4 h-full">
-            <div className="relative rounded-[32px] overflow-hidden shadow-2xl group">
-              <Image 
-                src={normalizeImageUrl(trip.images?.[0]) || "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23"} 
-                alt="" 
-                fill 
-                className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-              />
-            </div>
-            
-            <div className="grid grid-rows-2 gap-4">
-              <div className="relative rounded-[32px] overflow-hidden shadow-xl group">
-                <Image 
-                  src={normalizeImageUrl(trip.images?.[1]) || "https://images.unsplash.com/photo-1582239014603-7b3b7548d80c"} 
-                  alt="" 
-                  fill 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-                />
-              </div>
-              <div className="relative rounded-[32px] overflow-hidden shadow-xl group">
-                <Image 
-                  src={normalizeImageUrl(trip.images?.[2]) || "https://images.unsplash.com/photo-1533130061792-64b345e4a833"} 
-                  alt="" 
-                  fill 
-                  className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-                />
-              </div>
-            </div>
-            
-            <div className="relative rounded-[32px] overflow-hidden shadow-2xl group">
-              <Image 
-                src={normalizeImageUrl(trip.images?.[3]) || "https://images.unsplash.com/photo-1589308078059-be1415eab4c3"} 
-                alt="" 
-                fill 
-                className="object-cover transition-transform duration-1000 group-hover:scale-110" 
-              />
-              <div className="absolute bottom-6 right-6 z-10">
-                <button className="bg-white/90 backdrop-blur-md px-6 py-3 rounded-full flex items-center gap-3 text-[10px] font-black uppercase tracking-widest shadow-2xl hover:bg-white transition-all hover:scale-105">
-                  <ImageIcon className="w-4 h-4 text-primary-orange" /> 
-                  See all photos
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+        <TripGallerySection trip={trip} />
+
 
         <TripSubNav sections={navSections} />
 
@@ -158,22 +103,24 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
               <AboutTrip description={trip.description} />
             </div>
             
-            <div id="itinerary">
+            <div>
               <FullCircuit route={trip.route} />
-            </div>
-
-            <div id="inclusions">
               <TripBookingSection 
                 trip={trip} 
-                inclusions={trip.inclusions} 
-                exclusions={trip.exclusions} 
+                inclusions={trip.inclusions}
+                exclusions={trip.exclusions}
               />
             </div>
 
+
+
+
             <div id="highlights" className="space-y-16">
-              <TripHighlightsList title="Places You'll Explore" items={trip.attractions} />
-              <TripHighlightsList title="Activities & Experiences" items={trip.activities} />
+              <TripHighlightsList title="Activities & Experiences" items={trip.highlights} />
             </div>
+
+
+
             
             <div id="stay">
               <StaySection accommodations={trip.accommodations || []} />
@@ -203,3 +150,5 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
     </div>
   );
 }
+
+

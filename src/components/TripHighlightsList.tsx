@@ -42,20 +42,31 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
         </div>
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-          {displayedItems.map((item, i) => (
-            <Link key={i} href={title.toLowerCase().includes('explore') ? `/attractions/${item.slug}` : `/blogs/${item.slug}`} className="group cursor-pointer">
-              <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
-                <Image 
-                  src={item.image || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-                  alt={item.name} 
-                  fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-              </div>
-              <h3 className="font-bold text-navy text-sm mb-1">{item.name}</h3>
-              <p className="text-[10px] text-zinc-400 font-medium line-clamp-2">{item.description || (item as any).desc}</p>
-            </Link>
-          ))}
+          {displayedItems.map((item, i) => {
+            const name = item.name || (item as any).title || "Highlight";
+            const imageUrl = item.image || (item as any).img || (item as any).url || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6";
+            const slug = item.slug || (item as any).id || i.toString();
+            
+            return (
+              <Link 
+                key={i} 
+                href={title.toLowerCase().includes('explore') ? `/attractions/${slug}` : `/blogs/${slug}`} 
+                className="group cursor-pointer"
+              >
+                <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
+                  <Image 
+                    src={imageUrl} 
+                    alt={name} 
+                    fill 
+                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                </div>
+                <h3 className="font-bold text-navy text-sm mb-1">{name}</h3>
+                <p className="text-[10px] text-zinc-400 font-medium line-clamp-2">{item.description || (item as any).desc}</p>
+              </Link>
+            );
+          })}
+
         </div>
 
         {!isExpanded && activeList.length > 4 && (

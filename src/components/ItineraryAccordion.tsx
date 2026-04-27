@@ -116,15 +116,29 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
             <div className="overflow-hidden">
               <div className="px-4 pb-6 pt-2">
                 <div className="p-6 bg-white/60 backdrop-blur-md rounded-[24px] border border-white shadow-lg">
-                  {/* Bullet Points */}
-                  <ul className="space-y-2.5 mb-8">
-                    {day.activities?.map((act, i) => (
-                      <li key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-600 leading-relaxed">
-                        <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-2 shrink-0" />
-                        {act}
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Bullet Points / Description */}
+                  <div className="space-y-4 mb-8">
+                    {day.activities && day.activities.length > 0 ? (
+                      <ul className="space-y-2.5">
+                        {day.activities.map((act, i) => (
+                          <li key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-600 leading-relaxed">
+                            <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-2 shrink-0" />
+                            {act}
+                          </li>
+                        ))}
+                      </ul>
+                    ) : day.description ? (
+                      <div className="space-y-3">
+                        {day.description.split('\n').filter(Boolean).map((line, i) => (
+                          <div key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-600 leading-relaxed">
+                            <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-2 shrink-0" />
+                            <span>{line}</span>
+                          </div>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+
 
                   {/* Sightseeing Places Gallery */}
                   {day.photos && day.photos.length > 0 && (
@@ -134,8 +148,8 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
                       </h4>
                       <div className="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
                         {day.photos.map((photo, i) => (
-                          <div key={i} className="w-48 shrink-0 group/photo">
-                            <div className="relative aspect-square rounded-[24px] overflow-hidden mb-3 border-4 border-white shadow-lg transition-transform group-hover/photo:scale-105">
+                          <div key={i} className="w-24 md:w-32 shrink-0 group/photo">
+                            <div className="relative aspect-square rounded-[14px] md:rounded-[18px] overflow-hidden mb-2 border-2 border-white shadow-sm transition-transform group-hover/photo:scale-105">
                               <Image 
                                 src={normalizeImageUrl(photo) || ""} 
                                 alt={day.activities?.[i] || "Sightseeing"} 
@@ -143,10 +157,12 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
                                 className="object-cover" 
                               />
                             </div>
-                            <p className="text-[10px] font-black text-navy uppercase tracking-widest px-1">
+                            <p className="text-[8px] md:text-[9px] font-black text-navy uppercase tracking-widest px-1 line-clamp-1">
                               {day.activities?.[i] || "Explore"}
                             </p>
                           </div>
+
+
                         ))}
                       </div>
                     </div>

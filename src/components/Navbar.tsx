@@ -27,19 +27,9 @@ export default function Navbar({
   navLinks = defaultNavLinks
 }: NavbarProps) {
   const pathname = usePathname();
-  const [isScrolled, setIsScrolled] = useState(false);
-  const isHomePage = pathname === "/";
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const showSolidNavbar = isScrolled || !isHomePage || isMenuOpen;
+  const showSolidNavbar = true;
+
 
   return (
     <>

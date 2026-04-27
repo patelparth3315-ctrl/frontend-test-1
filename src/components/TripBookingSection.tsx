@@ -29,17 +29,20 @@ export default function TripBookingSection({ trip, inclusions, exclusions, onPri
         onPriceChange={onPriceChange}
       />
       
-      <section className="mb-24">
+      <section id="itinerary" className="mb-24 scroll-mt-32">
         <ItineraryAccordion 
           itinerary={trip.itinerary} 
           startDate={selectedDate}
         />
       </section>
 
-      <InclusionsExclusions 
-        inclusions={inclusions} 
-        exclusions={exclusions} 
-      />
+      <section id="inclusions" className="scroll-mt-32">
+        <InclusionsExclusions 
+          inclusions={inclusions} 
+          exclusions={exclusions} 
+        />
+      </section>
+
 
       <PackagePriceTable 
         variants={trip.variants}

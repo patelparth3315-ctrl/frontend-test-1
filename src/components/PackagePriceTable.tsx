@@ -36,10 +36,12 @@ export default function PackagePriceTable({
           </thead>
           <tbody>
             {variants.map((v, vIdx) => {
-              const isJalandhar = v.location.toLowerCase().includes("jalandhar");
+              const location = v.location || "Standard Package";
+              const isJalandhar = location.toLowerCase().includes("jalandhar");
               const options = isJalandhar 
                 ? [{ label: "Direct Join (Road)", priceDelta: 0 }] 
                 : (travelOptions.length > 0 ? travelOptions : [{ label: "Standard Trip", priceDelta: 0 }]);
+
               
               return options.map((opt, oIdx) => {
                 const regPrice = (v.originalPrice || v.discountedPrice + 3000) + (opt.priceDelta || 0);
@@ -57,7 +59,8 @@ export default function PackagePriceTable({
                         rowSpan={options.length} 
                         className="py-10 border-r border-zinc-200 font-bold text-navy align-middle"
                       >
-                        <div className="text-lg mb-1">{v.location}</div>
+                        <div className="text-lg mb-1">{location}</div>
+
                         <div className="text-[10px] text-zinc-400 uppercase tracking-widest">{v.duration}</div>
                       </td>
                     )}

@@ -1,6 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 
 interface Reason {
@@ -59,11 +61,20 @@ export default function BestieSection({
   padding = "80px"
 }: BestieSectionProps) {
   const displayReasons = (reasons && reasons.length > 0) ? reasons : defaultReasons;
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
+    }
+  };
 
   return (
     <section 
       style={{ backgroundColor, paddingTop: padding, paddingBottom: padding }}
-      className="relative px-6"
+      className="relative px-6 overflow-hidden"
     >
       {/* Seamless Scalloped Border Top */}
       <div className="absolute top-0 left-0 w-full h-12 -translate-y-[1px]">
@@ -73,51 +84,74 @@ export default function BestieSection({
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <motion.h2 
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className={`font-semibold ${titleSize} mb-4 tracking-tighter`}
-          style={{ textAlign: titleAlign, color: titleColor }}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 md:mb-20">
+          <div className={titleAlign === 'center' ? 'w-full text-center' : 'w-auto'}>
+            <motion.h2 
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className={`font-semibold ${titleSize} tracking-tighter uppercase italic leading-[0.9]`}
+              style={{ color: titleColor }}
+            >
+              {title}
+            </motion.h2>
+            {subtitle && (
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                className="text-zinc-500 font-bold mt-4 tracking-widest text-[10px] uppercase"
+              >
+                {subtitle}
+              </motion.p>
+            )}
+          </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            <button 
+              onClick={() => scroll('left')}
+              className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-navy hover:bg-white transition-all shadow-sm"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button 
+              onClick={() => scroll('right')}
+              className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-navy hover:bg-white transition-all shadow-sm"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        {/* Reason Slider */}
+        <div 
+          ref={scrollRef}
+          className="flex gap-6 md:gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-10"
         >
-          {title}
-        </motion.h2>
-
-        {subtitle && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            className="text-zinc-500 font-bold mb-20 tracking-widest text-[10px]"
-            style={{ textAlign: titleAlign }}
-          >
-            {subtitle}
-          </motion.p>
-        )}
-
-        <div className="flex flex-wrap justify-center gap-x-8 gap-y-10">
           {displayReasons.map((reason, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="bg-white p-10 rounded-[40px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] flex items-center gap-10 max-w-[440px] w-full border border-white hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group"
+              className="flex-none w-[85vw] md:w-[420px] snap-start"
             >
-              <div className="w-28 h-28 shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                {reason.image ? (
-                  <img src={normalizeImageUrl(reason.image)} alt={reason.title} className="w-full h-full object-contain" />
-                ) : (
-                  <div className="w-20 h-20 bg-[#C4DAD2]/20 rounded-full flex items-center justify-center text-[#1B2A4A]">
-                    <span className="font-black text-2xl">{i+1}</span>
-                  </div>
-                )}
-              </div>
-              <div className="flex-1">
-                <h3 className="text-xl font-semibold text-[#1B2A4A] mb-3 leading-tight tracking-tight">{reason.title}</h3>
-                <p className="text-zinc-500 text-[13px] font-bold leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
-                  {reason.desc}
-                </p>
+              <div className="bg-white/95 backdrop-blur-sm p-8 md:p-10 rounded-[40px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] flex flex-col md:flex-row items-center gap-6 md:gap-10 h-full border border-white/50 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group">
+                <div className="w-24 h-24 md:w-28 md:h-28 shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                  {reason.image ? (
+                    <img src={normalizeImageUrl(reason.image)} alt={reason.title} className="w-full h-full object-contain" />
+                  ) : (
+                    <div className="w-20 h-20 bg-primary-orange/10 rounded-full flex items-center justify-center text-primary-orange">
+                      <span className="font-black text-2xl">{i+1}</span>
+                    </div>
+                  )}
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-xl font-black text-navy mb-3 leading-tight tracking-tight uppercase italic">{reason.title}</h3>
+                  <p className="text-zinc-500 text-[13px] font-bold leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+                    {reason.desc}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}
