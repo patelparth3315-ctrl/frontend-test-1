@@ -39,16 +39,16 @@ export default function Hero({
   const fontSizeClass = FONT_SIZES[fontSize] || FONT_SIZES.large;
 
   return (
-    <section className="relative w-full py-6 md:py-12 bg-[#F3F4F6] overflow-hidden">
-      <div className="max-w-[95vw] md:max-w-[1400px] mx-auto px-4 md:px-6">
-        <div className="relative aspect-[16/10] md:aspect-[21/9] rounded-[32px] md:rounded-[48px] overflow-hidden shadow-[0_40px_100px_-20px_rgba(0,0,0,0.3)] bg-navy group">
+    <section className="relative w-full py-4 md:py-12 bg-[#F3F4F6] overflow-hidden">
+      <div className="max-w-[95vw] md:max-w-[1400px] mx-auto px-2 md:px-6">
+        <div className="relative aspect-[4/5] md:aspect-[21/9] rounded-[24px] md:rounded-[48px] overflow-hidden shadow-[0_30px_80px_-20px_rgba(0,0,0,0.3)] bg-navy group">
           
           {/* Background Media Slider */}
           <div className="absolute inset-0 z-0">
             {hasVideo ? (
-              <div className="absolute inset-0 pointer-events-none overflow-hidden scale-110">
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <iframe
-                  className="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 object-cover scale-150"
+                  className="absolute top-1/2 left-1/2 w-full h-full -translate-x-1/2 -translate-y-1/2 object-cover scale-[1.2] md:scale-150"
                   src={`${videoUrl.replace('watch?v=', 'embed/')}?autoplay=1&mute=1&loop=1&playlist=${videoUrl.split('v=')[1] || videoUrl.split('/').pop()}&controls=0&showinfo=0&rel=0&modestbranding=1`}
                   title="Hero Video"
                   frameBorder="0"
@@ -67,52 +67,51 @@ export default function Hero({
             
             {/* Dynamic Overlay */}
             <div 
-              className="absolute inset-0 bg-navy transition-opacity duration-700" 
-              style={{ opacity: (overlayOpacity || 40) / 100 }}
+              className="absolute inset-0 bg-navy/40 transition-opacity duration-700" 
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
           </div>
 
           {/* Content Over the Frame */}
-          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-8 md:p-20 text-center text-white">
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 md:p-20 text-center text-white">
             <motion.h1
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-              className={`${fontSizeClass} font-semibold tracking-tighter mb-4 md:mb-8 leading-[0.85] drop-shadow-2xl`}
+              className="text-3xl md:text-8xl font-bold tracking-tighter mb-4 md:mb-8 leading-[0.9] drop-shadow-2xl"
             >
               {headline}
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 1 }}
-              className="text-sm md:text-xl text-white/90 mb-8 md:mb-12 font-bold tracking-[0.2em] md:tracking-[0.4em] max-w-3xl mx-auto drop-shadow-lg uppercase"
+              className="text-[10px] md:text-xl text-white/90 mb-8 md:mb-12 font-bold tracking-[0.2em] md:tracking-[0.4em] max-w-xs md:max-w-3xl mx-auto drop-shadow-lg uppercase"
             >
               {subheadline}
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
               <Link
                 href={ctaLink}
-                className="inline-flex items-center gap-3 px-8 py-4 md:px-14 md:py-6 bg-primary-orange text-white rounded-full font-black text-sm md:text-xl tracking-widest hover:bg-white hover:text-navy transition-all shadow-2xl hover:scale-105 group"
+                className="inline-flex items-center gap-2 px-8 py-3.5 md:px-14 md:py-6 bg-primary-orange text-white rounded-full font-black text-xs md:text-xl tracking-widest hover:bg-white hover:text-navy transition-all shadow-2xl hover:scale-105 group"
               >
                 {ctaText}
-                <ArrowRight className="w-5 h-5 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="w-4 h-4 md:w-6 md:h-6 group-hover:translate-x-2 transition-transform" />
               </Link>
             </motion.div>
           </div>
 
-          {/* Slider Indicators (Visual Only for now) */}
-          <div className="absolute bottom-8 right-12 z-20 flex gap-2">
-            <div className="w-8 h-1 bg-white rounded-full opacity-100" />
-            <div className="w-8 h-1 bg-white rounded-full opacity-30" />
-            <div className="w-8 h-1 bg-white rounded-full opacity-30" />
+          {/* Slider Indicators */}
+          <div className="absolute bottom-6 md:bottom-8 right-6 md:right-12 z-20 flex gap-1.5 md:gap-2">
+            <div className="w-6 md:w-8 h-1 bg-white rounded-full opacity-100" />
+            <div className="w-6 md:w-8 h-1 bg-white rounded-full opacity-30" />
+            <div className="w-6 md:w-8 h-1 bg-white rounded-full opacity-30" />
           </div>
         </div>
       </div>
