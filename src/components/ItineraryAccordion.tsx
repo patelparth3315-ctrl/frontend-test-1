@@ -124,7 +124,7 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
                 <div className="p-8 bg-white/80 backdrop-blur-md rounded-[32px] border border-white shadow-xl">
                   {/* Bullet Points */}
                   <ul className="space-y-3 mb-10">
-                    {day.activities.map((act, i) => (
+                    {day.activities?.map((act, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-600 leading-relaxed">
                         <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-2 shrink-0" />
                         {act}
@@ -144,13 +144,13 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
                             <div className="relative aspect-square rounded-[24px] overflow-hidden mb-3 border-4 border-white shadow-lg transition-transform group-hover/photo:scale-105">
                               <Image 
                                 src={normalizeImageUrl(photo) || ""} 
-                                alt={day.activities[i] || "Sightseeing"} 
+                                alt={day.activities?.[i] || "Sightseeing"} 
                                 fill 
                                 className="object-cover" 
                               />
                             </div>
                             <p className="text-[10px] font-black text-navy uppercase tracking-widest px-1">
-                              {day.activities[i] || "Explore"}
+                              {day.activities?.[i] || "Explore"}
                             </p>
                           </div>
                         ))}
