@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
-    domains: ['localhost', '127.0.0.1'],
     remotePatterns: [
+
       {
         protocol: 'https',
         hostname: 'vl-prod-static.b-cdn.net',
@@ -30,8 +30,14 @@ const nextConfig: NextConfig = {
         protocol: 'http',
         hostname: '127.0.0.1',
         port: '8888',
+      },
+      {
+        protocol: 'https',
+        hostname: 'youthcamping-api.onrender.com',
       }
     ],
+
+
   },
 };
 
