@@ -2,6 +2,8 @@ import { fetchTripBySlug } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+export const dynamic = 'force-dynamic';
+
 import {
   Calendar, Check, X,
   ChevronRight, MessageCircle, Star, Shield,

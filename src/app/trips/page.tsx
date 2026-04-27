@@ -4,6 +4,8 @@ import { fetchTrips } from "@/lib/api";
 import { Compass, Sparkles, Filter } from "lucide-react";
 
 import { Trip } from "@/types";
+export const dynamic = 'force-dynamic';
+
 
 export default async function TripsPage() {
   let trips: Trip[] = [];
