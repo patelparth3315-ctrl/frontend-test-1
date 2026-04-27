@@ -77,7 +77,8 @@ export interface Trip {
   stickyCardPrice?: number;
   stickyCardLabel?: string;
   itinerary: ItineraryDay[];
-  highlights: string[];
+  highlights: any[];
+
   inclusions: string[];
   exclusions: string[];
   faqs: FAQ[];
