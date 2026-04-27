@@ -32,87 +32,44 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between mb-8">
-        <h2 className="text-3xl font-semibold text-navy">Itinerary</h2>
-        <div className="flex gap-4">
-          <button className="flex items-center gap-2 px-6 py-2 border border-zinc-200 rounded-lg text-sm font-bold text-zinc-500 hover:bg-zinc-50 transition-all">
-            <Check className="w-4 h-4" /> Get PDF
-          </button>
-          <button 
-            onClick={toggleExpandAll}
-            className={cn(
-              "flex items-center gap-2 px-6 py-2 border rounded-lg text-sm font-bold transition-all",
-              isAllExpanded ? "bg-navy text-white border-navy" : "border-zinc-200 text-zinc-500 hover:bg-zinc-50"
-            )}
-          >
-            <MapPin className="w-4 h-4" /> {isAllExpanded ? "Collapse All" : "Expand All"}
-          </button>
-        </div>
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-navy">Itinerary</h2>
+        <button 
+          onClick={toggleExpandAll}
+          className="flex items-center gap-2 px-5 py-2 border border-zinc-200 rounded-xl text-xs font-bold text-zinc-500 hover:bg-zinc-50 transition-all shadow-sm"
+        >
+          <div className="flex flex-col -space-y-1">
+             <ChevronDown className={cn("w-3 h-3 transition-transform", isAllExpanded ? "rotate-180" : "")} />
+             <ChevronDown className={cn("w-3 h-3 transition-transform", isAllExpanded ? "" : "rotate-180")} />
+          </div>
+          {isAllExpanded ? "Collapse All" : "Expand All"}
+        </button>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-4">
       {itinerary.map((day) => (
         <div 
           key={day.day} 
-          className="group border border-blue-100 rounded-[20px] bg-gradient-to-r from-blue-50/50 to-indigo-50/50 overflow-hidden hover:shadow-md transition-all duration-300"
+          className="group border border-zinc-100 rounded-[24px] bg-[#F3F4F6] overflow-hidden transition-all duration-300"
         >
           <button
             onClick={() => toggleDay(day.day)}
-            className="w-full flex flex-col md:flex-row items-center p-4 md:p-3 text-left gap-4 md:gap-6"
+            className="w-full flex items-center p-4 text-left gap-4"
           >
             {/* Day Badge */}
-            <div className="w-24 shrink-0 px-4 py-3.5 bg-zinc-700 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest text-center shadow-lg group-hover:bg-zinc-800 transition-colors self-center">
+            <div className="shrink-0 px-4 py-1.5 bg-[#4B5563] text-white rounded-full text-[11px] font-bold text-center">
               Day {day.day}
             </div>
 
             {/* Title Section */}
-            <div className="flex-1 min-w-0 self-center">
-              {startDate && (
-                <p className="text-[10px] font-bold text-zinc-400 mb-0.5">
-                  {(() => {
-                    const d = new Date(startDate);
-                    d.setDate(d.getDate() + day.day - 1);
-                    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
-                  })()}
-                </p>
-              )}
-              <span className="text-sm md:text-base font-bold text-navy leading-tight line-clamp-1 opacity-90 group-hover:opacity-100 transition-opacity">
+            <div className="flex-1 min-w-0">
+              <span className="text-sm font-bold text-navy leading-tight line-clamp-1">
                 {day.title}
               </span>
             </div>
 
-            {/* Stay & Meals Info */}
-            <div className="flex items-center gap-6 shrink-0 ml-auto">
-              {/* Vertical Divider - only show if there's info to display */}
-              {(day.stay || day.meals) && (
-                <div className="hidden md:block w-[2px] h-10 bg-zinc-200/60 rounded-full" />
-              )}
-              
-              <div className="flex items-center gap-6">
-                {(day.stay || day.meals) && (
-                  <div className="space-y-1.5 min-w-[140px]">
-                    {day.meals && (
-                      <div className="flex items-center gap-2.5 text-zinc-400">
-                        <Utensils className="w-3.5 h-3.5 shrink-0" />
-                        <span className="text-[10px] font-black uppercase tracking-wider">{day.meals}</span>
-                      </div>
-                    )}
-                    {day.stay && (
-                      <div className="flex items-center gap-2.5 text-navy">
-                        <Hotel className="w-3.5 h-3.5 text-zinc-400 shrink-0" />
-                        <span className="text-[10px] font-black uppercase tracking-wider truncate max-w-[120px]">{day.stay}</span>
-                      </div>
-                    )}
-                  </div>
-                )}
-                <ChevronDown className={cn("w-5 h-5 text-zinc-300 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
-              </div>
-            </div>
-
-            {!day.stay && !day.meals && (
-               <ChevronDown className={cn("w-5 h-5 text-zinc-300 ml-auto transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
-            )}
+            <ChevronDown className={cn("w-5 h-5 text-zinc-400 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
           </button>
           
           <div className={cn(
