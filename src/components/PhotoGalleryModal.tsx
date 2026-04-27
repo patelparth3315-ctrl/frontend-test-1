@@ -96,8 +96,8 @@ export default function PhotoGalleryModal({
         </div>
 
         <main className="flex-1 overflow-y-auto p-4 no-scrollbar">
-          {currentPhotos.length > 0 ? (
-            <div className="grid grid-cols-2 gap-3 max-w-5xl mx-auto">
+          {currentPhotos.length > 0 && (
+            <div className="grid grid-cols-2 gap-3 max-w-5xl mx-auto pb-10">
               {currentPhotos.map((photo, i) => (
                 <motion.div
                   key={i}
@@ -107,7 +107,7 @@ export default function PhotoGalleryModal({
                   className="relative aspect-square rounded-[24px] overflow-hidden shadow-md bg-zinc-100 group"
                 >
                   <Image
-                    src={normalizeImageUrl(photo) || ""}
+                    src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"}
                     alt={`Photo ${i}`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
@@ -116,13 +116,9 @@ export default function PhotoGalleryModal({
                 </motion.div>
               ))}
             </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-full text-zinc-300">
-              <Camera className="w-12 h-12 mb-4 opacity-20" />
-              <p className="font-bold">No photos available for this section</p>
-            </div>
           )}
         </main>
+
       </motion.div>
     </AnimatePresence>
   );
