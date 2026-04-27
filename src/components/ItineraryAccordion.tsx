@@ -57,11 +57,20 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
             onClick={() => toggleDay(day.day)}
             className="w-full flex items-center p-2.5 md:p-3.5 text-left gap-3 md:gap-5"
           >
-            {/* Left Section: Day Badge */}
-            <div className="shrink-0">
-              <div className="px-3 md:px-6 py-2 md:py-2.5 bg-[#525B60] text-white rounded-[12px] md:rounded-[14px] text-[11px] md:text-[13px] font-bold text-center shadow-sm border border-white/10">
+            {/* Left Section: Day Badge & Dynamic Date */}
+            <div className="shrink-0 flex flex-col items-center gap-1.5 min-w-[70px] md:min-w-[100px]">
+              <div className="w-full py-2 bg-[#525B60] text-white rounded-[12px] md:rounded-[14px] text-[11px] md:text-[13px] font-bold text-center shadow-sm border border-white/10">
                 Day {day.day}
               </div>
+              {startDate && (
+                <span className="text-[9px] md:text-[10px] font-black text-[#D84E2D] uppercase tracking-wider">
+                  {(() => {
+                    const d = new Date(startDate);
+                    d.setDate(d.getDate() + day.day - 1);
+                    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+                  })()}
+                </span>
+              )}
             </div>
 
             {/* Middle Section: Title */}
