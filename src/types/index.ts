@@ -91,7 +91,9 @@ export interface Trip {
   difficulty?: "easy" | "moderate" | "hard";
   departureCity?: string;
   ageLimit?: string;
+  maxAltitude?: string;
   bookingUrl?: string;
+
   attractions?: {
     name: string;
     description?: string;
