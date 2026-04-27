@@ -4,7 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import { cn } from "@/lib/utils";
 import PhotoGalleryModal from "./PhotoGalleryModal";
+
 import { Trip } from "@/types";
 
 interface TripGallerySectionProps {
