@@ -22,6 +22,7 @@ import FullCircuit from "@/components/FullCircuit";
 import StaySection from "@/components/StaySection";
 import StickyBookingCard from "@/components/StickyBookingCard";
 import Link from "next/link";
+import TripSubNav from "@/components/TripSubNav";
 import { normalizeImageUrl } from "@/lib/api";
 
 export default async function TripDetailPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -43,6 +44,15 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
         { date: "10 - 16 May '26", price: trip.price, seats: 2 },
         { date: "17 - 23 May '26", price: trip.price, seats: 5 },
       ];
+  const navSections = [
+    { id: "about", label: "About" },
+    { id: "itinerary", label: "Itinerary" },
+    { id: "inclusions", label: "Inclusions" },
+    { id: "highlights", label: "Highlights" },
+    { id: "stay", label: "Stay" },
+    { id: "faqs", label: "FAQs" },
+    { id: "reviews", label: "Reviews" },
+  ];
 
   return (
     <div className="bg-white min-h-screen font-montserrat">
@@ -114,6 +124,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
           </div>
         </div>
 
+        <TripSubNav sections={navSections} />
+
         {/* Quick Info Bar - Open Grid Style */}
         <div className="flex flex-wrap gap-x-16 gap-y-8 mb-20 py-8 border-y border-zinc-100">
           {[
@@ -136,26 +148,42 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8">
-            <AboutTrip description={trip.description} />
+            <div id="about">
+              <AboutTrip description={trip.description} />
+            </div>
             
-            <FullCircuit route={trip.route} />
+            <div id="itinerary">
+              <FullCircuit route={trip.route} />
+            </div>
 
-            <TripBookingSection 
-              trip={trip} 
-              inclusions={trip.inclusions} 
-              exclusions={trip.exclusions} 
-            />
+            <div id="inclusions">
+              <TripBookingSection 
+                trip={trip} 
+                inclusions={trip.inclusions} 
+                exclusions={trip.exclusions} 
+              />
+            </div>
 
-            <TripHighlightsList title="Places You'll Explore" items={trip.attractions} />
-            <TripHighlightsList title="Activities & Experiences" items={trip.activities} />
-            <StaySection accommodations={trip.accommodations || []} />
+            <div id="highlights" className="space-y-16">
+              <TripHighlightsList title="Places You'll Explore" items={trip.attractions} />
+              <TripHighlightsList title="Activities & Experiences" items={trip.activities} />
+            </div>
+            
+            <div id="stay">
+              <StaySection accommodations={trip.accommodations || []} />
+            </div>
 
-            <TripFAQ faqs={trip.faqs} />
+            <div id="faqs">
+              <TripFAQ faqs={trip.faqs} />
+            </div>
 
             <VideoSection videos={trip.videos} />
 
             <ReviewReels reels={trip.reels} />
-            <TripReviews reviews={trip.reviews || []} />
+            
+            <div id="reviews">
+              <TripReviews reviews={trip.reviews || []} />
+            </div>
 
             <PopupDetails details={trip.popupDetails} />
           </div>
