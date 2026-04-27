@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface NavLink {
@@ -24,7 +25,9 @@ export default function Navbar({
   logoUrl = "/logo.png",
   navLinks = defaultNavLinks
 }: NavbarProps) {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
+  const isHomePage = pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,11 +37,13 @@ export default function Navbar({
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const showSolidNavbar = isScrolled || !isHomePage;
+
   return (
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 py-4",
-        isScrolled ? "bg-white shadow-lg py-2" : "bg-transparent"
+        showSolidNavbar ? "bg-white shadow-lg py-2" : "bg-transparent"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -50,7 +55,7 @@ export default function Navbar({
             height={120} 
             className={cn(
               "absolute left-0 top-1/2 -translate-y-1/2 h-20 md:h-28 w-auto transition-all max-w-none pointer-events-none",
-              isScrolled ? "" : "brightness-0 invert"
+              showSolidNavbar ? "" : "brightness-0 invert"
             )}
           />
         </Link>
@@ -63,18 +68,18 @@ export default function Navbar({
               href={link.href}
               className={cn(
                 "text-sm font-bold uppercase tracking-widest transition-colors",
-                isScrolled ? "text-navy hover:text-primary-orange" : "text-white hover:text-primary-orange"
+                showSolidNavbar ? "text-navy hover:text-primary-orange" : "text-white hover:text-primary-orange"
               )}
             >
               {link.name}
             </Link>
           ))}
-          <Link href="/contact" className={cn("transition-colors", isScrolled ? "text-navy hover:text-primary-orange" : "text-white hover:text-primary-orange")}>Contact</Link>
+          <Link href="/contact" className={cn("transition-colors", showSolidNavbar ? "text-navy hover:text-primary-orange" : "text-white hover:text-primary-orange")}>Contact</Link>
           <Link
             href="/login"
             className={cn(
               "px-8 py-2 rounded-full text-sm font-bold uppercase tracking-widest transition-all",
-              isScrolled 
+              showSolidNavbar 
               ? "bg-navy text-white hover:bg-primary-orange shadow-lg" 
               : "bg-white text-navy hover:bg-primary-orange hover:text-white"
             )}
