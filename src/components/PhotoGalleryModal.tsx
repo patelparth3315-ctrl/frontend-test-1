@@ -29,6 +29,7 @@ export default function PhotoGalleryModal({
   itinerary
 }: PhotoGalleryModalProps) {
   const [activeTab, setActiveTab] = useState<string>("Trip");
+  const [errorImages, setErrorImages] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     if (isOpen) {
@@ -55,6 +56,12 @@ export default function PhotoGalleryModal({
   ];
 
   const currentPhotos = tabs.find(t => t.id === activeTab)?.photos || [];
+
+  const handleImageError = (photoUrl: string) => {
+    setErrorImages(prev => ({ ...prev, [photoUrl]: true }));
+  };
+
+  const FALLBACK = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070";
 
   return (
     <AnimatePresence>
@@ -107,10 +114,10 @@ export default function PhotoGalleryModal({
                   className="relative aspect-square rounded-[24px] overflow-hidden shadow-md bg-zinc-100 group"
                 >
                   <Image
-                    src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"}
-
+                    src={errorImages[photo] ? FALLBACK : (normalizeImageUrl(photo) || FALLBACK)}
                     alt={`Photo ${i}`}
                     fill
+                    onError={() => handleImageError(photo)}
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 50vw, 33vw"
                   />
@@ -119,6 +126,7 @@ export default function PhotoGalleryModal({
             </div>
           )}
         </main>
+
 
       </motion.div>
     </AnimatePresence>
