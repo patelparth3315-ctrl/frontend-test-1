@@ -35,12 +35,12 @@ export default async function TripsPage() {
             </div>
             
             {/* Quick Filters Placeholder */}
-            <div className="flex flex-wrap gap-4">
-              <button className="px-8 py-4 bg-white border border-zinc-200 rounded-full font-bold text-sm flex items-center gap-3 hover:bg-navy hover:text-white hover:border-navy transition-all shadow-sm">
+            <div className="flex flex-row overflow-x-auto no-scrollbar gap-4 pb-2 w-full md:w-auto">
+              <button className="whitespace-nowrap px-8 py-4 bg-white border border-zinc-200 rounded-full font-bold text-sm flex items-center gap-3 hover:bg-navy hover:text-white hover:border-navy transition-all shadow-sm">
                 <Filter className="w-4 h-4" />
                 Filter by Region
               </button>
-              <button className="px-8 py-4 bg-navy text-white rounded-full font-bold text-sm flex items-center gap-3 shadow-xl hover:bg-primary-orange transition-all">
+              <button className="whitespace-nowrap px-8 py-4 bg-navy text-white rounded-full font-bold text-sm flex items-center gap-3 shadow-xl hover:bg-primary-orange transition-all">
                 <Sparkles className="w-4 h-4" />
                 Show All
               </button>
@@ -53,7 +53,7 @@ export default async function TripsPage() {
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           {trips.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
               {trips.map((trip, i) => (
                 <TripCard key={trip.id} trip={trip} index={i} />
               ))}

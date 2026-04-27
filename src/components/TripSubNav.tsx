@@ -54,7 +54,7 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
     <div 
       className={cn(
         "w-full bg-white border-b border-zinc-100 z-40 transition-all duration-300",
-        isSticky ? "fixed top-[72px] left-0 right-0 shadow-sm" : "relative mt-8"
+        isSticky ? "fixed top-[64px] md:top-[72px] left-0 right-0 shadow-sm" : "relative mt-8"
       )}
     >
       <div className="max-w-7xl mx-auto px-6">

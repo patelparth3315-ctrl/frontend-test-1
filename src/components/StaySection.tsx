@@ -98,7 +98,7 @@ export default function StaySection({ accommodations }: StaySectionProps) {
                    </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-6 pt-6 border-t border-zinc-50">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-zinc-50">
                    <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0">
                          <Home className="w-5 h-5 text-zinc-400" />

@@ -24,14 +24,14 @@ export default function PackagePriceTable({
     <div className="bg-white border border-zinc-100 rounded-[40px] p-10 md:p-14 shadow-sm mb-24">
       <h2 className="text-2xl font-bold text-navy mb-10">Package Price Comparison</h2>
       
-      <div className="overflow-hidden border border-zinc-200 rounded-[24px]">
-        <table className="w-full text-center border-collapse">
+      <div className="overflow-x-auto no-scrollbar border border-zinc-200 rounded-[24px]">
+        <table className="w-full text-center border-collapse min-w-[600px] table-fixed">
           <thead>
             <tr className="bg-blue-50/50 text-[10px] font-black uppercase tracking-widest text-navy border-b border-zinc-200">
-              <th className="py-5 border-r border-zinc-200 w-[20%]">Package</th>
+              <th className="py-5 border-r border-zinc-200 w-[25%]">Package</th>
               <th className="py-5 border-r border-zinc-200 w-[30%]">Sub Package</th>
-              <th className="py-5 border-r border-zinc-200 w-[25%]">Regular Price</th>
-              <th className="py-5 w-[25%]">Discounted Price</th>
+              <th className="py-5 border-r border-zinc-200 w-[20%]">Regular</th>
+              <th className="py-5 w-[25%]">Price</th>
             </tr>
           </thead>
           <tbody>

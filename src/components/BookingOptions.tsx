@@ -53,7 +53,7 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
       {/* Choose Starting Location */}
       <section className="p-10 bg-white border border-zinc-100 rounded-[40px] shadow-sm">
         <h2 className="text-xl font-bold text-navy mb-8">Choose Starting Location</h2>
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-row overflow-x-auto no-scrollbar gap-6 md:gap-8 pb-4">
           {(trip.variants || []).map((v, i) => (
             <div 
               key={i}
@@ -61,28 +61,28 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
                 setSelectedVariant(i);
                 onVariantSelect?.(i);
               }}
-              className="w-48 cursor-pointer group"
+              className="w-40 md:w-48 shrink-0 cursor-pointer group"
             >
               <div className={cn(
-                "relative aspect-square rounded-[32px] overflow-hidden mb-4 border-2 transition-all p-1",
+                "relative aspect-square rounded-[24px] md:rounded-[32px] overflow-hidden mb-4 border-2 transition-all p-1",
                 selectedVariant === i ? "border-red-500 shadow-xl" : "border-transparent"
               )}>
-                <div className="relative w-full h-full rounded-[24px] overflow-hidden">
+                <div className="relative w-full h-full rounded-[20px] md:rounded-[24px] overflow-hidden">
                   <Image 
                     src={normalizeImageUrl(v.image) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
                     alt={v.location} 
                     fill 
                     className="object-cover transition-transform duration-700 group-hover:scale-110" 
                   />
-                  <div className="absolute bottom-3 left-3 px-3 py-1 bg-black/60 backdrop-blur-md rounded-lg text-[10px] font-black text-white uppercase tracking-widest">
+                  <div className="absolute bottom-2 left-2 px-2 py-0.5 bg-black/60 backdrop-blur-md rounded-md text-[8px] font-black text-white uppercase tracking-widest">
                     {v.duration}
                   </div>
                 </div>
               </div>
-              <p className="font-bold text-navy mb-1">{v.location}</p>
+              <p className="font-bold text-navy mb-1 text-sm md:text-base">{v.location}</p>
               <div className="flex flex-col">
-                 <span className="text-zinc-400 text-xs line-through leading-none mb-1">₹{v.originalPrice?.toLocaleString()}</span>
-                 <span className="text-navy font-bold text-lg leading-none">₹{v.discountedPrice?.toLocaleString()}</span>
+                 <span className="text-zinc-400 text-[10px] line-through leading-none mb-1">₹{v.originalPrice?.toLocaleString()}</span>
+                 <span className="text-navy font-bold text-base md:text-lg leading-none">₹{v.discountedPrice?.toLocaleString()}</span>
               </div>
             </div>
           ))}
@@ -94,13 +94,13 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
         {!trip.variants[selectedVariant]?.location.toLowerCase().includes("jalandhar") && trip.travelOptions && trip.travelOptions.length > 0 && (
           <div className="mb-12">
             <h2 className="text-xl font-bold text-navy mb-6">Travelling Options</h2>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-row overflow-x-auto no-scrollbar gap-4 pb-4">
               {trip.travelOptions.map((opt, i) => (
                 <button
                   key={i}
                   onClick={() => setSelectedTravel(i)}
                   className={cn(
-                    "px-8 py-3.5 rounded-2xl border-2 font-bold text-sm transition-all relative",
+                    "px-6 py-3 rounded-xl border-2 font-bold text-xs transition-all relative shrink-0 whitespace-nowrap",
                     selectedTravel === i 
                       ? "border-red-500 bg-red-50 text-red-500" 
                       : "border-zinc-800 text-zinc-800 hover:border-zinc-300"
@@ -108,8 +108,8 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
                 >
                   {opt.label} {opt.priceDelta > 0 && `(+₹${opt.priceDelta.toLocaleString()})`}
                   {selectedTravel === i && (
-                    <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
-                      <Check className="w-2.5 h-2.5" />
+                    <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
+                      <Check className="w-2 h-2" />
                     </div>
                   )}
                 </button>
@@ -121,20 +121,20 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
         {/* Room Sharing */}
         <div className="mb-6">
           <h2 className="text-xl font-bold text-navy mb-6">Room Sharing</h2>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-row overflow-x-auto no-scrollbar gap-4 pb-4">
             {(trip.roomOptions || []).map((opt, i) => (
               <button
                 key={i}
                 onClick={() => setSelectedRoom(i)}
                 className={cn(
-                  "px-8 py-3.5 rounded-2xl border-2 font-bold text-sm transition-all relative",
+                  "px-6 py-3 rounded-xl border-2 font-bold text-xs transition-all relative shrink-0 whitespace-nowrap",
                   selectedRoom === i ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-800 text-zinc-800"
                 )}
               >
                 {opt.label}
                 {selectedRoom === i && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
-                    <Check className="w-2.5 h-2.5" />
+                  <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
+                    <Check className="w-2 h-2" />
                   </div>
                 )}
               </button>
@@ -148,20 +148,20 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
         <h2 className="text-xl font-bold text-navy mb-8">Departure Dates</h2>
         
         {/* Month Tabs */}
-        <div className="flex flex-wrap gap-4 mb-8">
+        <div className="flex flex-row overflow-x-auto no-scrollbar gap-4 mb-8 pb-4">
           {months.map((month) => (
             <button
               key={month}
               onClick={() => setActiveMonth(month)}
               className={cn(
-                "px-8 py-3.5 rounded-2xl border-2 font-bold text-sm transition-all relative",
+                "px-6 py-3 rounded-xl border-2 font-bold text-xs transition-all relative shrink-0 whitespace-nowrap",
                 activeMonth === month ? "border-red-500 bg-red-50 text-red-500" : "border-zinc-200 text-zinc-400 bg-white"
               )}
             >
               {month}
               {activeMonth === month && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
-                  <Check className="w-2.5 h-2.5" />
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-white border-2 border-white shadow-md">
+                  <Check className="w-2 h-2" />
                 </div>
               )}
             </button>

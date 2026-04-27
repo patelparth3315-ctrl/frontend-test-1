@@ -88,7 +88,7 @@ export default function Footer({
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+        <div className="pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-zinc-500 text-center md:text-left">
           <p>© 2026 Youthcamping Private Limited</p>
           <div className="flex gap-8">
             <p>Made with ❤️ in India</p>

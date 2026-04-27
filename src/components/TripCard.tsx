@@ -23,7 +23,7 @@ export default function TripCard({ trip, index }: TripCardProps) {
       viewport={{ once: true }}
       className="group relative bg-white rounded-[32px] overflow-hidden border border-zinc-100 hover:border-primary-orange/20 transition-all shadow-sm hover:shadow-2xl"
     >
-      <Link href={`/trips/${trip.slug}`} className="block relative aspect-[4/5] overflow-hidden">
+      <Link href={`/trips/${trip.slug}`} className="block relative aspect-[4/3] overflow-hidden">
         <Image
           src={normalizeImageUrl(trip.heroImage) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"}
           alt={trip.title}
