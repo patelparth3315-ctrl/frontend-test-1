@@ -21,13 +21,14 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
     ...(trip.images || [])
   ].filter(Boolean).slice(0, 4);
 
-  // Fallback images if the trip has fewer than 4 images
+  // Fallback images - High-quality Manali/Himalayan themed
   const fallbacks = [
-    "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6",
-    "https://images.unsplash.com/photo-1544735716-392fe2489ffa",
-    "https://images.unsplash.com/photo-1605140885332-f4ad6071b03c",
-    "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7"
+    "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070", // Solang Balloons
+    "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=2070", // Snow Peaks
+    "https://images.unsplash.com/photo-1605140885332-f4ad6071b03c?q=80&w=2070", // Jogini Falls
+    "https://images.unsplash.com/photo-1533587851505-d119e13fa0d7?q=80&w=2070"  // Mall Road
   ];
+
 
   const finalImages = [...displayImages];
   while (finalImages.length < 4) {

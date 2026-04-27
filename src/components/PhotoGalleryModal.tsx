@@ -107,7 +107,8 @@ export default function PhotoGalleryModal({
                   className="relative aspect-square rounded-[24px] overflow-hidden shadow-md bg-zinc-100 group"
                 >
                   <Image
-                    src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"}
+                    src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"}
+
                     alt={`Photo ${i}`}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
