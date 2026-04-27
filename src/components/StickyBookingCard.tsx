@@ -69,17 +69,30 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
       </div>
 
       {/* Mobile Sticky CTA */}
-      <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden bg-white border-t border-zinc-100 p-4 pb-safe flex items-center justify-between shadow-[0_-10px_30px_rgba(0,0,0,0.05)]">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-navy">₹ {displayPrice.toLocaleString()}</span>
-            <span className="text-zinc-400 line-through text-[10px]">₹ {(displayPrice + 3000).toLocaleString()}</span>
+      <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden bg-white shadow-[0_-20px_40px_rgba(0,0,0,0.1)] overflow-hidden pb-[env(safe-area-inset-bottom)]">
+        {/* Savings Bar */}
+        <div className="bg-[#dcfce7] px-6 py-2.5 flex items-center gap-2 relative">
+          <div className="w-4 h-4 rounded-full bg-[#22c55e] flex items-center justify-center">
+            <Check className="w-2.5 h-2.5 text-white stroke-[3px]" />
           </div>
-          <p className="text-[8px] font-black text-zinc-400 uppercase tracking-widest">Per Person + Taxes</p>
+          <span className="text-[#15803d] font-bold text-[11px] tracking-tight">Save ₹ 3,000</span>
+          
+          {/* Wavy bottom edge - simplified as a subtle overlap for now */}
+          <div className="absolute bottom-[-4px] left-0 right-0 h-1 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDQwIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgOEM1LjMzMzMzIDggNi42NjY2NyAwIDEzLjMzMzMgMEMyMCAwIDIxLjMzMzMgOCAyNi42NjY3IDhDMzIuMDAwMSA4IDMzLjMzMzQgMCA0MCAwVjhaIiBmaWxsPSIjZGNmY2U3Ii8+PC9zdmc+')] bg-repeat-x bg-[length:20px_4px]"></div>
         </div>
-        <button className="px-10 py-4 bg-[#F92C32] text-white rounded-2xl font-black uppercase text-[10px] tracking-widest shadow-xl">
-          Book Now
-        </button>
+
+        <div className="px-6 py-5 flex items-center justify-between gap-4">
+          <div className="flex flex-col">
+            <span className="text-2xl font-black text-navy leading-none">₹ {displayPrice.toLocaleString()}</span>
+            <div className="flex items-center gap-2 mt-1">
+              <span className="text-zinc-400 line-through text-xs font-bold">₹ {(displayPrice + 3000).toLocaleString()}</span>
+              <span className="text-zinc-400 text-[10px] font-medium uppercase tracking-wider">per person</span>
+            </div>
+          </div>
+          <button className="bg-[#ee2a24] text-white px-8 py-4 rounded-xl font-bold text-sm tracking-tight active:scale-95 transition-all shadow-lg shadow-red-500/20">
+            Book Now
+          </button>
+        </div>
       </div>
     </>
   );
