@@ -51,25 +51,36 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
       {itinerary.map((day) => (
         <div 
           key={day.day} 
-          className="group border border-blue-200 rounded-[20px] bg-gradient-to-r from-[#D6E4FF] to-[#ADC8FF] overflow-hidden transition-all duration-300 shadow-sm"
+          className="group border border-blue-100 rounded-[20px] bg-gradient-to-r from-[#F0F5FF] to-[#D6E4FF] overflow-hidden transition-all duration-300 shadow-sm"
         >
           <button
             onClick={() => toggleDay(day.day)}
             className="w-full flex items-center p-3 text-left gap-4"
           >
-            {/* Day Badge */}
-            <div className="shrink-0 px-5 py-2 bg-[#4B5563] text-white rounded-[15px] text-[12px] font-bold text-center shadow-inner">
-              Day {day.day}
+            {/* Left Section: Day & Date */}
+            <div className="shrink-0 flex flex-col items-center gap-1 min-w-[70px]">
+              <div className="w-full py-1.5 bg-[#4B5563] text-white rounded-[12px] text-[11px] font-bold text-center shadow-inner">
+                Day {day.day}
+              </div>
+              {startDate && (
+                <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-tight">
+                  {(() => {
+                    const d = new Date(startDate);
+                    d.setDate(d.getDate() + day.day - 1);
+                    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+                  })()}
+                </span>
+              )}
             </div>
 
-            {/* Title Section */}
+            {/* Middle Section: Title */}
             <div className="flex-1 min-w-0">
               <span className="text-sm font-bold text-navy leading-tight line-clamp-2">
                 {day.title}
               </span>
             </div>
 
-            {/* Stay & Meals Info - Right Side */}
+            {/* Right Section: Stay & Meals - Opposite of Date */}
             {(day.stay || day.meals) && (
               <div className="flex items-center gap-4 shrink-0 border-l border-navy/10 pl-4 py-1">
                 <div className="flex flex-col gap-1.5 min-w-[120px]">
