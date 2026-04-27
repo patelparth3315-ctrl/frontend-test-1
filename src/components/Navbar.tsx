@@ -50,14 +50,14 @@ export default function Navbar({
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="relative z-[60] h-12 flex items-center shrink-0">
+          <Link href="/" className="relative z-[60] h-12 flex items-center shrink-0 group">
             <Image 
               src={logoUrl || "/logo.png"} 
               alt="Youthcamping Logo" 
               width={140} 
               height={40} 
               className={cn(
-                "h-8 md:h-12 w-auto transition-all max-w-[140px] pointer-events-none",
+                "h-8 md:h-12 w-auto transition-all max-w-[140px]",
                 showSolidNavbar ? "" : "brightness-0 invert"
               )}
             />
