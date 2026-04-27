@@ -51,25 +51,48 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
       {itinerary.map((day) => (
         <div 
           key={day.day} 
-          className="group border border-zinc-100 rounded-[24px] bg-[#F3F4F6] overflow-hidden transition-all duration-300"
+          className="group border border-blue-200 rounded-[20px] bg-gradient-to-r from-[#D6E4FF] to-[#ADC8FF] overflow-hidden transition-all duration-300 shadow-sm"
         >
           <button
             onClick={() => toggleDay(day.day)}
-            className="w-full flex items-center p-4 text-left gap-4"
+            className="w-full flex items-center p-3 text-left gap-4"
           >
             {/* Day Badge */}
-            <div className="shrink-0 px-4 py-1.5 bg-[#4B5563] text-white rounded-full text-[11px] font-bold text-center">
+            <div className="shrink-0 px-5 py-2 bg-[#4B5563] text-white rounded-[15px] text-[12px] font-bold text-center shadow-inner">
               Day {day.day}
             </div>
 
             {/* Title Section */}
             <div className="flex-1 min-w-0">
-              <span className="text-sm font-bold text-navy leading-tight line-clamp-1">
+              <span className="text-sm font-bold text-navy leading-tight line-clamp-2">
                 {day.title}
               </span>
             </div>
 
-            <ChevronDown className={cn("w-5 h-5 text-zinc-400 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
+            {/* Stay & Meals Info - Right Side */}
+            {(day.stay || day.meals) && (
+              <div className="flex items-center gap-4 shrink-0 border-l border-navy/10 pl-4 py-1">
+                <div className="flex flex-col gap-1.5 min-w-[120px]">
+                  {day.meals && (
+                    <div className="flex items-center gap-2 text-navy/60">
+                      <Utensils className="w-3 h-3 shrink-0" />
+                      <span className="text-[9px] font-bold uppercase tracking-tight leading-none">{day.meals}</span>
+                    </div>
+                  )}
+                  {day.stay && (
+                    <div className="flex items-center gap-2 text-navy">
+                      <Hotel className="w-3 h-3 shrink-0 text-navy/60" />
+                      <span className="text-[9px] font-black uppercase tracking-tight leading-none truncate max-w-[100px]">{day.stay}</span>
+                    </div>
+                  )}
+                </div>
+                <ChevronDown className={cn("w-4 h-4 text-navy/30 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
+              </div>
+            )}
+
+            {!day.stay && !day.meals && (
+              <ChevronDown className={cn("w-4 h-4 text-navy/30 ml-auto transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
+            )}
           </button>
           
           <div className={cn(
@@ -77,10 +100,10 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
             openDays.includes(day.day) ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
           )}>
             <div className="overflow-hidden">
-              <div className="px-8 pb-8 pt-2">
-                <div className="p-8 bg-white/80 backdrop-blur-md rounded-[32px] border border-white shadow-xl">
+              <div className="px-4 pb-6 pt-2">
+                <div className="p-6 bg-white/60 backdrop-blur-md rounded-[24px] border border-white shadow-lg">
                   {/* Bullet Points */}
-                  <ul className="space-y-3 mb-10">
+                  <ul className="space-y-2.5 mb-8">
                     {day.activities?.map((act, i) => (
                       <li key={i} className="flex items-start gap-3 text-sm font-medium text-zinc-600 leading-relaxed">
                         <div className="w-1.5 h-1.5 rounded-full bg-zinc-400 mt-2 shrink-0" />
