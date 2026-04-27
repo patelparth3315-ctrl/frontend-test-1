@@ -71,7 +71,7 @@ export default function Navbar({
           ))}
           <Link href="/contact" className={cn("transition-colors", isScrolled ? "text-navy hover:text-primary-orange" : "text-white hover:text-primary-orange")}>Contact</Link>
           <Link
-            href="/blogs"
+            href="/login"
             className={cn(
               "px-8 py-2 rounded-full text-sm font-bold uppercase tracking-widest transition-all",
               isScrolled 
@@ -79,7 +79,7 @@ export default function Navbar({
               : "bg-white text-navy hover:bg-primary-orange hover:text-white"
             )}
           >
-            Watch & Read
+            Login
           </Link>
         </div>
       </div>
