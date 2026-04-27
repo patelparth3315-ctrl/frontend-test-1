@@ -20,7 +20,7 @@ export default function TripBookingSection({ trip, inclusions, exclusions, onPri
   const [travelIndex, setTravelIndex] = useState(0);
 
   return (
-    <div className="space-y-24">
+    <div className="space-y-8 md:space-y-24">
       <BookingOptions 
         trip={trip} 
         onDateSelect={(date) => setSelectedDate(date)} 
