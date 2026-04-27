@@ -56,6 +56,21 @@ export default function BookingOptions({ trip, onDateSelect, onVariantSelect, on
         <h2 className="text-sm md:text-xl font-bold text-navy mb-4 md:mb-8">Configure your Trip</h2>
         
         <div className="space-y-6">
+          {/* Featured Image of Selected Starting Point */}
+          <div className="relative aspect-video w-full rounded-[24px] overflow-hidden shadow-lg mb-8">
+            <Image 
+              src={normalizeImageUrl(trip.variants[selectedVariant]?.image) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
+              alt={trip.variants[selectedVariant]?.location || "Starting Point"} 
+              fill 
+              className="object-cover" 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            <div className="absolute bottom-4 left-6">
+              <p className="text-white font-bold text-xl leading-none mb-1">{trip.variants[selectedVariant]?.location}</p>
+              <p className="text-white/70 text-[10px] font-black uppercase tracking-widest">{trip.variants[selectedVariant]?.duration}</p>
+            </div>
+          </div>
+
           {/* Choose Starting Location - Compact Pills on Mobile */}
           <div>
             <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-3">Starting From</p>
