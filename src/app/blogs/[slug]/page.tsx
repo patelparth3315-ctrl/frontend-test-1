@@ -2,6 +2,8 @@ import { fetchBlogBySlug, normalizeImageUrl } from "@/lib/api";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+export const dynamic = 'force-dynamic';
+
 import { ChevronLeft, Calendar, Clock, User } from "lucide-react";
 import Link from "next/link";
 

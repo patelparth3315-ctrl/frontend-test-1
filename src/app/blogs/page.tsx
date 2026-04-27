@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import Footer from "@/components/Footer";
+export const dynamic = 'force-dynamic';
+
 import { fetchBlogs, normalizeImageUrl } from "@/lib/api";
 import { BookOpen, Sparkles, Filter, ChevronRight, ChevronLeft } from "lucide-react";
 

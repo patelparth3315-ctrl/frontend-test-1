@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Footer from "@/components/Footer";
+export const dynamic = 'force-dynamic';
+
 import { fetchReviews, normalizeImageUrl } from "@/lib/api";
 import Link from "next/link";
 import { Star, MessageCircle, Filter, Sparkles, MapPin, ChevronLeft } from "lucide-react";
