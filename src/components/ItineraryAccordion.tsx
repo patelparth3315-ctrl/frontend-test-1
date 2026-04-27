@@ -55,49 +55,48 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
         >
           <button
             onClick={() => toggleDay(day.day)}
-            className="w-full flex items-center p-3.5 text-left gap-5"
+            className="w-full flex items-center p-2.5 md:p-3.5 text-left gap-3 md:gap-5"
           >
             {/* Left Section: Day Badge */}
             <div className="shrink-0">
-              <div className="px-6 py-2.5 bg-[#525B60] text-white rounded-[14px] text-[13px] font-bold text-center shadow-sm border border-white/10">
+              <div className="px-3 md:px-6 py-2 md:py-2.5 bg-[#525B60] text-white rounded-[12px] md:rounded-[14px] text-[11px] md:text-[13px] font-bold text-center shadow-sm border border-white/10">
                 Day {day.day}
               </div>
             </div>
 
             {/* Middle Section: Title */}
             <div className="flex-1 min-w-0">
-              <span className="text-sm font-bold text-navy leading-tight line-clamp-2">
+              <span className="text-[11px] md:text-sm font-bold text-navy leading-tight line-clamp-2">
                 {day.title}
               </span>
             </div>
 
-            {/* Right Section: Stay & Meals - Same to Same Design */}
+            {/* Right Section: Stay & Meals */}
             {(day.stay || day.meals) && (
-              <div className="flex items-center gap-4 shrink-0">
-                <div className="w-[2px] h-10 bg-navy/80 rounded-full" />
-                <div className="flex flex-col gap-1 min-w-[140px]">
+              <div className="flex items-center gap-2 md:gap-4 shrink-0">
+                <div className="w-[1.5px] md:w-[2px] h-8 md:h-10 bg-navy/60 md:bg-navy/80 rounded-full" />
+                <div className="flex flex-col gap-0.5 md:gap-1 min-w-[90px] md:min-w-[140px]">
                   {day.meals && (
-                    <div className="flex items-center gap-2 text-navy/80">
-                      <Utensils className="w-3.5 h-3.5 shrink-0" />
-                      <span className="text-[10px] font-medium leading-none">{day.meals}</span>
+                    <div className="flex items-center gap-1.5 md:gap-2 text-navy/80">
+                      <Utensils className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 shrink-0" />
+                      <span className="text-[8px] md:text-[10px] font-medium leading-none">{day.meals}</span>
                     </div>
                   )}
                   {day.stay && (
-                    <div className="flex items-center gap-2 text-navy">
-                      <BedDouble className="w-3.5 h-3.5 shrink-0 text-navy/80" />
-                      <span className="text-[10px] leading-none">
-                        <strong className="font-bold">{day.stay.split(' ')[0]}</strong>
-                        <span className="text-navy/60 ml-1">({day.stay.split(' ').slice(1).join(' ') || 'Stay'})</span>
+                    <div className="flex items-center gap-1.5 md:gap-2 text-navy">
+                      <BedDouble className="w-2.5 h-2.5 md:w-3.5 md:h-3.5 shrink-0 text-navy/60" />
+                      <span className="text-[8px] md:text-[10px] font-bold leading-none truncate max-w-[70px] md:max-w-none">
+                        {day.stay}
                       </span>
                     </div>
                   )}
                 </div>
-                <ChevronDown className={cn("w-4 h-4 text-navy/40 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
+                <ChevronDown className={cn("w-3.5 h-3.5 md:w-4 md:h-4 text-navy/40 transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
               </div>
             )}
 
             {!day.stay && !day.meals && (
-              <ChevronDown className={cn("w-4 h-4 text-navy/40 ml-auto transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
+              <ChevronDown className={cn("w-3.5 h-3.5 md:w-4 md:h-4 text-navy/40 ml-auto transition-transform duration-300", openDays.includes(day.day) && "rotate-180")} />
             )}
           </button>
           
