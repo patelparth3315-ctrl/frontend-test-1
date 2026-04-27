@@ -26,10 +26,11 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
     if (isAllExpanded) {
       setOpenDays([1]);
     } else {
-      setOpenDays(itinerary.map(d => d.day));
+      setOpenDays((itinerary || []).map(d => d.day));
     }
     setIsAllExpanded(!isAllExpanded);
   };
+
 
   return (
     <div className="space-y-8">
@@ -48,7 +49,8 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
       </div>
 
       <div className="space-y-4">
-      {itinerary.map((day) => (
+      {(itinerary || []).map((day) => (
+
         <div 
           key={day.day} 
           className="group border border-blue-100 rounded-[20px] bg-gradient-to-r from-[#F0F5FF] to-[#D6E4FF] overflow-hidden transition-all duration-300 shadow-sm"

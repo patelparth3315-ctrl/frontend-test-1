@@ -41,7 +41,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
 
   const batches = (trip.availableDates && trip.availableDates.length > 0) 
     ? trip.availableDates.map((d: any) => ({
-        date: new Date(d.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }),
+        date: d.date ? new Date(d.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }) : "TBA",
         price: trip.price,
         seats: d.capacity - d.bookedCount
       }))
@@ -68,7 +68,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
             <ChevronLeft className="w-4 h-4" /> Back to Expeditions
           </Link>
           <h1 className="text-5xl md:text-7xl font-black text-navy mb-4 tracking-tighter leading-[0.9] italic">
-            Experience <span className="text-primary-orange not-italic font-semibold">{trip.title}</span>
+            Experience <span className="text-primary-orange not-italic font-semibold">{trip.title || "Our Expedition"}</span>
           </h1>
         </div>
 
@@ -80,10 +80,10 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
         {/* Quick Info Bar - Open Grid Style */}
         <div className="flex flex-row overflow-x-auto no-scrollbar gap-x-12 md:gap-x-16 gap-y-8 mb-20 py-8 border-y border-zinc-100 w-full">
           {[
-            { label: "Duration", val: trip.duration, icon: Calendar },
+            { label: "Duration", val: trip.duration || "9 Days", icon: Calendar },
             { label: "Difficulty", val: trip.difficulty || "Moderate", icon: MapIcon },
             { label: "Age Group", val: trip.ageLimit || "15-35 years", icon: Users },
-            { label: "Max Altitude", val: "15,000 ft", icon: TrendingUp },
+            { label: "Max Altitude", val: trip.maxAltitude || "15,000 ft", icon: TrendingUp },
           ].map((info, i) => (
             <div key={i} className="flex items-center gap-4 shrink-0">
               <div className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-primary-orange">
@@ -100,15 +100,15 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
           <div className="lg:col-span-8">
             <div id="about">
-              <AboutTrip description={trip.description} />
+              <AboutTrip description={trip.description || ""} />
             </div>
             
             <div>
-              <FullCircuit route={trip.route} />
+              <FullCircuit route={trip.route || []} />
               <TripBookingSection 
                 trip={trip} 
-                inclusions={trip.inclusions}
-                exclusions={trip.exclusions}
+                inclusions={trip.inclusions || []}
+                exclusions={trip.exclusions || []}
               />
             </div>
 
@@ -116,8 +116,9 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
 
 
             <div id="highlights" className="space-y-16">
-              <TripHighlightsList title="Activities & Experiences" items={trip.highlights} />
+              <TripHighlightsList title="Activities & Experiences" items={trip.highlights || []} />
             </div>
+
 
 
 
@@ -127,12 +128,12 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
             </div>
 
             <div id="faqs">
-              <TripFAQ faqs={trip.faqs} />
+              <TripFAQ faqs={trip.faqs || []} />
             </div>
 
-            <VideoSection videos={trip.videos} />
+            <VideoSection videos={trip.videos || []} />
 
-            <ReviewReels reels={trip.reels} />
+            <ReviewReels reels={trip.reels || []} />
             
             <div id="reviews">
               <TripReviews reviews={trip.reviews || []} />
@@ -149,6 +150,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
       <Footer />
     </div>
   );
+
 }
 
 
