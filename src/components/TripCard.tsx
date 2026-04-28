@@ -4,7 +4,7 @@ import { Trip } from "@/types";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
-import { Clock, MapPin, Sparkles, ArrowUpRight } from "lucide-react";
+import { Clock, MapPin, ArrowUpRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 
 interface TripCardProps {
@@ -13,7 +13,7 @@ interface TripCardProps {
 }
 
 export default function TripCard({ trip, index }: TripCardProps) {
-  const seatsLeft = Math.floor(Math.random() * 6) + 2; // Mock urgency
+
 
   return (
     <motion.div
@@ -31,16 +31,7 @@ export default function TripCard({ trip, index }: TripCardProps) {
           className="object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         
-        {/* Badges */}
-        <div className="absolute top-6 left-6 flex flex-col gap-2">
-          <div className="flex items-center gap-1.5 px-4 py-2 bg-white/90 backdrop-blur-md text-navy rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
-            <Sparkles className="w-3 h-3 text-primary-orange" />
-            Boutique Group
-          </div>
-          <div className="flex items-center gap-1.5 px-4 py-2 bg-primary-orange text-white rounded-full text-[10px] font-black uppercase tracking-widest shadow-xl">
-            {seatsLeft} seats left
-          </div>
-        </div>
+        {/* Badges Removed */}
 
         {/* Hover Arrow */}
         <div className="absolute bottom-6 right-6 w-14 h-14 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-2xl">

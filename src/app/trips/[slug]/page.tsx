@@ -105,10 +105,17 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
               <AboutTrip description={trip.description || ""} />
             </div>
             
-            <div>
+            <div id="itinerary">
               <FullCircuit route={trip.route || []} />
               <TripBookingSection 
                 trip={trip} 
+                inclusions={trip.inclusions || []}
+                exclusions={trip.exclusions || []}
+              />
+            </div>
+
+            <div id="inclusions">
+              <InclusionsExclusions 
                 inclusions={trip.inclusions || []}
                 exclusions={trip.exclusions || []}
               />
