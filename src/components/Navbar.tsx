@@ -49,7 +49,7 @@ export default function Navbar({
                 width={450} 
                 height={160} 
                 className={cn(
-                  "h-24 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm",
+                  "h-32 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm",
                   showSolidNavbar ? "" : "brightness-0 invert"
                 )}
               />
