@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Clock, MapPin, ChevronRight, ChevronLeft, TrendingUp } from "lucide-react";
+import { Clock, MapPin, ChevronRight, ChevronLeft, TrendingUp, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Trip } from "@/types";
@@ -122,11 +122,11 @@ export default function CommunityTrips({
                     className="object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   
-                  {/* Top Badge */}
+                  {/* Top Badge - Now Location */}
                   <div className="absolute top-5 right-5 z-10">
-                    <div className="bg-white/90 backdrop-blur-md text-navy font-black text-xs px-4 py-2 rounded-full shadow-xl flex items-center gap-2 border border-white/20">
-                      <TrendingUp className="w-3.5 h-3.5 text-primary-orange" />
-                      ₹{trip.price.toLocaleString()}
+                    <div className="bg-white/90 backdrop-blur-md text-navy font-black text-[10px] uppercase tracking-widest px-4 py-2 rounded-full shadow-xl flex items-center gap-2 border border-white/20">
+                      <MapPin className="w-3.5 h-3.5 text-primary-orange" />
+                      {trip.location}
                     </div>
                   </div>
 
@@ -143,9 +143,16 @@ export default function CommunityTrips({
                             <Clock className="w-4 h-4 text-primary-orange" />
                             <span className="text-[10px] font-black uppercase tracking-widest">{trip.duration}</span>
                           </div>
-                          <div className="flex items-center gap-2 text-white/90">
-                            <MapPin className="w-4 h-4 text-primary-orange" />
-                            <span className="text-[10px] font-black uppercase tracking-widest">{trip.location}</span>
+                          
+                          <div className="flex flex-col gap-2 mt-2">
+                            <div className="flex items-center gap-3">
+                              <span className="text-xl font-black text-[#FF3D00] tracking-tighter">
+                                ₹{trip.price.toLocaleString()}
+                              </span>
+                              <span className="text-sm font-medium text-white/40 line-through decoration-white/60">
+                                ₹{(trip.price + 4000).toLocaleString()}
+                              </span>
+                            </div>
                           </div>
                         </div>
                         <Link 

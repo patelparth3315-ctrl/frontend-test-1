@@ -19,13 +19,7 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
       <div className="sticky top-32 space-y-6 hidden md:block">
         {/* Main Booking Card */}
         <div className="bg-white border border-zinc-100 rounded-[40px] overflow-hidden shadow-2xl shadow-zinc-200/50">
-          {/* Savings Badge */}
-          <div className="bg-[#E6F9F0] py-4 px-8 flex items-center justify-center gap-2 border-b border-zinc-50">
-             <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center">
-                <Check className="w-3 h-3 text-white" />
-             </div>
-             <span className="text-emerald-600 font-bold text-sm">Save ₹ 3,000</span>
-          </div>
+
 
           <div className="p-10">
             <div className="flex justify-between items-start mb-8">
@@ -70,16 +64,7 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
 
       {/* Mobile Sticky CTA */}
       <div className="fixed bottom-0 left-0 right-0 z-[100] md:hidden bg-white shadow-[0_-20px_40px_rgba(0,0,0,0.1)] overflow-hidden pb-[env(safe-area-inset-bottom)]">
-        {/* Savings Bar */}
-        <div className="bg-[#dcfce7] px-6 py-2.5 flex items-center gap-2 relative">
-          <div className="w-4 h-4 rounded-full bg-[#22c55e] flex items-center justify-center">
-            <Check className="w-2.5 h-2.5 text-white stroke-[3px]" />
-          </div>
-          <span className="text-[#15803d] font-bold text-[11px] tracking-tight">Save ₹ 3,000</span>
-          
-          {/* Wavy bottom edge - simplified as a subtle overlap for now */}
-          <div className="absolute bottom-[-4px] left-0 right-0 h-1 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iOCIgdmlld0JveD0iMCAwIDQwIDgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgOEM1LjMzMzMzIDggNi42NjY2NyAwIDEzLjMzMzMgMEMyMCAwIDIxLjMzMzMgOCAyNi42NjY3IDhDMzIuMDAwMSA4IDMzLjMzMzQgMCA0MCAwVjhaIiBmaWxsPSIjZGNmY2U3Ii8+PC9zdmc+')] bg-repeat-x bg-[length:20px_4px]"></div>
-        </div>
+
 
         <div className="px-6 py-5 flex items-center justify-between gap-4">
           <div className="flex flex-col">
