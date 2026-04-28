@@ -69,8 +69,8 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
           <Link href="/trips" className="inline-flex items-center gap-2 text-zinc-400 hover:text-primary-orange mb-6 font-bold text-xs uppercase tracking-widest transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back to Expeditions
           </Link>
-          <h1 className="text-5xl md:text-7xl font-black text-navy mb-4 tracking-tighter leading-[0.9] italic">
-            Experience <span className="text-primary-orange not-italic font-semibold">{trip.title || "Our Expedition"}</span>
+          <h1 className="text-6xl md:text-8xl font-bold text-navy mb-4 tracking-tight font-caveat">
+            Experience {trip.title || "Our Expedition"}
           </h1>
         </div>
 
