@@ -46,10 +46,10 @@ export default function Navbar({
               <Image 
                 src={logoUrl || "/logo.png"} 
                 alt="Youthcamping Logo" 
-                width={350} 
-                height={120} 
+                width={450} 
+                height={160} 
                 className={cn(
-                  "h-20 md:h-32 w-auto transition-all max-w-[350px] drop-shadow-sm",
+                  "h-24 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm",
                   showSolidNavbar ? "" : "brightness-0 invert"
                 )}
               />
