@@ -35,19 +35,19 @@ export default function Navbar({
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 py-6",
-          showSolidNavbar ? "bg-white shadow-lg py-4" : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 py-4",
+          showSolidNavbar ? "bg-white shadow-lg py-2" : "bg-transparent"
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="relative z-[60] h-16 flex items-center shrink-0 group">
+          <Link href="/" className="relative z-[60] h-12 flex items-center shrink-0 group">
             <Image 
               src={logoUrl || "/logo.png"} 
               alt="Youthcamping Logo" 
-              width={200} 
-              height={60} 
+              width={140} 
+              height={40} 
               className={cn(
-                "h-12 md:h-16 w-auto transition-all max-w-[200px]",
+                "h-8 md:h-12 w-auto transition-all max-w-[140px]",
                 showSolidNavbar ? "" : "brightness-0 invert"
               )}
             />
