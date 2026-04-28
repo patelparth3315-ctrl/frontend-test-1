@@ -70,7 +70,7 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
     const element = document.getElementById(id);
     if (element) {
       // Offset = Navbar (64) + SubNav (52) + Buffer (10) = ~126px
-      const offset = 126;
+      const offset = 160;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - offset;
 
@@ -86,7 +86,7 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
       ref={navRef}
       className={cn(
         "w-full bg-white border-b border-zinc-100 z-40 transition-all duration-300",
-        isSticky ? "fixed top-[64px] left-0 right-0 shadow-lg translate-y-0" : "relative mt-8 opacity-100"
+        isSticky ? "fixed top-[88px] md:top-[96px] left-0 right-0 shadow-lg translate-y-0" : "relative mt-8 opacity-100"
       )}
     >
       <div className="max-w-7xl mx-auto px-4 md:px-6">
