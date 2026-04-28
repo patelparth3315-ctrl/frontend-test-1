@@ -48,13 +48,11 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
             className="relative md:col-span-2 md:row-span-2 cursor-pointer overflow-hidden group/item"
             onClick={() => setIsGalleryOpen(true)}
           >
-            <Image 
+            <img 
               src={errorImages[0] ? fallbacks[0] : (normalizeImageUrl(finalImages[0]) || fallbacks[0])} 
               alt={trip.title} 
-              fill 
-              priority
               onError={() => handleImageError(0)}
-              className="object-cover transition-transform duration-1000 group-hover/item:scale-110" 
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover/item:scale-110" 
             />
             <div className="absolute inset-0 bg-black/10 group-hover/item:bg-transparent transition-colors duration-500" />
           </div>
@@ -71,12 +69,11 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
                 )}
                 onClick={() => setIsGalleryOpen(true)}
               >
-                <Image 
+                <img 
                   src={errorImages[idx] ? fallbacks[idx] : (normalizeImageUrl(img) || fallbacks[idx])} 
                   alt="" 
-                  fill 
                   onError={() => handleImageError(idx)}
-                  className="object-cover transition-transform duration-700 group-hover/item:scale-110" 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" 
                 />
                 <div className="absolute inset-0 bg-black/5 group-hover/item:bg-transparent transition-colors duration-500" />
                 
