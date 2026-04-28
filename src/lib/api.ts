@@ -11,6 +11,13 @@ export const normalizeImageUrl = (url: string | null | undefined): string | unde
   if (!url) return undefined;
   if (url.trim() === "") return undefined;
 
+  // ── SELF-HEALING: Support mobile/remote testing ──
+  let base = IMAGE_BASE_URL;
+  if (typeof window !== "undefined" && base.includes("localhost") && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")) {
+    // If we are accessing via IP (e.g. 192.168.1.5), replace localhost in API URL with that IP
+    base = base.replace("localhost", window.location.hostname);
+  }
+
   // Already a full external URL — return as-is
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
@@ -18,20 +25,18 @@ export const normalizeImageUrl = (url: string | null | undefined): string | unde
 
   // Local upload path (e.g. /uploads/trips/123-photo.jpg)
   if (url.startsWith('/uploads/')) {
-    // Encode only the filename part to handle spaces in filenames
     const parts = url.split('/');
     const filename = parts.pop() || '';
     const dir = parts.join('/');
-    return `${IMAGE_BASE_URL}${dir}/${encodeURIComponent(filename)}`;
+    return `${base}${dir}/${encodeURIComponent(filename)}`;
   }
 
-  // Bare filename without path prefix — assume it's a trip upload
+  // Bare filename without path prefix
   if (!url.startsWith('/') && (url.includes('.jpg') || url.includes('.png') || url.includes('.webp') || url.includes('.jpeg'))) {
-    return `${IMAGE_BASE_URL}/uploads/trips/${encodeURIComponent(url)}`;
+    return `${base}/uploads/trips/${encodeURIComponent(url)}`;
   }
 
-  // Fallback: prepend base URL
-  return `${IMAGE_BASE_URL}${url.startsWith('/') ? '' : '/'}${url}`;
+  return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
 export async function fetchTrips(): Promise<Trip[]> {
