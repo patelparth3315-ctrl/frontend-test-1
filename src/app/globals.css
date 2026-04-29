@@ -6,10 +6,10 @@
 
 @theme inline {
   --font-montserrat: var(--font-montserrat);
-  --color-primary-orange: #D4541A;
-  --color-navy: #1B2A4A;
-  --color-charcoal: #2C2C2C;
-  --color-light-orange: #FBE8DF;
+  --color-primary-orange: #FF5722;
+  --color-navy: #1A1A1A;
+  --color-charcoal: #333333;
+  --color-light-orange: #FFF1ED;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-sans);
