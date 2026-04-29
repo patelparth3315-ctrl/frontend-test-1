@@ -63,7 +63,7 @@ export default function Testimonials({
 
               <div className="flex items-center gap-4 pt-6 border-t border-charcoal/5">
                 {item.image ? (
-                  <img 
+                  <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
                     src={normalizeImageUrl(item.image) || ""} 
                     alt={item.author} 
                     className="w-14 h-14 rounded-2xl object-cover"

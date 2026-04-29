@@ -11,8 +11,15 @@ export const normalizeImageUrl = (url: string | null | undefined): string | unde
   if (!url) return undefined;
   if (url.trim() === "") return undefined;
 
-  // Enforce Cloudinary / External URLs only
+  // Block WordPress hotlinked images (403 forbidden)
+  if (url.includes('youthcamping.in/wp-content')) {
+    return undefined;
+  }
+
+  // Enforce valid HTTP/HTTPS URLs
   if (url.startsWith('http://') || url.startsWith('https://')) {
+    // Block broken/empty Unsplash templates
+    if (url === "https://images.unsplash.com/photo-" || url.endsWith('photo-')) return undefined;
     return url;
   }
 

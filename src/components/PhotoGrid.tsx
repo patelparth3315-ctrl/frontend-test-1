@@ -56,7 +56,7 @@ export default function PhotoGrid({
               transition={{ delay: index * 0.1 }}
               className="relative aspect-[4/5] rounded-[32px] overflow-hidden group shadow-xl"
             >
-              <img 
+              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
                 src={normalizeImageUrl(image.url) || ""} 
                 alt={image.alt} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"

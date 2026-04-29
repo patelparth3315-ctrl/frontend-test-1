@@ -43,7 +43,7 @@ export default function ImageGallery({
               transition={{ delay: index * 0.05 }}
               className="relative rounded-[24px] overflow-hidden group shadow-lg break-inside-avoid"
             >
-              <img 
+              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
                 src={normalizeImageUrl(image.url) || ""} 
                 alt={image.alt} 
                 className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"

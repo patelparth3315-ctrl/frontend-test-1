@@ -80,7 +80,7 @@ export default function CinematicBanner({
               }}
               className="absolute inset-0"
             >
-              <img 
+              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
                 src={normalizeImageUrl(current.image)} 
                 alt={current.title || "Cinematic View"} 
                 className="w-full h-full object-cover" // Image fills without distortion
