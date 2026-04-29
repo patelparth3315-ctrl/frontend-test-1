@@ -12,18 +12,28 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
   const [isSticky, setIsSticky] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLDivElement>(null);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // 1. Sticky Observer
-    const handleScroll = () => {
-      const navOffset = 400; // Trigger after hero section
-      setIsSticky(window.scrollY > navOffset);
-    };
+    // Use IntersectionObserver on a sentinel element for reliable sticky detection
+    const sentinel = sentinelRef.current;
+    if (sentinel) {
+      const stickyObserver = new IntersectionObserver(
+        ([entry]) => {
+          setIsSticky(!entry.isIntersecting);
+        },
+        { threshold: 0 }
+      );
+      stickyObserver.observe(sentinel);
+      return () => stickyObserver.disconnect();
+    }
+  }, []);
 
-    // 2. Active Section Observer (IntersectionObserver is better for sync)
+  useEffect(() => {
+    // Active Section Observer
     const observerOptions = {
       root: null,
-      rootMargin: '-20% 0px -70% 0px', // Detect when section is in the top portion of screen
+      rootMargin: '-20% 0px -70% 0px',
       threshold: 0
     };
 
@@ -41,14 +51,10 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
       if (element) observer.observe(element);
     });
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, [sections]);
 
-  // 3. Horizontal Scroll Sync: Center the active tab in the nav bar
+  // Horizontal Scroll Sync: Center the active tab
   useEffect(() => {
     if (activeSection && scrollContainerRef.current) {
       const activeBtn = scrollContainerRef.current.querySelector(`[data-section="${activeSection}"]`);
@@ -69,8 +75,7 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // Offset = Navbar (64) + SubNav (52) + Buffer (10) = ~126px
-      const offset = 126;
+      const offset = 110;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
       const offsetPosition = elementPosition - offset;
 
@@ -82,40 +87,47 @@ export default function TripSubNav({ sections }: TripSubNavProps) {
   };
 
   return (
-    <div 
-      ref={navRef}
-      className={cn(
-        "w-full bg-white border-b border-zinc-100 z-40 transition-all duration-300",
-        isSticky ? "fixed top-[56px] left-0 right-0 shadow-sm translate-y-0" : "relative mt-8 opacity-100"
-      )}
-    >
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        <div 
-          ref={scrollContainerRef}
-          className="flex items-center gap-6 md:gap-10 overflow-x-auto no-scrollbar py-4"
-        >
-          {sections.map((section) => (
-            <button
-              key={section.id}
-              data-section={section.id}
-              onClick={() => scrollToSection(section.id)}
-              className={cn(
-                "group relative text-[11px] font-black uppercase tracking-widest whitespace-nowrap py-1 transition-all",
-                activeSection === section.id 
-                  ? "text-primary-orange scale-105" 
-                  : "text-zinc-400 hover:text-navy"
-              )}
-            >
-              {section.label}
-              {/* Animated Underline */}
-              <span className={cn(
-                "absolute -bottom-1 left-0 w-full h-[3px] bg-primary-orange rounded-full transition-all duration-300 transform origin-center",
-                activeSection === section.id ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-50 group-hover:opacity-50"
-              )} />
-            </button>
-          ))}
+    <>
+      {/* Sentinel — when this scrolls out of view, the nav becomes sticky */}
+      <div ref={sentinelRef} className="h-0" />
+
+      <div 
+        ref={navRef}
+        className={cn(
+          "w-full bg-white z-40 transition-all duration-200",
+          isSticky 
+            ? "fixed top-14 md:top-16 left-0 right-0 border-b border-zinc-100 shadow-sm" 
+            : "relative mt-4 md:mt-8 border-b border-zinc-100"
+        )}
+      >
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div 
+            ref={scrollContainerRef}
+            className="flex items-center gap-5 md:gap-10 overflow-x-auto no-scrollbar py-3 md:py-4"
+          >
+            {sections.map((section) => (
+              <button
+                key={section.id}
+                data-section={section.id}
+                onClick={() => scrollToSection(section.id)}
+                className={cn(
+                  "group relative text-[11px] font-black uppercase tracking-widest whitespace-nowrap py-1 transition-all",
+                  activeSection === section.id 
+                    ? "text-primary-orange" 
+                    : "text-zinc-400 hover:text-navy"
+                )}
+              >
+                {section.label}
+                {/* Animated Underline */}
+                <span className={cn(
+                  "absolute -bottom-[13px] md:-bottom-[17px] left-0 w-full h-[3px] bg-primary-orange rounded-full transition-all duration-300 transform origin-center",
+                  activeSection === section.id ? "scale-x-100 opacity-100" : "scale-x-0 opacity-0 group-hover:scale-x-50 group-hover:opacity-50"
+                )} />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
