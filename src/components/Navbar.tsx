@@ -35,25 +35,22 @@ export default function Navbar({
     <>
       <nav
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 py-4",
-          showSolidNavbar ? "bg-white shadow-lg py-2" : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 py-3",
+          showSolidNavbar ? "bg-white shadow-sm border-b border-zinc-100" : "bg-transparent"
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="relative z-[60] h-12 md:h-12 flex items-center shrink-0 group">
-            {/* Logo Container that allows overflow without pushing layout */}
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 transition-transform duration-300">
-              <Image 
-                src={logoUrl || "/logo.png"} 
-                alt="Youthcamping Logo" 
-                width={450} 
-                height={160} 
-                className={cn(
-                  "h-24 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm",
-                  showSolidNavbar ? "" : "brightness-0 invert"
-                )}
-              />
-            </div>
+          <Link href="/" className="relative z-[60] flex items-center shrink-0">
+            <Image 
+              src={logoUrl || "/logo.png"} 
+              alt="Youthcamping Logo" 
+              width={180} 
+              height={48} 
+              className={cn(
+                "h-8 md:h-10 w-auto transition-all drop-shadow-sm",
+                showSolidNavbar ? "" : "brightness-0 invert"
+              )}
+            />
           </Link>
 
           {/* Desktop Nav */}
