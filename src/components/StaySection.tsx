@@ -46,77 +46,42 @@ export default function StaySection({ accommodations }: StaySectionProps) {
   if (!accommodations || accommodations.length === 0) return null;
 
   return (
-    <div className="py-20 space-y-12">
-      <div className="space-y-4">
-        <div className="flex items-center gap-2 text-primary-orange">
-           <Home className="w-5 h-5" />
-           <span className="text-[10px] font-black uppercase tracking-[0.3em]">Comfort & Rest</span>
+    <section className="mb-24">
+      <div className="bg-white border border-zinc-100 rounded-[40px] p-10 md:p-14 shadow-sm relative">
+        <div className="flex justify-between items-center mb-10">
+          <h2 className="text-2xl font-bold text-navy uppercase italic">Stay Options</h2>
         </div>
-        <h2 className="text-4xl md:text-5xl font-black text-navy italic uppercase tracking-tighter">Your Stay</h2>
-        <p className="text-zinc-500 font-medium max-w-2xl leading-relaxed">
-          Experience premium hospitality with handpicked accommodations that blend luxury with the authentic spirit of the destination.
-        </p>
-      </div>
-
-      <div className="space-y-6">
-        {accommodations.map((stay, i) => (
-          <div key={i} className="group relative bg-white border border-zinc-100 rounded-[40px] overflow-hidden flex flex-col md:flex-row transition-all hover:shadow-2xl hover:border-primary-orange/20">
-             {/* Left: Image */}
-             <div className="relative w-full md:w-[400px] h-[300px] shrink-0 overflow-hidden">
-                <Image 
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {accommodations.map((stay, i) => (
+            <div 
+              key={i} 
+              className="group cursor-pointer"
+              onClick={() => {
+                setSelectedStay(stay);
+                setActiveCategory("All");
+              }}
+            >
+              <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
+                <img 
                   src={normalizeImageUrl(stay.image) || "https://images.unsplash.com/photo-1566073771259-6a8506099945"} 
-                  alt={stay.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  alt={stay.name} 
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <button 
-                  onClick={() => {
-                    setSelectedStay(stay);
-                    setActiveCategory("All");
-                  }}
-                  className="absolute bottom-4 left-4 z-10 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 text-[8px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg active:scale-95"
-                >
-                   <Maximize2 className="w-3 h-3 text-primary-orange" />
-                   View Gallery
-                </button>
-             </div>
-
-             {/* Right: Content */}
-             <div className="p-8 md:p-12 flex-1 space-y-6">
-                <div className="space-y-3">
-                   <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100">
-                      <MapPin className="w-3 h-3 text-primary-orange" />
-                      <span className="text-[9px] font-black uppercase tracking-widest text-zinc-600">{stay.nights}</span>
-                   </div>
-                   <h3 className="text-3xl font-black text-navy uppercase tracking-tight italic">{stay.name}</h3>
-                   <div className="flex items-center gap-3">
-                      <span className="text-zinc-400 text-xs font-medium">{stay.type}</span>
-                   </div>
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <Maximize2 className="w-8 h-8 text-white" />
                 </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-zinc-50">
-                   <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0">
-                         <Home className="w-5 h-5 text-zinc-400" />
-                      </div>
-                      <div>
-                         <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Room Category</p>
-                         <p className="text-sm font-bold text-navy">{stay.roomType}</p>
-                      </div>
-                   </div>
-                   <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center shrink-0">
-                         <Coffee className="w-5 h-5 text-zinc-400" />
-                      </div>
-                      <div>
-                         <p className="text-[9px] font-black uppercase tracking-widest text-zinc-400 mb-1">Inclusions</p>
-                         <p className="text-sm font-bold text-navy">{stay.meals}</p>
-                      </div>
-                   </div>
+              </div>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-navy text-sm uppercase">{stay.name}</h3>
+                  <span className="text-[9px] font-black text-primary-orange uppercase">{stay.nights}</span>
                 </div>
-             </div>
-          </div>
-        ))}
+                <p className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">{stay.type} • {stay.location}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Gallery Modal */}
@@ -142,7 +107,13 @@ export default function StaySection({ accommodations }: StaySectionProps) {
                   <div className="flex items-center gap-3">
                     <h3 className="text-2xl md:text-3xl font-black text-navy uppercase italic">{selectedStay.name}</h3>
                   </div>
-                  <p className="text-zinc-400 text-xs font-black uppercase tracking-widest">{selectedStay.roomType}</p>
+                  <div className="flex items-center gap-4 text-xs font-black uppercase tracking-widest text-zinc-400">
+                    <span>{selectedStay.type}</span>
+                    <span>•</span>
+                    <span>{selectedStay.roomType}</span>
+                    <span>•</span>
+                    <span>{selectedStay.meals}</span>
+                  </div>
                 </div>
 
                 <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
@@ -207,7 +178,7 @@ export default function StaySection({ accommodations }: StaySectionProps) {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 }
 
