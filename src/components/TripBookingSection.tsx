@@ -4,6 +4,7 @@ import { useState } from "react";
 import BookingOptions from "./BookingOptions";
 import ItineraryAccordion from "./ItineraryAccordion";
 import { Trip } from "@/types";
+import PopupDetails from "./PopupDetails";
 
 interface TripBookingSectionProps {
   trip: Trip;
@@ -31,6 +32,11 @@ export default function TripBookingSection({ trip, onPriceChange }: TripBookingS
           startDate={selectedDate}
         />
       </section>
+
+      <PopupDetails 
+        details={trip.popupDetails} 
+        startDate={selectedDate} 
+      />
     </div>
   );
 }

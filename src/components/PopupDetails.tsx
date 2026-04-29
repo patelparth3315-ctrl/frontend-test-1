@@ -56,6 +56,7 @@ const SECTIONS: Section[] = [
 ];
 
 interface PopupDetailsProps {
+  startDate?: string | null;
   details?: {
     cancellation: { label: string; val: string }[];
     gears: { item: string; price: string }[];
@@ -65,16 +66,45 @@ interface PopupDetailsProps {
   };
 }
 
-export default function PopupDetails({ details }: PopupDetailsProps) {
+export default function PopupDetails({ details, startDate }: PopupDetailsProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   
+  const formatDate = (days: number) => {
+    if (!startDate) return null;
+    const d = new Date(startDate);
+    d.setDate(d.getDate() - days);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+  };
+
   // Merge dynamic data if available
   const activeSections = SECTIONS.map(sec => {
-    if (!details) return sec;
-    if (sec.id === "cancellation" && details.cancellation?.length > 0) return { ...sec, content: details.cancellation };
-    if (sec.id === "terms" && details.terms?.length > 0) return { ...sec, content: details.terms };
-    if (sec.id === "carry" && details.carry?.length > 0) return { ...sec, content: details.carry };
-    return sec;
+    let content = sec.content;
+    if (details) {
+      if (sec.id === "cancellation" && details.cancellation?.length > 0) content = details.cancellation;
+      if (sec.id === "terms" && details.terms?.length > 0) content = details.terms;
+      if (sec.id === "carry" && details.carry?.length > 0) content = details.carry;
+    }
+
+    // Dynamic date formatting for cancellation policy
+    if (sec.id === "cancellation" && startDate) {
+      content = content.map((item: any) => {
+        let label = item.label;
+        if (label.toLowerCase().includes("more than 40 days")) {
+          label = `Before ${formatDate(41)}`;
+        } else if (label.toLowerCase().includes("21 to 40 days")) {
+          label = `${formatDate(40)} to ${formatDate(21)}`;
+        } else if (label.toLowerCase().includes("11 to 20 days")) {
+          label = `${formatDate(20)} to ${formatDate(11)}`;
+        } else if (label.toLowerCase().includes("2 to 10 days")) {
+          label = `${formatDate(10)} to ${formatDate(2)}`;
+        } else if (label.toLowerCase().includes("48 hours")) {
+          label = `After ${formatDate(2)}`;
+        }
+        return { ...item, label };
+      });
+    }
+
+    return { ...sec, content };
   });
 
   const activeSection = activeSections.find(s => s.id === activeId);

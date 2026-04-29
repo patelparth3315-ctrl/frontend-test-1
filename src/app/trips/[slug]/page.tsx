@@ -18,7 +18,6 @@ import TripBookingSection from "@/components/TripBookingSection";
 import TripHighlightsList from "@/components/TripHighlightsList";
 import VideoSection from "@/components/VideoSection";
 import TripFAQ from "@/components/TripFAQ";
-import PopupDetails from "@/components/PopupDetails";
 import ReviewReels from "@/components/ReviewReels";
 import TripReviews from "@/components/TripReviews";
 import FullCircuit from "@/components/FullCircuit";
@@ -145,8 +144,6 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
             <div id="reviews">
               <TripReviews reviews={trip.reviews || []} />
             </div>
-
-            <PopupDetails details={trip.popupDetails} />
           </div>
 
           <div className="lg:col-span-4">
