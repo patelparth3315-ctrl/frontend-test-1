@@ -52,11 +52,11 @@ export default function StaySection({ accommodations }: StaySectionProps) {
           <h2 className="text-2xl font-bold text-navy uppercase italic">Stay Options</h2>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="flex flex-nowrap md:grid md:grid-cols-2 lg:grid-cols-4 gap-8 overflow-x-auto pb-6 md:pb-0 scroll-mt-32 no-scrollbar">
           {accommodations.map((stay, i) => (
             <div 
               key={i} 
-              className="group cursor-pointer"
+              className="group cursor-pointer shrink-0 w-[260px] md:w-auto"
               onClick={() => {
                 setSelectedStay(stay);
                 setActiveCategory("All");

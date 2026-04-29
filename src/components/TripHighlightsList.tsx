@@ -42,7 +42,7 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
           )}
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="flex flex-nowrap md:grid md:grid-cols-2 lg:grid-cols-4 gap-8 overflow-x-auto pb-6 md:pb-0 scroll-mt-32 no-scrollbar">
           {displayedItems.map((item, i) => {
             const name = item.name || (item as any).title || "Highlight";
             const imageUrl = item.image || (item as any).img || (item as any).url || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6";
@@ -52,7 +52,7 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
               <Link 
                 key={i} 
                 href={title.toLowerCase().includes('explore') ? `/attractions/${slug}` : `/blogs/${slug}`} 
-                className="group cursor-pointer"
+                className="group cursor-pointer shrink-0 w-[260px] md:w-auto"
               >
                 <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
                   <img 
@@ -68,7 +68,6 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
               </Link>
             );
           })}
-
         </div>
 
         {!isExpanded && activeList.length > 4 && (
