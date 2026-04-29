@@ -97,7 +97,7 @@ export default function BookingOptions({
                 }}
                 className={cn(
                   "min-w-[200px] md:min-w-[240px] bg-white rounded-[20px] overflow-hidden border-2 transition-all p-3 cursor-pointer snap-start shadow-sm",
-                  selectedVariant === i ? "border-[#D84E2D]" : "border-zinc-100 hover:border-zinc-200"
+                  selectedVariant === i ? "border-primary-orange" : "border-zinc-100 hover:border-zinc-200"
                 )}
               >
                 <div className="relative aspect-square rounded-[14px] overflow-hidden mb-3">
@@ -148,13 +148,13 @@ export default function BookingOptions({
                   className={cn(
                     "relative px-4 py-2 rounded-lg border-2 text-xs font-bold transition-all",
                     selectedTravel === i 
-                      ? "border-[#D84E2D] text-[#D84E2D] bg-[#D84E2D]/5" 
+                      ? "border-primary-orange text-primary-orange bg-primary-orange/5" 
                       : "border-zinc-100 text-zinc-400 hover:border-zinc-200"
                   )}
                 >
                   {opt.label}
                   {selectedTravel === i && (
-                    <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-[#D84E2D] rounded-full flex items-center justify-center">
+                    <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-primary-orange rounded-full flex items-center justify-center">
                       <Check className="w-2 h-2 text-white stroke-[4]" />
                     </div>
                   )}
@@ -176,13 +176,13 @@ export default function BookingOptions({
                   className={cn(
                     "relative px-4 py-2 rounded-lg border-2 text-xs font-bold transition-all",
                     selectedRoom === i 
-                      ? "border-[#D84E2D] text-[#D84E2D] bg-[#D84E2D]/5" 
+                      ? "border-primary-orange text-primary-orange bg-primary-orange/5" 
                       : "border-zinc-100 text-zinc-400 hover:border-zinc-200"
                   )}
                 >
                   {opt.label}
                   {selectedRoom === i && (
-                    <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-[#D84E2D] rounded-full flex items-center justify-center">
+                    <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-primary-orange rounded-full flex items-center justify-center">
                       <Check className="w-2 h-2 text-white stroke-[4]" />
                     </div>
                   )}
@@ -206,13 +206,13 @@ export default function BookingOptions({
                 className={cn(
                   "relative px-4 py-2 rounded-lg border-2 text-xs font-bold transition-all",
                   activeMonth === month 
-                    ? "border-red-500 text-red-500 bg-red-50/50" 
+                    ? "border-primary-orange text-primary-orange bg-primary-orange/5" 
                     : "border-zinc-100 text-zinc-400 hover:border-zinc-200"
                 )}
               >
                 {month}
                 {activeMonth === month && (
-                  <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-red-500 rounded-full flex items-center justify-center">
+                  <div className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 bg-primary-orange rounded-full flex items-center justify-center">
                     <Check className="w-2 h-2 text-white stroke-[4]" />
                   </div>
                 )}
@@ -233,7 +233,7 @@ export default function BookingOptions({
                   className={cn(
                     "w-9 h-9 rounded-full border flex items-center justify-center font-bold text-xs transition-all shadow-sm",
                     selectedDate === ad.date 
-                      ? "border-red-500 text-red-500 bg-white scale-105" 
+                      ? "border-primary-orange text-primary-orange bg-white scale-105" 
                       : "border-zinc-200 text-navy bg-white hover:border-zinc-300"
                   )}
                 >
@@ -243,7 +243,7 @@ export default function BookingOptions({
             })}
           </div>
 
-          <button className="hidden md:block w-full py-3.5 bg-red-600 text-white rounded-xl font-bold text-sm hover:bg-red-700 transition-all shadow-lg shadow-red-100 uppercase tracking-widest">
+          <button className="hidden md:block w-full py-3.5 bg-primary-orange text-white rounded-xl font-bold text-sm hover:bg-[#FF5B00]/90 transition-all shadow-lg shadow-orange-100 uppercase tracking-widest">
              Book
           </button>
 

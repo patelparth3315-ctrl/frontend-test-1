@@ -38,7 +38,7 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
               <p className="text-navy font-bold">{trip.duration}</p>
             </div>
 
-            <button className="w-full py-6 bg-[#F92C32] text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-red-600 transition-all shadow-xl shadow-red-100">
+            <button className="w-full py-6 bg-primary-orange text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-[#FF5B00]/90 transition-all shadow-xl shadow-orange-100">
               Book My Spot
             </button>
           </div>
@@ -74,7 +74,7 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
               <span className="text-zinc-400 text-[10px] font-medium uppercase tracking-wider">per person</span>
             </div>
           </div>
-          <button className="bg-[#ee2a24] text-white px-8 py-4 rounded-xl font-bold text-sm tracking-tight active:scale-95 transition-all shadow-lg shadow-red-500/20">
+          <button className="bg-primary-orange text-white px-8 py-4 rounded-xl font-bold text-sm tracking-tight active:scale-95 transition-all shadow-lg shadow-orange-500/20">
             Book Now
           </button>
         </div>
