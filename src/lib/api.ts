@@ -11,32 +11,15 @@ export const normalizeImageUrl = (url: string | null | undefined): string | unde
   if (!url) return undefined;
   if (url.trim() === "") return undefined;
 
-  // ── SELF-HEALING: Support mobile/remote testing ──
-  let base = IMAGE_BASE_URL;
-  if (typeof window !== "undefined" && base.includes("localhost") && !window.location.hostname.includes("localhost") && !window.location.hostname.includes("127.0.0.1")) {
-    // If we are accessing via IP (e.g. 192.168.1.5), replace localhost in API URL with that IP
-    base = base.replace("localhost", window.location.hostname);
-  }
-
-  // Already a full external URL — return as-is
+  // Enforce Cloudinary / External URLs only
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
   }
 
-  // Local upload path (e.g. /uploads/trips/123-photo.jpg)
-  if (url.startsWith('/uploads/')) {
-    const parts = url.split('/');
-    const filename = parts.pop() || '';
-    const dir = parts.join('/');
-    return `${base}${dir}/${encodeURIComponent(filename)}`;
-  }
-
-  // Bare filename without path prefix
-  if (!url.startsWith('/') && (url.includes('.jpg') || url.includes('.png') || url.includes('.webp') || url.includes('.jpeg'))) {
-    return `${base}/uploads/trips/${encodeURIComponent(url)}`;
-  }
-
-  return `${base}${url.startsWith('/') ? '' : '/'}${url}`;
+  // If a local path (like /uploads/...) slips through, return undefined.
+  // This prevents Vercel from returning a 404 HTML page (causing ORB errors)
+  // and immediately triggers the frontend component's default fallback image.
+  return undefined;
 };
 
 export async function fetchTrips(): Promise<Trip[]> {
