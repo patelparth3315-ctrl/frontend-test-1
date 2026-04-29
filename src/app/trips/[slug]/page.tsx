@@ -34,7 +34,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
 
   return (
     <div className="bg-white min-h-screen font-montserrat pb-[80px] md:pb-0">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-32 pb-24">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 pt-28 md:pt-32 pb-24">
         <div className="mb-4 md:mb-12">
           <Link href="/trips" className="hidden md:inline-flex items-center gap-2 text-zinc-400 hover:text-primary-orange mb-6 font-bold text-xs uppercase tracking-widest transition-colors">
             <ChevronLeft className="w-4 h-4" /> Back to Expeditions
