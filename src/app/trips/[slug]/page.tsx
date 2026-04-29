@@ -1,37 +1,19 @@
 import { fetchTripBySlug } from "@/lib/api";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Footer from "@/components/Footer";
 export const dynamic = 'force-dynamic';
 
 import {
-  Calendar, Check, X,
-  ChevronRight, MessageCircle, Star, Shield,
-  Map as MapIcon, Plane, Sparkles, HelpCircle,
-  ChevronDown, CreditCard, Backpack, ImageIcon, TrendingUp, Users, ChevronLeft
+  Calendar, Map as MapIcon, TrendingUp, Users, ChevronLeft
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import TravelTimeline from "@/components/TravelTimeline";
-
-import AboutTrip from "@/components/AboutTrip";
-import TripBookingSection from "@/components/TripBookingSection";
-import TripHighlightsList from "@/components/TripHighlightsList";
-import VideoSection from "@/components/VideoSection";
-import TripFAQ from "@/components/TripFAQ";
-import ReviewReels from "@/components/ReviewReels";
-import TripReviews from "@/components/TripReviews";
-import FullCircuit from "@/components/FullCircuit";
-import StaySection from "@/components/StaySection";
-import StickyBookingCard from "@/components/StickyBookingCard";
-import Link from "next/link";
-import TripSubNav from "@/components/TripSubNav";
-import { normalizeImageUrl } from "@/lib/api";
 import TripGallerySection from "@/components/TripGallerySection";
-import InclusionsExclusions from "@/components/InclusionsExclusions";
-
+import TripSubNav from "@/components/TripSubNav";
+import StickyBookingCard from "@/components/StickyBookingCard";
+import TripDetailView from "@/components/TripDetailView";
+import Link from "next/link";
 
 export default async function TripDetailPage({ params }: { params: Promise<{ slug: string }> }) {
-
 
   const { slug } = await params;
   const trip = await fetchTripBySlug(slug);
@@ -40,17 +22,6 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
     notFound();
   }
 
-  const batches = (trip.availableDates && trip.availableDates.length > 0) 
-    ? trip.availableDates.map((d: any) => ({
-        date: d.date ? new Date(d.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: '2-digit' }) : "TBA",
-        price: trip.price,
-        seats: d.capacity - d.bookedCount
-      }))
-    : [
-        { date: "3 - 9 May '26", price: trip.price, seats: 3 },
-        { date: "10 - 16 May '26", price: trip.price, seats: 2 },
-        { date: "17 - 23 May '26", price: trip.price, seats: 5 },
-      ];
   const navSections = [
     { id: "about", label: "About" },
     { id: "itinerary", label: "Itinerary" },
@@ -74,7 +45,6 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
         </div>
 
         <TripGallerySection trip={trip} />
-
 
         <TripSubNav sections={navSections} />
 
@@ -109,5 +79,4 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
       <Footer />
     </div>
   );
-
 }
