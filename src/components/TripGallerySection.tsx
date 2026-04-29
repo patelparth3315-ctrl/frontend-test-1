@@ -39,10 +39,34 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
     setErrorImages(prev => ({ ...prev, [index]: true }));
   };
 
+  const totalPhotos = (trip.images?.length || 0) + (trip.heroImage ? 1 : 0);
+
   return (
     <>
-      <div className="w-full mb-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-2 md:gap-4 aspect-square md:aspect-[21/9] w-full rounded-[24px] md:rounded-[40px] overflow-hidden group shadow-2xl bg-zinc-50">
+      <div className="w-full mb-8 md:mb-12">
+        {/* Mobile: Single hero image with floating badge */}
+        <div 
+          className="relative md:hidden w-full aspect-[16/10] rounded-[20px] overflow-hidden cursor-pointer shadow-lg bg-zinc-100"
+          onClick={() => setIsGalleryOpen(true)}
+        >
+          <img 
+            src={errorImages[0] ? fallbacks[0] : (normalizeImageUrl(finalImages[0]) || fallbacks[0])} 
+            alt={trip.title} 
+            onError={() => handleImageError(0)}
+            className="w-full h-full object-cover" 
+          />
+          {/* Floating photo count badge */}
+          <button 
+            onClick={(e) => { e.stopPropagation(); setIsGalleryOpen(true); }}
+            className="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md border border-zinc-100"
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-primary-orange" /> 
+            <span className="text-[10px] font-black uppercase tracking-widest text-navy">{totalPhotos}+ Photos</span>
+          </button>
+        </div>
+
+        {/* Desktop: Multi-image grid */}
+        <div className="hidden md:grid md:grid-cols-4 md:grid-rows-2 gap-4 aspect-[21/9] w-full rounded-[40px] overflow-hidden group shadow-2xl bg-zinc-50">
           {/* Main Large Image */}
           <div 
             className="relative md:col-span-2 md:row-span-2 cursor-pointer overflow-hidden group/item"
@@ -64,7 +88,7 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
               <div 
                 key={i} 
                 className={cn(
-                  "relative cursor-pointer overflow-hidden group/item hidden md:block",
+                  "relative cursor-pointer overflow-hidden group/item",
                   i === 0 ? "md:col-span-1" : i === 1 ? "md:col-span-1" : "md:col-span-2"
                 )}
                 onClick={() => setIsGalleryOpen(true)}
@@ -92,18 +116,6 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
               </div>
             );
           })}
-
-
-          {/* Mobile "See all" floating button */}
-          <div className="absolute bottom-4 right-4 md:hidden z-10">
-            <button 
-              onClick={(e) => { e.stopPropagation(); setIsGalleryOpen(true); }}
-              className="bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl flex items-center gap-2 text-[10px] font-black uppercase tracking-widest shadow-lg"
-            >
-              <ImageIcon className="w-4 h-4 text-primary-orange" /> 
-              {trip.images?.length || 0}+ Photos
-            </button>
-          </div>
         </div>
       </div>
 
