@@ -3,7 +3,7 @@
 import { Trip } from "@/types";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
+
 import { Clock, MapPin, ArrowUpRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 
@@ -24,11 +24,12 @@ export default function TripCard({ trip, index }: TripCardProps) {
       className="group relative bg-white rounded-[32px] overflow-hidden border border-zinc-100 hover:border-primary-orange/20 transition-all shadow-sm hover:shadow-2xl"
     >
       <Link href={`/trips/${trip.slug}`} className="block relative aspect-[4/3] overflow-hidden">
-        <Image
+        <img
           src={normalizeImageUrl(trip.heroImage) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"}
           alt={trip.title}
-          fill
-          className="object-cover transition-transform duration-1000 group-hover:scale-110"
+          loading="lazy"
+          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"; }}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         
         {/* Badges Removed */}
