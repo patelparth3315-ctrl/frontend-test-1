@@ -1,7 +1,8 @@
 import TripCard from "@/components/TripCard";
 import Footer from "@/components/Footer";
 import { fetchTrips } from "@/lib/api";
-import { Compass, Sparkles, Filter } from "lucide-react";
+import { Compass, Sparkles, Filter, ChevronLeft } from "lucide-react";
+import Link from "next/link";
 
 import { Trip } from "@/types";
 export const dynamic = 'force-dynamic';
@@ -23,6 +24,9 @@ export default async function TripsPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-10">
             <div className="max-w-3xl">
+              <Link href="/" className="inline-flex items-center gap-2 text-zinc-400 hover:text-primary-orange mb-6 md:mb-8 font-bold text-xs uppercase tracking-widest transition-colors">
+                <ChevronLeft className="w-4 h-4" /> Back to Home
+              </Link>
               <div className="flex items-center gap-3 text-primary-orange mb-6">
                 <Compass className="w-6 h-6 animate-spin-slow" />
                 <span className="font-black tracking-[0.3em] uppercase text-xs">Curated Expeditions</span>
