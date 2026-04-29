@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+
 import Link from "next/link";
+import { normalizeImageUrl } from "@/lib/api";
 
 interface HighlightItem {
   name: string;
@@ -54,11 +55,12 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
                 className="group cursor-pointer"
               >
                 <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
-                  <Image 
-                    src={imageUrl} 
+                  <img 
+                    src={normalizeImageUrl(imageUrl) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
                     alt={name} 
-                    fill 
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                    onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"; }}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 </div>
                 <h3 className="font-bold text-navy text-sm mb-1">{name}</h3>
