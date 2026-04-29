@@ -99,52 +99,7 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          <div className="lg:col-span-8">
-            <div id="about">
-              <AboutTrip description={trip.description || ""} />
-            </div>
-            
-            <div id="itinerary">
-              <FullCircuit route={trip.route || []} />
-              <TripBookingSection 
-                trip={trip} 
-              />
-            </div>
-
-            <div id="inclusions">
-              <InclusionsExclusions 
-                inclusions={trip.inclusions || []}
-                exclusions={trip.exclusions || []}
-              />
-            </div>
-
-
-
-
-            <div id="highlights" className="space-y-16">
-              <TripHighlightsList title="Activities & Experiences" items={trip.highlights || []} />
-            </div>
-
-
-
-
-            
-            <div id="stay">
-              <StaySection accommodations={trip.accommodations || []} />
-            </div>
-
-            <div id="faqs">
-              <TripFAQ faqs={trip.faqs || []} />
-            </div>
-
-            <VideoSection videos={trip.videos || []} />
-
-            <ReviewReels reels={trip.reels || []} />
-            
-            <div id="reviews">
-              <TripReviews reviews={trip.reviews || []} />
-            </div>
-          </div>
+          <TripDetailView trip={trip} />
 
           <div className="lg:col-span-4">
             <StickyBookingCard trip={trip} />
@@ -156,5 +111,3 @@ export default async function TripDetailPage({ params }: { params: Promise<{ slu
   );
 
 }
-
-
