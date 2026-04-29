@@ -187,26 +187,29 @@ export default function PopupDetails({ details, startDate }: PopupDetailsProps) 
               <div className="p-8 max-h-[80vh] overflow-y-auto custom-scrollbar">
                 {activeSection?.type === "categorical" && (
                   <div className="space-y-8">
-                    {activeSection.content.map((cat: any, idx: number) => (
-                      <div key={idx} className="space-y-4">
-                        <h3 className="text-lg font-medium text-zinc-500">{cat.category}</h3>
-                        <div className="space-y-3 pl-2">
-                          {cat.items.map((item: any, i: number) => (
-                            <div key={i} className="flex items-start gap-4">
-                              <span className="text-zinc-300 mt-0.5">—</span>
-                              <p className="text-zinc-600 font-medium">
-                                {item.text}{" "}
-                                {item.link && (
-                                  <a href={item.link} className="text-primary-orange hover:underline">
-                                    {item.linkText}
-                                  </a>
-                                )}
-                              </p>
-                            </div>
-                          ))}
+                    {activeSection.content.map((cat: any, idx: number) => {
+                      if (!cat || !cat.items) return null;
+                      return (
+                        <div key={idx} className="space-y-4">
+                          <h3 className="text-lg font-medium text-zinc-500">{cat.category}</h3>
+                          <div className="space-y-3 pl-2">
+                            {cat.items.map((item: any, i: number) => (
+                              <div key={i} className="flex items-start gap-4">
+                                <span className="text-zinc-300 mt-0.5">—</span>
+                                <p className="text-zinc-600 font-medium">
+                                  {item.text || item.label || item}{" "}
+                                  {item.link && (
+                                    <a href={item.link} className="text-primary-orange hover:underline">
+                                      {item.linkText}
+                                    </a>
+                                  )}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
 
