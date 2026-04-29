@@ -3,17 +3,14 @@
 import { useState } from "react";
 import BookingOptions from "./BookingOptions";
 import ItineraryAccordion from "./ItineraryAccordion";
-import InclusionsExclusions from "./InclusionsExclusions";
 import { Trip } from "@/types";
 
 interface TripBookingSectionProps {
   trip: Trip;
-  inclusions: string[];
-  exclusions: string[];
   onPriceChange?: (price: number) => void;
 }
 
-export default function TripBookingSection({ trip, inclusions, exclusions, onPriceChange }: TripBookingSectionProps) {
+export default function TripBookingSection({ trip, onPriceChange }: TripBookingSectionProps) {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [variantIndex, setVariantIndex] = useState(0);
   const [travelIndex, setTravelIndex] = useState(0);
@@ -32,13 +29,6 @@ export default function TripBookingSection({ trip, inclusions, exclusions, onPri
         <ItineraryAccordion 
           itinerary={trip.itinerary} 
           startDate={selectedDate}
-        />
-      </section>
-
-      <section id="inclusions" className="scroll-mt-32">
-        <InclusionsExclusions 
-          inclusions={inclusions} 
-          exclusions={exclusions} 
         />
       </section>
     </div>
