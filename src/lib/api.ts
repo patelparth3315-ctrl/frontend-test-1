@@ -7,19 +7,19 @@ const IMAGE_BASE_URL = API_BASE_URL.replace("/api", "");
  * Normalizes image URLs to be fully qualified and accessible.
  * Handles: local uploads (/uploads/...), external URLs (https://...), and empty values.
  */
-export const normalizeImageUrl = (url: string | null | undefined): string | null => {
-  if (!url) return null;
-  if (url.trim() === "") return null;
+export const normalizeImageUrl = (url: string | null | undefined): string | undefined => {
+  if (!url) return undefined;
+  if (url.trim() === "") return undefined;
 
   // Enforce Cloudinary / External URLs only
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
   }
 
-  // If a local path (like /uploads/...) slips through, return null.
+  // If a local path (like /uploads/...) slips through, return undefined.
   // This prevents Vercel from returning a 404 HTML page (causing ORB errors)
   // and immediately triggers the frontend component's default fallback image.
-  return null;
+  return undefined;
 };
 
 export async function fetchTrips(): Promise<Trip[]> {
