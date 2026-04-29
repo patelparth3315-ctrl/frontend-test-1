@@ -6,7 +6,7 @@ import { X, ArrowRight } from "lucide-react";
 interface Section {
   id: string;
   label: string;
-  type: "list" | "simple" | "table";
+  type: "list" | "simple" | "table" | "categorical";
   content: any[];
   note?: string;
 }
@@ -45,12 +45,57 @@ const SECTIONS: Section[] = [
   { 
     id: "carry", 
     label: "Things to Carry", 
-    type: "list",
+    type: "categorical",
     content: [
-      { label: "Clothing", val: "Heavy woolens, Thermals, 4-5 pairs of socks" },
-      { label: "Footwear", val: "Sturdy trekking shoes, Slippers" },
-      { label: "Personal", val: "Sunscreen, Lip balm, Sunglasses, Cap" },
-      { label: "Essentials", val: "Power bank, Personal medicines, ID Proof" }
+      {
+        category: "Mandatory Requirements",
+        items: [
+          { text: "Medical Certificate", link: "#", linkText: "(Click here for Download)" },
+          { text: "Original ID Proof with 2 Xerox Copy" },
+          { text: "Screenshot of Fees Receipt" }
+        ]
+      },
+      {
+        category: "Trekking Gears (Available on Rent/Sale)",
+        items: [
+          { text: "Trekking Shoes" },
+          { text: "Micro Spikes & Gaiters" },
+          { text: "Feather/Down Jacket (-10 Degree)" },
+          { text: "Backpack with Raincover (60-70 litres)" },
+          { text: "Rainwear (Poncho)" },
+          { text: "Head Torch" },
+          { text: "Thermal Inner Wear" },
+          { text: "Snow Proof Hand Gloves" },
+          { text: "Thick Woolen Socks" },
+          { text: "Woolen Cap" }
+        ]
+      },
+      {
+        category: "Clothes",
+        items: [
+          { text: "Full Sleeve T-Shirts" },
+          { text: "Normal Jacket/Fleece" },
+          { text: "Trek Pants (Quick Dry would be Better)" },
+          { text: "Face Mask/Buff" }
+        ]
+      },
+      {
+        category: "Personal Items",
+        items: [
+          { text: "Woolen Hand Gloves" },
+          { text: "Sun Cap" },
+          { text: "Sun Glass" },
+          { text: "Sanitiser & Face Mask" },
+          { text: "Slipper & Socks" },
+          { text: "Plastic Bags (for wet clothes)" },
+          { text: "Personal Sanitary Items" },
+          { text: "2 Water Bottles & Snacks" },
+          { text: "Lunch Box, Mug & Spoon" },
+          { text: "Sunscreen (SPF 40+)" },
+          { text: "Camera & Power Banks" },
+          { text: "Personal Medication if any" }
+        ]
+      }
     ]
   }
 ];
@@ -61,7 +106,7 @@ interface PopupDetailsProps {
     cancellation: { label: string; val: string }[];
     gears: { item: string; price: string }[];
     terms: string[];
-    carry: { label: string; val: string }[];
+    carry: any[];
     etiquette: { title: string; desc: string }[];
   };
 }
@@ -126,21 +171,45 @@ export default function PopupDetails({ details, startDate }: PopupDetailsProps) 
 
       {activeId && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-6 bg-navy/40 backdrop-blur-sm transition-all duration-300">
-           <div className="bg-white w-full max-w-2xl rounded-[40px] overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-300">
+           <div className="bg-white w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl relative animate-in fade-in zoom-in duration-300">
               {/* Modal Header */}
-              <div className="p-8 border-b border-zinc-100 flex items-center justify-between bg-zinc-50/50">
-                 <h2 className="text-xl font-black text-navy uppercase tracking-tight">{activeSection?.label}</h2>
+              <div className="p-6 border-b border-zinc-100 flex items-center justify-between">
+                 <h2 className="text-xl font-medium text-zinc-800">{activeSection?.label}</h2>
                  <button 
                    onClick={() => setActiveId(null)}
-                   title="Close"
-                   className="p-2 hover:bg-zinc-100 rounded-full transition-colors"
+                   className="p-1 hover:bg-zinc-100 rounded-full transition-colors"
                  >
                    <X className="w-5 h-5 text-zinc-400" />
                  </button>
               </div>
               
               {/* Modal Content */}
-              <div className="p-10 max-h-[70vh] overflow-y-auto">
+              <div className="p-8 max-h-[80vh] overflow-y-auto custom-scrollbar">
+                {activeSection?.type === "categorical" && (
+                  <div className="space-y-8">
+                    {activeSection.content.map((cat: any, idx: number) => (
+                      <div key={idx} className="space-y-4">
+                        <h3 className="text-lg font-medium text-zinc-500">{cat.category}</h3>
+                        <div className="space-y-3 pl-2">
+                          {cat.items.map((item: any, i: number) => (
+                            <div key={i} className="flex items-start gap-4">
+                              <span className="text-zinc-300 mt-0.5">—</span>
+                              <p className="text-zinc-600 font-medium">
+                                {item.text}{" "}
+                                {item.link && (
+                                  <a href={item.link} className="text-primary-orange hover:underline">
+                                    {item.linkText}
+                                  </a>
+                                )}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
                 {activeSection?.type === "table" && (
                   <div className="space-y-8">
                     <table className="w-full border-collapse">
@@ -185,16 +254,6 @@ export default function PopupDetails({ details, startDate }: PopupDetailsProps) 
                     ))}
                   </div>
                 )}
-              </div>
-
-              {/* Modal Footer */}
-              <div className="p-8 border-t border-zinc-100 flex justify-center bg-zinc-50/50">
-                 <button 
-                   onClick={() => setActiveId(null)}
-                   className="px-10 py-3 bg-navy text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-primary-orange transition-all"
-                 >
-                   Got it
-                 </button>
               </div>
            </div>
         </div>
