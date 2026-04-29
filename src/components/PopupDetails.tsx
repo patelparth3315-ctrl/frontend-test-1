@@ -108,6 +108,7 @@ interface PopupDetailsProps {
     terms: string[];
     carry: any[];
     etiquette: { title: string; desc: string }[];
+    customPolicies?: { label: string; type: string; content: any[] }[];
   };
 }
 
@@ -122,7 +123,7 @@ export default function PopupDetails({ details, startDate }: PopupDetailsProps) 
   };
 
   // Merge dynamic data if available
-  const activeSections = SECTIONS.map(sec => {
+  let activeSections = SECTIONS.map(sec => {
     let content = sec.content;
     if (details) {
       if (sec.id === "cancellation" && details.cancellation?.length > 0) content = details.cancellation;
@@ -151,6 +152,17 @@ export default function PopupDetails({ details, startDate }: PopupDetailsProps) 
 
     return { ...sec, content };
   });
+
+  // Append custom policies
+  if (details?.customPolicies?.length) {
+    const customs = details.customPolicies.map((cp, idx) => ({
+      id: `custom-${idx}`,
+      label: cp.label,
+      type: (cp.type || "simple") as any,
+      content: cp.content
+    }));
+    activeSections = [...activeSections, ...customs];
+  }
 
   const activeSection = activeSections.find(s => s.id === activeId);
 
