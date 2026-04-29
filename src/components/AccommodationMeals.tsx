@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Bed, Utensils, Star, Hotel, Tent, Home, Coffee, Info, Check } from "lucide-react";
+import { Bed, Utensils, Hotel, Tent, Home, Coffee, Info, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const STAYS = [
-  { location: "Shimla", type: "Hotel", icon: Hotel, tag: "Comfort", stars: 3, features: ["Centrally located", "Attached washrooms", "Room service"] },
-  { location: "Chitkul", type: "Cottage", icon: Home, tag: "Raw Experience", stars: 3, features: ["River view", "Wooden interiors", "Last village vibe"] },
-  { location: "Tabo", type: "Homestay", icon: Home, tag: "Authentic", stars: 2, features: ["Local host", "Cultural insight", "Traditional meals"] },
-  { location: "Kaza", type: "Homestay", icon: Home, tag: "Comfort", stars: 3, features: ["Modern amenities", "Cozy bedding", "Near main market"] },
-  { location: "Chandratal", type: "Camp", icon: Tent, tag: "Raw Experience", stars: 2, features: ["Luxury tents", "Stargazing", "Near Moon Lake"] },
-  { location: "Manali", type: "Hotel", icon: Hotel, tag: "Comfort", stars: 3, features: ["Balcony rooms", "Hot water", "Mountain view"] },
+  { location: "Shimla", type: "Hotel", icon: Hotel, tag: "Comfort", features: ["Centrally located", "Attached washrooms", "Room service"] },
+  { location: "Chitkul", type: "Cottage", icon: Home, tag: "Raw Experience", features: ["River view", "Wooden interiors", "Last village vibe"] },
+  { location: "Tabo", type: "Homestay", icon: Home, tag: "Authentic", features: ["Local host", "Cultural insight", "Traditional meals"] },
+  { location: "Kaza", type: "Homestay", icon: Home, tag: "Comfort", features: ["Modern amenities", "Cozy bedding", "Near main market"] },
+  { location: "Chandratal", type: "Camp", icon: Tent, tag: "Raw Experience", features: ["Luxury tents", "Stargazing", "Near Moon Lake"] },
+  { location: "Manali", type: "Hotel", icon: Hotel, tag: "Comfort", features: ["Balcony rooms", "Hot water", "Mountain view"] },
 ];
 
 const MEALS = [

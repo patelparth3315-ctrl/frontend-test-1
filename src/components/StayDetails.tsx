@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Bed, Utensils, Star, Check } from "lucide-react";
+import { Bed, Utensils, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Stay {
@@ -20,7 +20,7 @@ const MOCK_STAYS: Stay[] = [
     location: "Shimla", 
     nights: "1N", 
     hotelName: "Snow Land Shimla", 
-    rating: "3 ★ Hotel", 
+    rating: "3 Star Hotel", 
     image: "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6", 
     roomType: "Deluxe Room", 
     meals: "Breakfast & Dinner" 
@@ -89,8 +89,7 @@ export default function StayDetails() {
       <div className="bg-zinc-50 rounded-[40px] p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
         <div className="w-full md:w-80 aspect-video relative rounded-[30px] overflow-hidden shadow-xl">
            <Image src={stay.image} alt={stay.hotelName} fill className="object-cover" />
-           <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-[10px] font-black uppercase flex items-center gap-2">
-              <Star className="w-3 h-3 fill-primary-orange text-primary-orange" />
+           <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-[10px] font-black uppercase">
               Gallery
            </div>
         </div>

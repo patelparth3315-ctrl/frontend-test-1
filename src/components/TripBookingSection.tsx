@@ -3,7 +3,6 @@
 import { useState } from "react";
 import BookingOptions from "./BookingOptions";
 import ItineraryAccordion from "./ItineraryAccordion";
-import PackagePriceTable from "./PackagePriceTable";
 import InclusionsExclusions from "./InclusionsExclusions";
 import { Trip } from "@/types";
 
@@ -42,14 +41,6 @@ export default function TripBookingSection({ trip, inclusions, exclusions, onPri
           exclusions={exclusions} 
         />
       </section>
-
-
-      <PackagePriceTable 
-        variants={trip.variants}
-        travelOptions={trip.travelOptions}
-        selectedVariant={variantIndex}
-        selectedTravel={travelIndex}
-      />
     </div>
   );
 }

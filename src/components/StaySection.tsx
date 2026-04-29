@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
-import { Star, Home, Coffee, Maximize2, MapPin, X } from "lucide-react";
+import { Home, Coffee, Maximize2, MapPin, X } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -90,11 +90,7 @@ export default function StaySection({ accommodations }: StaySectionProps) {
                    </div>
                    <h3 className="text-3xl font-black text-navy uppercase tracking-tight italic">{stay.name}</h3>
                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1 bg-yellow-400/10 px-3 py-1 rounded-full">
-                         <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                         <span className="text-[10px] font-bold text-yellow-700 uppercase">{stay.starRating}</span>
-                      </div>
-                      <span className="text-zinc-400 text-xs font-medium">• {stay.type}</span>
+                      <span className="text-zinc-400 text-xs font-medium">{stay.type}</span>
                    </div>
                 </div>
 
@@ -145,9 +141,6 @@ export default function StaySection({ accommodations }: StaySectionProps) {
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
                     <h3 className="text-2xl md:text-3xl font-black text-navy uppercase italic">{selectedStay.name}</h3>
-                    <div className="bg-primary-orange/10 px-3 py-1 rounded-full border border-primary-orange/20">
-                      <span className="text-[10px] font-black text-primary-orange uppercase">{selectedStay.starRating}</span>
-                    </div>
                   </div>
                   <p className="text-zinc-400 text-xs font-black uppercase tracking-widest">{selectedStay.roomType}</p>
                 </div>
