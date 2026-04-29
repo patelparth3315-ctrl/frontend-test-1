@@ -60,18 +60,27 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
             className="w-full flex items-center p-2.5 md:p-3.5 text-left gap-3 md:gap-5"
           >
             {/* Left Section: Day Badge & Dynamic Date */}
-            <div className="shrink-0 flex flex-col items-center gap-1.5 min-w-[70px] md:min-w-[100px]">
-              <div className="w-full py-2 bg-[#525B60] text-white rounded-[12px] md:rounded-[14px] text-[11px] md:text-[13px] font-bold text-center shadow-sm border border-white/10">
+            <div className="shrink-0 flex flex-row items-center gap-3 md:gap-5 min-w-[90px] md:min-w-[140px]">
+              <div className="px-4 py-2 bg-[#525B60] text-white rounded-[12px] md:rounded-[14px] text-[11px] md:text-[13px] font-bold text-center shadow-sm border border-white/10 shrink-0">
                 Day {day.day}
               </div>
               {startDate && (
-                <span className="text-[9px] md:text-[10px] font-black text-[#D84E2D] uppercase tracking-wider">
-                  {(() => {
-                    const d = new Date(startDate);
-                    d.setDate(d.getDate() + day.day - 1);
-                    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
-                  })()}
-                </span>
+                <div className="flex flex-col items-start leading-none shrink-0">
+                  <span className="text-[10px] md:text-[11px] font-black text-[#D84E2D] uppercase tracking-wider">
+                    {(() => {
+                      const d = new Date(startDate);
+                      d.setDate(d.getDate() + day.day - 1);
+                      return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' });
+                    })()}
+                  </span>
+                  <span className="text-[8px] md:text-[9px] font-medium text-navy/40 uppercase tracking-tighter">
+                    {(() => {
+                      const d = new Date(startDate);
+                      d.setDate(d.getDate() + day.day - 1);
+                      return d.toLocaleDateString('en-GB', { weekday: 'short' });
+                    })()}
+                  </span>
+                </div>
               )}
             </div>
 
