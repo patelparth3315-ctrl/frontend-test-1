@@ -103,9 +103,9 @@ function ReviewCard({ review }: { review: Review }) {
             className="w-9 h-9 rounded-full overflow-hidden shrink-0 flex items-center justify-center text-white font-medium text-[14px]"
             style={{ backgroundColor: avatarBg }}
           >
-            {profileImage ? (
+            {defaultAvatar ? (
               <OptimizedImage 
-                src={profileImage} 
+                src={defaultAvatar} 
                 alt={review.userName} 
                 className="w-full h-full object-cover"
               />
