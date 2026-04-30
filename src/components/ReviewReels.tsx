@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { Play, Camera, X } from "lucide-react";
-import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Reel {
   url: string;
@@ -41,11 +41,9 @@ export default function ReviewReels({ reels = [] }: ReviewReelsProps) {
             onClick={() => setActiveReel(reel)}
             className="min-w-[280px] md:min-w-[320px] aspect-[9/16] relative rounded-[40px] overflow-hidden shadow-2xl snap-center group cursor-pointer"
           >
-            <Image 
+            <OptimizedImage 
               src={normalizeImageUrl(reel.thumbnail) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-              alt={reel.caption} 
-              fill 
-              className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]" 
+              alt={reel.caption} className="object-cover group-hover:scale-110 transition-transform duration-[2000ms]" 
             />
             
             {/* Gradient Overlay */}
@@ -54,7 +52,7 @@ export default function ReviewReels({ reels = [] }: ReviewReelsProps) {
             {/* Play Button Overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
                <div className="w-20 h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/50 scale-75 group-hover:scale-100 transition-transform shadow-2xl">
-                  <Play className="w-10 h-10 fill-white" />
+                  <Play className="w-10 h-10 -white" />
                </div>
             </div>
 

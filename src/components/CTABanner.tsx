@@ -2,8 +2,8 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface CTABannerProps {
   title?: string;
@@ -11,77 +11,79 @@ interface CTABannerProps {
   backgroundImage?: string;
   ctaText?: string;
   ctaLink?: string;
-  backgroundColor?: string;
-  padding?: string;
 }
 
 export default function CTABanner({
-  title = "Ready for your next adventure?",
-  tagline = "It's time for",
-  backgroundImage,
-  ctaText = "Explore Now",
+  title = "Group Trips",
+  tagline = "for 18-35 Year Olds",
+  backgroundImage = "https://images.unsplash.com/photo-1539635278303-d4002c07dee3",
+  ctaText = "Join solo or bring your buddy",
   ctaLink = "/trips",
-  backgroundColor = "#D4541A",
-  padding = "80px"
 }: CTABannerProps) {
   return (
-    <section 
-      className="relative overflow-hidden"
-      style={{ 
-        backgroundColor: backgroundImage ? 'transparent' : backgroundColor,
-        paddingTop: padding,
-        paddingBottom: padding
-      }}
-    >
-      {backgroundImage && (
-        <div className="absolute inset-0 z-0">
-          <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
-            src={normalizeImageUrl(backgroundImage)} 
-            alt={title} 
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-[2px]" />
-        </div>
-      )}
+    <section className="py-8 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="relative h-[500px] md:h-[650px] w-full rounded-[48px] overflow-hidden shadow-2xl group border border-zinc-100">
+          {/* Background Image */}
+          <div className="absolute inset-0">
+            <OptimizedImage 
+              src={normalizeImageUrl(backgroundImage)} 
+              alt={title} 
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/30" />
+          </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
-        {tagline && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-white/80 uppercase tracking-[0.3em] font-black text-[10px] md:text-xs mb-4"
-          >
-            {tagline}
-          </motion.p>
-        )}
-        
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.1 }}
-          className="text-4xl md:text-7xl font-bold text-white mb-10 tracking-tight uppercase"
-        >
-          {title}
-        </motion.h2>
-
-        {ctaText && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-          >
-            <Link
-              href={ctaLink}
-              className="inline-flex items-center gap-3 px-10 py-5 bg-white text-charcoal rounded-[12px] font-black text-xl hover:bg-white/90 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95"
+          {/* Content Overlay */}
+          <div className="relative z-10 h-full flex flex-col items-center justify-center text-center p-8">
+            {/* Top Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="bg-white/95 backdrop-blur-md px-10 py-4 rounded-full mb-8 shadow-2xl"
             >
-              {ctaText}
-              <ArrowRight className="w-6 h-6" />
-            </Link>
-          </motion.div>
-        )}
+              <span className="text-navy font-black text-sm md:text-base uppercase tracking-tight">{ctaText}</span>
+            </motion.div>
+            
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-6xl md:text-[14rem] font-black text-white uppercase italic leading-[0.75] tracking-tighter drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+            >
+              Group <br className="hidden md:block" /> Trips
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-white font-black uppercase tracking-[0.4em] text-sm md:text-base mt-8 opacity-95"
+            >
+              {tagline}
+            </motion.p>
+
+            {/* Bottom Labels (Ba Na Hills, etc.) - Decorative */}
+            <div className="absolute inset-x-0 bottom-10 px-12 flex justify-between items-end opacity-0 md:opacity-60 pointer-events-none">
+              <div className="text-left">
+                <p className="text-white font-black text-sm uppercase leading-none">Ba Na Hills</p>
+                <p className="text-white/70 text-[10px] uppercase font-bold">Vietnam</p>
+              </div>
+              <div className="text-right">
+                <p className="text-white font-black text-sm uppercase leading-none">Chandra Taal Lake</p>
+                <p className="text-white/70 text-[10px] uppercase font-bold">Spiti Valley</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Link Overlay for entire banner */}
+          <Link href={ctaLink} className="absolute inset-0 z-20 cursor-pointer">
+            <span className="sr-only">View {title}</span>
+          </Link>
+        </div>
       </div>
     </section>
   );

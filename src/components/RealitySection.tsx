@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
 import { useState } from "react";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface RealityVideo {
   title: string;
@@ -68,7 +69,7 @@ export default function RealitySection({
               onClick={() => vid.url && setActiveVideo(vid.url)}
               className="relative min-w-[300px] md:min-w-[450px] aspect-video rounded-[32px] overflow-hidden group snap-start cursor-pointer shadow-2xl border-4 border-white ring-1 ring-charcoal/5"
             >
-              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
+              <OptimizedImage 
                 src={normalizeImageUrl(vid.img) || "https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=2070"} 
                 alt={vid.title} 
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 

@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { Star, ArrowUpRight } from "lucide-react";
 import { Review } from "@/types";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface TripReviewsProps {
   reviews: Review[];
@@ -25,15 +25,17 @@ export default function TripReviews({ reviews }: TripReviewsProps) {
   if (!reviews || reviews.length === 0) return null;
 
   return (
-    <section className="py-20 border-t border-zinc-100">
-      <div className="flex items-center justify-between mb-12">
-        <h2 className="text-4xl font-black text-navy uppercase italic tracking-tighter">Reviews</h2>
-      </div>
+    <section className="py-16 bg-zinc-50/50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-10">
+          <h2 className="text-3xl font-black text-navy uppercase tracking-tighter">Reviews</h2>
+        </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {reviews.map((review) => (
-          <ReviewCard key={review.id || review._id} review={review} />
-        ))}
+        <div className="flex overflow-x-auto no-scrollbar gap-5 pb-8 snap-x">
+          {reviews.map((review) => (
+            <ReviewCard key={review.id || review._id} review={review} />
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -41,87 +43,84 @@ export default function TripReviews({ reviews }: TripReviewsProps) {
 
 function ReviewCard({ review }: { review: Review }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const shouldShowReadMore = review.comment.length > 150;
-  const displayedComment = isExpanded ? review.comment : review.comment.slice(0, 150) + (shouldShowReadMore ? "..." : "");
+  const shouldShowReadMore = review.comment && review.comment.length > 120;
+  const displayedComment = isExpanded ? review.comment : (review.comment || "").slice(0, 120) + (shouldShowReadMore ? " " : "");
+
+  const coverPhoto = review.photos && review.photos.length > 0 
+    ? review.photos[0] 
+    : "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070";
+
+  const defaultAvatar = review.userImage ? normalizeImageUrl(review.userImage) : null;
+  const initials = review.userName ? review.userName.charAt(0).toUpperCase() : "U";
+
+  const getAvatarColor = (name: string) => {
+    const colors = ["#E87A00", "#5C6BC0", "#4CAF50", "#E91E63", "#00BCD4"];
+    const charCode = name ? name.charCodeAt(0) : 0;
+    return colors[charCode % colors.length];
+  };
+  const avatarBg = getAvatarColor(review.userName);
 
   return (
-    <div className="bg-white border border-zinc-100 rounded-[32px] p-8 space-y-6 transition-all hover:shadow-xl hover:border-primary-orange/20">
-      {/* Header: User Info */}
-      <div className="flex items-center gap-4">
-        <div className="relative w-12 h-12 rounded-full overflow-hidden bg-zinc-100 border-2 border-white shadow-sm">
-          <Image 
-            src={normalizeImageUrl(review.userImage) || "https://i.pravatar.cc/150?u=default"} 
-            alt={review.userName}
-            fill
-            className="object-cover"
-          />
-        </div>
-        <div className="flex-1">
-          <div className="flex items-baseline gap-2">
-            <h4 className="font-black text-navy uppercase text-sm tracking-tight">{review.userName}</h4>
-            <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-              {review.tripType || "Joined Group Trip"}
-            </span>
-          </div>
-          <Link 
-            href={review.tripId ? `/trips/${review.tripId}` : "#"}
-            className="flex items-center gap-1 text-[11px] font-bold text-primary-orange hover:underline uppercase tracking-wide group"
-          >
-            Booked: {review.tripName}
-            <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
-        </div>
+    <div className="flex-none w-[260px] md:w-[280px] min-h-[400px] snap-start bg-white border border-zinc-100 rounded-[16px] shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden">
+      {/* Top Image */}
+      <div className="relative w-full h-[160px] shrink-0 bg-zinc-100 overflow-hidden">
+        <OptimizedImage 
+          src={normalizeImageUrl(coverPhoto) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470"} 
+          alt="Review cover" 
+          className="w-full h-full object-cover"
+        />
       </div>
 
-      {/* Rating & Time */}
-      <div className="flex items-center gap-3">
-        <div className="flex gap-0.5">
+      <div className="p-4 flex flex-col flex-1">
+        {/* Rating */}
+        <div className="flex gap-0.5 mb-2">
           {[...Array(5)].map((_, i) => (
             <Star 
               key={i} 
-              className={`w-3.5 h-3.5 ${i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-zinc-200"}`} 
+              className={`w-[14px] h-[14px] ${i < (review.rating || 5) ? "fill-[#F4B400] text-[#F4B400]" : "fill-zinc-200 text-zinc-200"}`} 
             />
           ))}
         </div>
-        <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
-          {getRelativeTime(review.createdAt)}
-        </span>
-      </div>
 
-      {/* Comment */}
-      <div className="space-y-2">
-        <p className="text-zinc-600 text-sm font-medium leading-relaxed">
-          {displayedComment}
-          {shouldShowReadMore && !isExpanded && (
-            <button 
-              onClick={() => setIsExpanded(true)}
-              className="text-primary-orange font-bold ml-1 hover:underline cursor-pointer"
-            >
-              Read More
-            </button>
-          )}
-        </p>
-      </div>
-
-      {/* Photo Grid (2x2) */}
-      {review.photos && review.photos.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 aspect-[4/3] rounded-2xl overflow-hidden shadow-inner">
-           {review.photos.slice(0, 4).map((photo, idx) => (
-             <div key={idx} className="relative w-full h-full bg-zinc-50 overflow-hidden group">
-                <Image 
-                  src={normalizeImageUrl(photo) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-                  alt={`Review photo ${idx + 1}`}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                />
-             </div>
-           ))}
-           {/* Placeholder for remaining spots if less than 4 photos */}
-           {[...Array(Math.max(0, 4 - review.photos.length))].map((_, i) => (
-             <div key={`empty-${i}`} className="bg-zinc-50 border border-zinc-100" />
-           ))}
+        {/* Comment */}
+        <div className="mb-4 flex-1">
+          <p className="text-[#333333] text-[13px] leading-[1.5] line-clamp-4">
+            {displayedComment}
+            {shouldShowReadMore && !isExpanded && (
+              <button 
+                onClick={() => setIsExpanded(true)}
+                className="text-[#999999] text-[13px] cursor-pointer hover:text-navy transition-colors ml-1"
+              >
+                Read more...
+              </button>
+            )}
+          </p>
         </div>
-      )}
+
+        {/* Profile Section */}
+        <div className="flex items-center gap-2 mt-auto pt-4">
+          <div 
+            className="w-9 h-9 rounded-full overflow-hidden shrink-0 flex items-center justify-center text-white font-medium text-[14px]"
+            style={{ backgroundColor: avatarBg }}
+          >
+            {profileImage ? (
+              <OptimizedImage 
+                src={profileImage} 
+                alt={review.userName} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              initials
+            )}
+          </div>
+          <div className="flex flex-col justify-center min-w-0">
+            <h4 className="text-[13px] font-bold text-[#222222] leading-tight truncate">{review.userName}</h4>
+            <span className="text-[11px] text-[#888888] mt-0.5 truncate">
+              {review.tripName || review.tripType || "Adventure Trip"}
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

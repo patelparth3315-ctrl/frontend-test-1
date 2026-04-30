@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import PhotoGalleryModal from "./PhotoGalleryModal";
 
 import { Trip } from "@/types";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface TripGallerySectionProps {
   trip: Trip;
@@ -49,10 +50,10 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
           className="relative md:hidden w-full aspect-[16/10] rounded-[20px] overflow-hidden cursor-pointer shadow-lg bg-zinc-100"
           onClick={() => setIsGalleryOpen(true)}
         >
-          <img 
+          <OptimizedImage 
             src={errorImages[0] ? fallbacks[0] : (normalizeImageUrl(finalImages[0]) || fallbacks[0])} 
             alt={trip.title} 
-            onError={() => handleImageError(0)}
+            
             className="w-full h-full object-cover" 
           />
           {/* Floating photo count badge */}
@@ -72,10 +73,10 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
             className="relative md:col-span-2 md:row-span-2 cursor-pointer overflow-hidden group/item"
             onClick={() => setIsGalleryOpen(true)}
           >
-            <img 
+            <OptimizedImage 
               src={errorImages[0] ? fallbacks[0] : (normalizeImageUrl(finalImages[0]) || fallbacks[0])} 
               alt={trip.title} 
-              onError={() => handleImageError(0)}
+              
               className="w-full h-full object-cover transition-transform duration-1000 group-hover/item:scale-110" 
             />
             <div className="absolute inset-0 bg-black/10 group-hover/item:bg-transparent transition-colors duration-500" />
@@ -93,10 +94,10 @@ export default function TripGallerySection({ trip }: TripGallerySectionProps) {
                 )}
                 onClick={() => setIsGalleryOpen(true)}
               >
-                <img 
+                <OptimizedImage 
                   src={errorImages[idx] ? fallbacks[idx] : (normalizeImageUrl(img) || fallbacks[idx])} 
                   alt="" 
-                  onError={() => handleImageError(idx)}
+                  
                   className="w-full h-full object-cover transition-transform duration-700 group-hover/item:scale-110" 
                 />
                 <div className="absolute inset-0 bg-black/5 group-hover/item:bg-transparent transition-colors duration-500" />

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Volume2, Play } from "lucide-react";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 const reels = [
   { img: "https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=2070", text: "Places on Earth that don't feel real" },
@@ -30,7 +30,7 @@ export default function VibeSection() {
               viewport={{ once: true }}
               className="relative min-w-[280px] h-[500px] rounded-[30px] overflow-hidden group snap-center shadow-2xl cursor-pointer"
             >
-              <Image src={reel.img} alt="Reel" fill className="object-cover transition-transform duration-1000 group-hover:scale-110" />
+              <OptimizedImage src={reel.img} alt="Reel" className="object-cover transition-transform duration-1000 group-hover:scale-110" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 p-8 flex flex-col justify-between">
                 <div className="flex justify-end">
                   <div className="w-10 h-10 bg-black/20 backdrop-blur-md rounded-full flex items-center justify-center text-white border border-white/20">
@@ -40,7 +40,7 @@ export default function VibeSection() {
                 
                 <div>
                   <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white mb-6 border border-white/30 group-hover:bg-white group-hover:text-black transition-all">
-                    <Play className="w-6 h-6 fill-current" />
+                    <Play className="w-6 h-6 -current" />
                   </div>
                   <h4 className="text-xl font-bold text-white tracking-tight leading-tight">
                     {reel.text}

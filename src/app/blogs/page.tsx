@@ -1,10 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import Footer from "@/components/Footer";
 export const dynamic = 'force-dynamic';
 
 import { fetchBlogs, normalizeImageUrl } from "@/lib/api";
 import { BookOpen, Sparkles, Filter, ChevronRight, ChevronLeft } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 export default async function BlogsPage() {
   let blogs = [];
@@ -62,11 +62,9 @@ export default async function BlogsPage() {
                 <Link href={`/blogs/${art.slug}`} key={art._id || i} className="group">
                   <div className="bg-white rounded-[24px] overflow-hidden shadow-sm hover:shadow-xl transition-all border border-zinc-100 h-full flex flex-col">
                     <div className="relative aspect-[4/3] overflow-hidden">
-                      <Image 
+                      <OptimizedImage 
                         src={normalizeImageUrl(art.image) || "https://images.unsplash.com/photo-1597037750734-450f6f406560?q=80&w=2070"} 
-                        alt={art.title} 
-                        fill 
-                        className="object-cover transition-transform duration-700 group-hover:scale-110" 
+                        alt={art.title} className="object-cover transition-transform duration-700 group-hover:scale-110" 
                       />
                     </div>
                     <div className="p-8 flex flex-col flex-grow">

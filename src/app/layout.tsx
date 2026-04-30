@@ -1,6 +1,7 @@
 import { Montserrat, Satisfy } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import { fetchSettings } from "@/lib/api";
 
 const montserrat = Montserrat({
@@ -29,12 +30,13 @@ export default async function RootLayout({
   
   return (
     <html lang="en" className={`${montserrat.variable} ${satisfy.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-montserrat">
+      <body className="min-h-full flex flex-col font-montserrat relative">
         <Navbar 
           logoUrl={settings?.navbar?.logoUrl} 
           navLinks={settings?.navbar?.links} 
         />
         <main className="flex-grow">{children}</main>
+        <FloatingWhatsApp />
       </body>
     </html>
   );

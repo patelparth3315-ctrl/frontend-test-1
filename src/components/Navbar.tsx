@@ -1,11 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface NavLink {
   name: string;
@@ -40,16 +41,16 @@ export default function Navbar({
         )}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="relative z-[60] h-12 md:h-12 flex items-center shrink-0 group">
+          <Link href="/" className="relative z-[60] h-12 md:h-12 w-[240px] md:w-[380px] flex items-center shrink-0 group">
             {/* Logo Container that allows overflow without pushing layout */}
             <div className="absolute left-0 top-1/2 -translate-y-1/2 transition-transform duration-300">
-              <Image 
+              <OptimizedImage 
                 src={logoUrl || "/logo.png"} 
                 alt="Youthcamping Logo" 
                 width={450} 
                 height={160} 
                 className={cn(
-                  "h-24 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm",
+                  "h-24 md:h-40 w-auto transition-all max-w-[450px] drop-shadow-sm !object-contain",
                   showSolidNavbar ? "" : "brightness-0 invert"
                 )}
               />

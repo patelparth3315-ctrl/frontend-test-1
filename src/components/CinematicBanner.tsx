@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { normalizeImageUrl } from "@/lib/api";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Slide {
   title?: string;
@@ -80,7 +81,7 @@ export default function CinematicBanner({
               }}
               className="absolute inset-0"
             >
-              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
+              <OptimizedImage 
                 src={normalizeImageUrl(current.image)} 
                 alt={current.title || "Cinematic View"} 
                 className="w-full h-full object-cover" // Image fills without distortion

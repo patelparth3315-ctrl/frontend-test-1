@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { motion } from "framer-motion";
 import { Compass, Heart, Shield, Zap } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 const values = [
   {
@@ -46,11 +46,9 @@ export default function AboutPage() {
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="relative aspect-[4/5] rounded-[60px] overflow-hidden shadow-2xl">
-            <Image 
+            <OptimizedImage 
               src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?q=80&w=2070" 
-              alt="Travel Philosophy" 
-              fill 
-              className="object-cover"
+              alt="Travel Philosophy" className="object-cover"
             />
           </div>
           <div>

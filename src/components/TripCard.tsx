@@ -6,6 +6,7 @@ import Link from "next/link";
 
 import { Clock, MapPin, ArrowUpRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface TripCardProps {
   trip: Trip;
@@ -21,24 +22,27 @@ export default function TripCard({ trip, index }: TripCardProps) {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       viewport={{ once: true }}
-      className="group relative bg-white rounded-[32px] overflow-hidden border border-zinc-100 hover:border-primary-orange/20 transition-all shadow-sm hover:shadow-2xl"
+      className="group relative bg-white rounded-[32px] overflow-hidden border border-zinc-100 hover:border-primary-orange/20 transition-all shadow-sm hover:shadow-2xl h-full"
     >
-      <Link href={`/trips/${trip.slug}`} className="block relative aspect-[4/3] overflow-hidden">
-        <img
+      {/* Invisible Link Overlay - Ensures 100% clickability */}
+      <Link 
+        href={`/trips/${trip.slug}`} 
+        className="absolute inset-0 z-30 cursor-pointer"
+        aria-label={`View ${trip.title}`}
+      />
+
+      <div className="relative aspect-[4/3] overflow-hidden">
+        <OptimizedImage
           src={normalizeImageUrl(trip.heroImage) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"}
           alt={trip.title}
-          loading="lazy"
-          onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"; }}
           className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
         />
         
-        {/* Badges Removed */}
-
         {/* Hover Arrow */}
-        <div className="absolute bottom-6 right-6 w-14 h-14 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-2xl">
+        <div className="absolute bottom-6 right-6 w-14 h-14 bg-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0 shadow-2xl z-10">
           <ArrowUpRight className="w-6 h-6 text-navy" />
         </div>
-      </Link>
+      </div>
 
       <div className="p-8">
         <div className="flex items-center gap-2 text-primary-orange text-[10px] font-black uppercase tracking-[0.2em] mb-4">
@@ -46,7 +50,7 @@ export default function TripCard({ trip, index }: TripCardProps) {
           {trip.location}
         </div>
         
-        <h3 className="text-2xl font-bold text-navy mb-8 leading-[1.2] tracking-tight h-16 line-clamp-2">
+        <h3 className="text-2xl font-bold text-navy mb-8 leading-[1.2] tracking-tight h-16 line-clamp-2 group-hover:text-primary-orange transition-colors">
           {trip.title}
         </h3>
 

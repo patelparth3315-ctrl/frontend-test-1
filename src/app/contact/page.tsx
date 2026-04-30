@@ -1,94 +1,141 @@
-import { Mail, Phone, MapPin, Camera, Link as LinkIcon, Send } from "lucide-react";
+"use client";
+
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import { fetchSettings } from "@/lib/api";
 
 export default function ContactPage() {
+  const [settings, setSettings] = useState<any>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    fetchSettings().then(setSettings);
+  }, []);
+  
+  const phone = settings?.contactPhone || "+91 99242 46267";
+  const email = settings?.contactEmail || "youthcampingmedia@gmail.com";
+  const address = settings?.address || "Youthcamping, Jagatpur Road, Gota, Ahmedabad, Gujarat, India";
+  const primaryColor = settings?.theme?.primaryColor || "#ff4d00";
+
   return (
-    <div className="bg-white min-h-screen pt-20">
-      <section className="py-24 px-6 bg-zinc-950 text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div>
-              <span className="text-emerald-400 font-bold tracking-widest uppercase text-xs mb-6 block">Get in touch</span>
-              <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-10 leading-[0.9]">
-                LET&apos;S PLAN YOUR <br />
-                <span className="italic font-serif font-normal text-zinc-500">Next Escape</span>
-              </h1>
-              <p className="text-xl text-zinc-400 font-light max-w-xl mb-12">
-                Have a question about an expedition or need a custom itinerary? Our curators are here to help you design the perfect journey.
-              </p>
-
-              <div className="space-y-8">
-                <div className="flex items-center gap-6 group">
-                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all">
-                    <Mail className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Email Us</p>
-                    <p className="text-lg font-medium">hello@youthcamping.in</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 group">
-                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all">
-                    <Phone className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Call Us</p>
-                    <p className="text-lg font-medium">+91 99242 46267</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-6 group">
-                  <div className="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 group-hover:bg-white group-hover:text-black transition-all">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-widest text-zinc-500 mb-1">Office</p>
-                    <p className="text-lg font-medium">Money Plant High Street, A 738, Jagatpur Rd, Gota, Ahmedabad, Gujarat 382470</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex gap-6 mt-16">
-                <a href="#" className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-full hover:bg-white hover:text-black transition-all"><Camera className="w-5 h-5" /></a>
-                <a href="#" className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-full hover:bg-white hover:text-black transition-all"><LinkIcon className="w-5 h-5" /></a>
-                <a href="#" className="w-10 h-10 flex items-center justify-center border border-white/20 rounded-full hover:bg-white hover:text-black transition-all"><Send className="w-5 h-5" /></a>
-              </div>
-            </div>
-
-            <div className="bg-white p-10 md:p-16 rounded-[60px] text-black">
-              <h2 className="text-3xl font-bold tracking-tighter mb-8 text-center">SEND A MESSAGE</h2>
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Full Name</label>
-                    <input type="text" className="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 focus:ring-2 focus:ring-black outline-none transition-all" placeholder="John Doe" />
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Email Address</label>
-                    <input type="email" className="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 focus:ring-2 focus:ring-black outline-none transition-all" placeholder="john@example.com" />
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Interested In</label>
-                  <select className="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 focus:ring-2 focus:ring-black outline-none transition-all appearance-none">
-                    <option>General Inquiry</option>
-                    <option>Spiti Valley Expedition</option>
-                    <option>Ladakh Road Trip</option>
-                    <option>Kashmir Autumn Tour</option>
-                    <option>Custom Itinerary</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-bold uppercase tracking-widest text-zinc-400">Message</label>
-                  <textarea rows={4} className="w-full bg-zinc-50 border border-zinc-100 rounded-2xl p-4 focus:ring-2 focus:ring-black outline-none transition-all" placeholder="Tell us about your dream trip..."></textarea>
-                </div>
-                <button className="w-full py-5 bg-black text-white rounded-full font-bold text-lg hover:bg-zinc-800 transition-all flex items-center justify-center gap-3 shadow-xl">
-                  Send Message
-                  <Send className="w-5 h-5" />
-                </button>
-              </form>
+    <div className="bg-white min-h-screen">
+      {/* Top Bar - Always visible */}
+      <div 
+        className="text-white py-2 px-6 hidden md:block"
+        style={{ backgroundColor: primaryColor }}
+      >
+        <div className="max-w-7xl mx-auto flex justify-between items-center text-[11px] font-bold uppercase tracking-wider">
+          <div className="flex items-center gap-6">
+            <span>We are available 10AM to 07PM</span>
+            <div className="flex items-center gap-2">
+              <Mail className="w-3.5 h-3.5" />
+              <span>{mounted ? email : "..."}</span>
             </div>
           </div>
+          <div className="flex items-center gap-2">
+            <Phone className="w-3.5 h-3.5" />
+            <span>{mounted ? phone : "..."}</span>
+          </div>
         </div>
-      </section>
+      </div>
+
+      <Navbar />
+
+      {!mounted ? (
+        <div className="h-[60vh] flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-zinc-200 border-t-orange-500 rounded-full animate-spin" />
+        </div>
+      ) : (
+        <>
+          {/* Hero Section */}
+          <section className="relative h-[400px] md:h-[550px] w-full overflow-hidden">
+            <img 
+              src="https://youthcamping.in/wp-content/uploads/2024/05/Group-Photo-Contact.jpg" 
+              alt="Youthcamping Team" 
+              className="w-full h-full object-cover"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?q=80&w=2000";
+              }}
+            />
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+              <h1 className="text-white text-5xl md:text-8xl font-black italic uppercase tracking-tighter">
+                Contact Us
+              </h1>
+            </div>
+          </section>
+
+
+
+          {/* Info Section */}
+          <section className="py-24 px-6 bg-zinc-50/50">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16 space-y-4">
+                 <h2 className="text-5xl font-black text-[#111111] italic uppercase tracking-tighter">Find us here!</h2>
+                 <div 
+                  className="w-24 h-1 mx-auto rounded-full" 
+                  style={{ backgroundColor: primaryColor }}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-20">
+                {/* Phone */}
+                <div className="flex flex-col items-center text-center space-y-6">
+                  <div className="w-20 h-20 bg-white rounded-[32px] flex items-center justify-center shadow-xl shadow-zinc-200/50 group hover:scale-110 transition-transform">
+                    <Phone className="w-8 h-8 fill-current" style={{ color: primaryColor }} />
+                  </div>
+                  <p className="text-xl font-bold text-[#111111] tracking-tight">{phone}</p>
+                </div>
+
+                {/* Address */}
+                <div className="flex flex-col items-center text-center space-y-6">
+                  <div className="w-20 h-20 bg-white rounded-[32px] flex items-center justify-center shadow-xl shadow-zinc-200/50 group hover:scale-110 transition-transform">
+                    <MapPin className="w-8 h-8 fill-current" style={{ color: primaryColor }} />
+                  </div>
+                  <p className="text-xl font-bold text-[#111111] tracking-tight leading-relaxed max-w-xs">
+                    {address}
+                  </p>
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col items-center text-center space-y-6">
+                  <div className="w-20 h-20 bg-white rounded-[32px] flex items-center justify-center shadow-xl shadow-zinc-200/50 group hover:scale-110 transition-transform">
+                    <Mail className="w-8 h-8 fill-current" style={{ color: primaryColor }} />
+                  </div>
+                  <p 
+                    className="text-xl font-bold tracking-tight underline decoration-2 underline-offset-8"
+                    style={{ color: primaryColor }}
+                  >
+                    {email}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Map Section */}
+          <section className="w-full h-[500px] relative border-t border-zinc-100">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.757827827672!2d72.54148431535496!3d23.105953084910075!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8369655e8369%3A0x655e8369655e8369!2sMoney%20Plant%20High%20Street!5e0!3m2!1sen!2sin!4v1714444444444!5m2!1sen!2sin" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              className="grayscale hover:grayscale-0 transition-all duration-700"
+            />
+          </section>
+
+          <Footer 
+            logoUrl={settings?.footer?.logoUrl} 
+            address={settings?.footer?.address} 
+            phone={settings?.footer?.phone} 
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -2,12 +2,12 @@
 
 import { useState, useEffect, useMemo } from "react";
 
-import Image from "next/image";
 import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Trip } from "@/types";
 import { normalizeImageUrl } from "@/lib/api";
 import { useTripSelection } from "@/store/trip-selection";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface BookingOptionsProps {
   trip: Trip;
@@ -101,11 +101,9 @@ export default function BookingOptions({
                 )}
               >
                 <div className="relative aspect-square rounded-[14px] overflow-hidden mb-3">
-                  <Image 
+                  <OptimizedImage 
                     src={normalizeImageUrl(v.image) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
-                    alt={v.location} 
-                    fill 
-                    className="object-cover" 
+                    alt={v.location} className="object-cover" 
                   />
                 </div>
                 <div className="flex flex-col gap-1">

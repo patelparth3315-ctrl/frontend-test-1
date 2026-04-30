@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface HeroProps {
   headline?: string;
@@ -56,7 +57,7 @@ export default function Hero({
                 />
               </div>
             ) : normalizedBg ? (
-              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
+              <OptimizedImage 
                 src={normalizedBg} 
                 className="w-full h-full object-cover" 
                 alt="Hero Background"

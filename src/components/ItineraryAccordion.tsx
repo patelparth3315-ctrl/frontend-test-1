@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+
 import { ChevronDown, MapPin, Utensils, BedDouble, Hotel, Home, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ItineraryDay } from "@/types";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface ItineraryAccordionProps {
   itinerary: ItineraryDay[];
@@ -161,11 +162,9 @@ export default function ItineraryAccordion({ itinerary, startDate }: ItineraryAc
                         {day.photos.map((photo, i) => (
                           <div key={i} className="w-24 md:w-32 shrink-0 group/photo">
                             <div className="relative aspect-square rounded-[14px] md:rounded-[18px] overflow-hidden mb-2 border-2 border-white shadow-sm transition-transform group-hover/photo:scale-105">
-                              <Image 
+                              <OptimizedImage 
                                 src={normalizeImageUrl(photo) || ""} 
-                                alt={day.activities?.[i] || "Sightseeing"} 
-                                fill 
-                                className="object-cover" 
+                                alt={day.activities?.[i] || "Sightseeing"} className="object-cover" 
                               />
                             </div>
                             <p className="text-[8px] md:text-[9px] font-black text-navy uppercase tracking-widest px-1 line-clamp-1">

@@ -10,6 +10,8 @@ import VibeSection from "@/components/VibeSection";
 import FloatingSocialBar from "@/components/FloatingSocialBar";
 import Footer from "@/components/Footer";
 import PageRenderer from "@/components/PageRenderer";
+import CTASlider from "@/components/CTASlider";
+import VideoSection from "@/components/VideoSection";
 import { fetchTrips, fetchReviews, fetchBlogs, fetchPageBySlug, fetchSettings } from "@/lib/api";
 
 import { Trip, Review, Blog } from "@/types";
@@ -45,7 +47,12 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {page && page.sections && page.sections.length > 0 ? (
-        <PageRenderer sections={page.sections} trips={trips} reviews={reviews} blogs={blogs} />
+        <>
+          <PageRenderer sections={page.sections} trips={trips} reviews={reviews} blogs={blogs} />
+          {/* Force new sections if not in DB */}
+          {!page.sections.some((s: any) => s.type === 'cta_slider') && <CTASlider />}
+          {!page.sections.some((s: any) => s.type === 'video_section') && <VideoSection />}
+        </>
       ) : (
         <>
           <Hero />
@@ -54,6 +61,8 @@ export default async function Home() {
           <BestieSection />
           <Destinations />
           <RealitySection />
+          <CTASlider />
+          <VideoSection />
           <BlogSection blogs={blogs} />
           <ReviewsSection reviews={reviews} />
           <VibeSection />

@@ -63,6 +63,18 @@ export async function fetchBlogs(): Promise<any[]> {
   return json.data || [];
 }
 
+export async function fetchAttractions(): Promise<any[]> {
+  const res = await fetch(`${API_BASE_URL}/attractions`, { cache: 'no-store' });
+  if (!res.ok) throw new Error("Failed to fetch attractions");
+  return res.json();
+}
+
+export async function fetchAttractionBySlug(slug: string): Promise<any | null> {
+  const res = await fetch(`${API_BASE_URL}/attractions/slug/${slug}`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export async function fetchBlogBySlug(slug: string): Promise<any | null> {
   const res = await fetch(`${API_BASE_URL}/blogs/${slug}`, { cache: 'no-store' });
   if (!res.ok) return null;

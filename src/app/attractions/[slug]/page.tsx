@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { 
@@ -14,21 +13,15 @@ import {
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { normalizeImageUrl } from "@/lib/api";
-
-// Assuming we have a service to fetch attraction by slug
-// For now, I'll mock the fetch or use a placeholder logic
-async function getAttraction(slug: string) {
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8888/api";
-  const res = await fetch(`${API_URL}/attractions`, { next: { revalidate: 60 } });
-  if (!res.ok) return null;
-  const attractions = await res.json();
-  return attractions.find((a: any) => a.slug === slug) || null;
-}
+import { normalizeImageUrl, fetchAttractionBySlug, fetchSettings } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 export default async function AttractionPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const attraction = await getAttraction(slug);
+  const [attraction, settings] = await Promise.all([
+    fetchAttractionBySlug(slug),
+    fetchSettings()
+  ]);
 
   if (!attraction) {
     notFound();
@@ -48,11 +41,9 @@ export default async function AttractionPage({ params }: { params: Promise<{ slu
       
       {/* Hero Section */}
       <section className="relative h-[70vh] w-full">
-        <Image 
+        <OptimizedImage 
           src={normalizeImageUrl(attraction.image) || "https://images.unsplash.com/photo-1520209759395-820217e92824"} 
-          alt={attraction.name}
-          fill
-          className="object-cover"
+          alt={attraction.name} className="object-cover"
           priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -164,7 +155,11 @@ export default async function AttractionPage({ params }: { params: Promise<{ slu
         </div>
       </section>
 
-      <Footer />
+      <Footer 
+        logoUrl={settings?.footer?.logoUrl} 
+        address={settings?.footer?.address} 
+        phone={settings?.footer?.phone} 
+      />
     </main>
   );
 }

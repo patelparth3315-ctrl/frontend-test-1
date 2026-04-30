@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 import DestinationInquiryModal from "./DestinationInquiryModal";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Destination {
   name: string;
@@ -106,7 +107,7 @@ export default function Destinations({
               onClick={() => setSelectedDest(dest)}
               className="relative min-w-[240px] md:min-w-[260px] flex-1 aspect-[3/4] rounded-[32px] overflow-hidden group snap-start shadow-[0_20px_40px_-15px_rgba(0,0,0,0.15)] cursor-pointer bg-white"
             >
-              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
+              <OptimizedImage 
                 src={normalizeImageUrl(dest.img)} 
                 alt={dest.name} 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Home, Coffee, Maximize2, MapPin, X } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
 import { motion, AnimatePresence } from "framer-motion";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface AccommodationGallery {
   url: string;
@@ -63,7 +64,7 @@ export default function StaySection({ accommodations }: StaySectionProps) {
               }}
             >
               <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
-                <img 
+                <OptimizedImage 
                   src={normalizeImageUrl(stay.image) || "https://images.unsplash.com/photo-1566073771259-6a8506099945"} 
                   alt={stay.name} 
                   className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
@@ -152,7 +153,7 @@ export default function StaySection({ accommodations }: StaySectionProps) {
                         key={`${img.url}-${idx}`}
                         className="relative rounded-[24px] overflow-hidden group shadow-lg"
                       >
-                        <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
+                        <OptimizedImage 
                           src={normalizeImageUrl(img.url)} 
                           alt={`${selectedStay.name} - ${img.category}`} 
                           className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-110"

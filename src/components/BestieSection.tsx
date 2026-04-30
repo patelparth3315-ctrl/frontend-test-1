@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Reason {
   title: string;
@@ -139,10 +140,9 @@ export default function BestieSection({
               <div className="bg-white/95 backdrop-blur-sm p-8 md:p-10 rounded-[40px] shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] flex flex-col md:flex-row items-center gap-6 md:gap-10 h-full border border-white/50 hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-500 group">
                 <div className="w-24 h-24 md:w-28 md:h-28 shrink-0 flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                   {reason.image ? (
-                    <img 
+                    <OptimizedImage 
                       src={normalizeImageUrl(reason.image) || "https://youthcamping.in/wp-content/uploads/2024/05/solo-safe.png"} 
                       alt={reason.title} 
-                      onError={(e) => { e.currentTarget.src = "https://youthcamping.in/wp-content/uploads/2024/05/solo-safe.png"; }}
                       className="w-full h-full object-contain" 
                     />
                   ) : (

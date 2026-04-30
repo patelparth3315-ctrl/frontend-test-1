@@ -264,6 +264,7 @@ export interface Blog {
   title: string;
   slug: string;
   author: string;
+  authorImage?: string;
   content: string;
   image: string;
   readTime: string;

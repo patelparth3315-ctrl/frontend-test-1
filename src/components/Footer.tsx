@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { MapPin, Mail, Phone } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface FooterProps {
   logoUrl?: string;
@@ -23,7 +23,7 @@ export default function Footer({
           {/* Brand & Contact */}
           <div className="md:col-span-4">
             <Link href="/" className="block mb-10">
-              <Image 
+              <OptimizedImage 
                 src={logoUrl || "/logo.png"} 
                 alt="Youthcamping Logo" 
                 width={280} 

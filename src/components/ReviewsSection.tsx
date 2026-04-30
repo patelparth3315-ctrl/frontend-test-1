@@ -1,11 +1,12 @@
 "use client";
 
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Star, ChevronRight, Camera, MapPin } from "lucide-react";
-import Image from "next/image";
+import { Star, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Review } from "@/types";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface ReviewsSectionProps {
   reviews: Review[];
@@ -24,101 +25,119 @@ export default function ReviewsSection({
   titleAlign = "left",
   titleColor = "#1B2A4A"
 }: ReviewsSectionProps) {
-  // Helper to extract handle from URL
-  const getHandle = (url?: string) => {
-    if (!url) return "";
-    return "@" + url.replace("https://instagram.com/", "").replace("/", "");
-  };
-
   return (
-    <section className="py-24 px-6 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-16 bg-zinc-50/50 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
         <div className={`flex flex-col ${titleAlign === 'center' ? 'items-center text-center' : 'flex-row items-center justify-between'} mb-12`}>
           <div>
             <h2 
-              className={`font-semibold ${titleSize} tracking-tight`}
-              style={{ color: titleColor, textAlign: titleAlign }}
+              className={`font-black text-navy uppercase tracking-tighter ${titleSize}`}
+              style={{ textAlign: titleAlign }}
             >
               {title}
             </h2>
             {subtitle && (
-              <p className="text-zinc-500 font-bold mt-2 tracking-widest text-[10px]">
+              <p className="text-zinc-500 font-bold mt-2 tracking-widest text-[10px] uppercase">
                 {subtitle}
               </p>
             )}
           </div>
           {titleAlign !== 'center' && (
-            <Link href="/reviews" className="flex items-center gap-2 text-navy font-bold hover:text-primary-orange transition-all">
+            <Link href="/reviews" className="flex items-center gap-2 text-navy font-bold hover:text-primary-orange transition-all uppercase text-sm tracking-tight">
               View All
               <ChevronRight className="w-5 h-5" />
             </Link>
           )}
         </div>
 
-        <div className="flex gap-8 overflow-x-auto no-scrollbar pb-8 snap-x">
+        <div className="flex gap-6 overflow-x-auto no-scrollbar pb-8 snap-x">
           {reviews.map((rev, i) => (
-            <motion.div
-              key={rev._id || i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              viewport={{ once: true }}
-              className="min-w-[320px] md:min-w-[360px] bg-white rounded-[24px] overflow-hidden shadow-sm border border-zinc-100 snap-start group hover:shadow-xl transition-all"
-            >
-              <div className="relative aspect-video overflow-hidden">
-                <Image 
-                  src={normalizeImageUrl(rev.userImage) || "https://images.unsplash.com/photo-1506461883276-594a12b11cf3?q=80&w=2070"} 
-                  alt={rev.userName} 
-                  fill 
-                  className="object-cover transition-transform duration-700 group-hover:scale-110" 
-                />
-              </div>
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div>
-                    <h3 className="text-lg font-semibold text-navy mb-1">{rev.userName}</h3>
-                    {rev.city && (
-                      <div className="flex items-center gap-1.5 text-zinc-400 text-xs font-bold tracking-widest">
-                        <MapPin className="w-3 h-3 text-primary-orange" />
-                        {rev.city}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className={`w-4 h-4 ${i < rev.rating ? "fill-yellow-400 text-yellow-400" : "text-zinc-200"}`} />
-                    ))}
-                  </div>
-                </div>
-
-                <p className="text-zinc-600 text-sm font-medium leading-relaxed mb-8 italic">
-                  &quot;{rev.comment}&quot;
-                </p>
-                
-                <div className="flex items-center justify-between pt-6 border-t border-zinc-50">
-                  <span className="text-[10px] text-zinc-400 font-bold tracking-widest">{rev.tripName}</span>
-                  
-                  {rev.instagram && (
-                    <a 
-                      href={rev.instagram} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="flex items-center gap-2 text-navy hover:text-primary-orange transition-all group/insta"
-                    >
-                      <div className="w-8 h-8 bg-zinc-50 rounded-full flex items-center justify-center group-hover/insta:bg-primary-orange group-hover/insta:text-white transition-all">
-                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                          <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                        </svg>
-                      </div>
-                      <span className="text-xs font-bold">{getHandle(rev.instagram)}</span>
-                    </a>
-                  )}
-                </div>
-              </div>
-            </motion.div>
+            <ReviewCard key={rev._id || rev.id || i} rev={rev} i={i} />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function ReviewCard({ rev, i }: { rev: Review, i: number }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const shouldShowReadMore = rev.comment && rev.comment.length > 120;
+  const displayedComment = isExpanded ? rev.comment : (rev.comment || "").slice(0, 120);
+
+  const coverPhoto = rev.photos && rev.photos.length > 0 
+    ? rev.photos[0] 
+    : "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070";
+
+  const profileImage = rev.userImage ? normalizeImageUrl(rev.userImage) : null;
+  const initials = rev.userName ? rev.userName.charAt(0).toUpperCase() : "U";
+
+  const getAvatarColor = (name: string) => {
+    const colors = ["#E87A00", "#5C6BC0", "#4CAF50", "#E91E63", "#00BCD4"];
+    const charCode = name ? name.charCodeAt(0) : 0;
+    return colors[charCode % colors.length];
+  };
+  const avatarBg = getAvatarColor(rev.userName);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ delay: i * 0.1 }}
+      viewport={{ once: true }}
+      className="flex-none w-[260px] md:w-[280px] snap-start bg-white border border-zinc-100 rounded-[20px] shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden"
+    >
+      {/* Top Image */}
+      <div className="relative w-full h-[160px] shrink-0 bg-zinc-100 overflow-hidden">
+        <OptimizedImage 
+          src={normalizeImageUrl(coverPhoto) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470"} 
+          alt="Review cover" 
+          className="w-full h-full object-cover transition-transform duration-700 hover:scale-110"
+        />
+      </div>
+
+      <div className="p-4 flex flex-col flex-1">
+        {/* Rating */}
+        <div className="flex gap-0.5 mb-2">
+          {[...Array(5)].map((_, i) => (
+            <Star 
+              key={i} 
+              className={`w-[12px] h-[12px] ${i < (rev.rating || 5) ? "fill-[#F4B400] text-[#F4B400]" : "fill-zinc-200 text-zinc-200"}`} 
+            />
+          ))}
+        </div>
+
+        {/* Comment */}
+        <div className="flex-1">
+          <p className="text-[#222222] text-[13px] font-medium leading-[1.5] line-clamp-3">
+            {displayedComment}
+          </p>
+        </div>
+
+        {/* Profile Section */}
+        <div className="flex items-center gap-3 mt-4 pt-4 border-t border-zinc-50">
+          <div 
+            className="w-9 h-9 rounded-full overflow-hidden shrink-0 flex items-center justify-center text-white font-bold text-[13px]"
+            style={{ backgroundColor: avatarBg }}
+          >
+            {profileImage ? (
+              <OptimizedImage 
+                src={profileImage} 
+                alt={rev.userName} 
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              initials
+            )}
+          </div>
+          <div className="flex flex-col justify-center min-w-0">
+            <h4 className="text-[12px] font-bold text-[#111111] leading-tight truncate">{rev.userName}</h4>
+            <span className="text-[10px] text-[#999999] mt-0.5 truncate font-bold uppercase tracking-wider">
+              {rev.tripName || "Adventure Trip"}
+            </span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import Link from "next/link";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface HighlightItem {
   name: string;
@@ -51,15 +52,20 @@ export default function TripHighlightsList({ title, items, defaultItems = [] }: 
             return (
               <Link 
                 key={i} 
-                href={title.toLowerCase().includes('explore') ? `/attractions/${slug}` : `/blogs/${slug}`} 
+                href={
+                  title.toLowerCase().includes('attractions') 
+                  ? `/attractions/${slug}` 
+                  : title.toLowerCase().includes('activities') || title.toLowerCase().includes('highlights')
+                  ? `/blogs/${slug}`
+                  : `/blogs/${slug}`
+                } 
                 className="group cursor-pointer shrink-0 w-[260px] md:w-auto"
               >
                 <div className="relative aspect-[4/3] rounded-[24px] overflow-hidden mb-4 shadow-md">
-                  <img 
+                  <OptimizedImage 
                     src={normalizeImageUrl(imageUrl) || "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"} 
                     alt={name} 
                     loading="lazy"
-                    onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6"; }}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                 </div>

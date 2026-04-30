@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X } from "lucide-react";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 const VIDEOS = [
   { 
@@ -38,11 +38,11 @@ export default function VideoSection({ videos }: VideoSectionProps) {
 
   return (
     <>
-      <section className="mb-24 px-4 md:px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-10">
-            <h2 className="text-3xl font-bold text-primary-orange mb-2">Videos</h2>
-            <p className="text-zinc-500 font-medium">Exclusive footage from our expeditions</p>
+      <section className="py-16 bg-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="mb-12">
+            <h2 className="text-3xl font-black text-navy uppercase tracking-tighter">Videos</h2>
+            <p className="text-zinc-500 font-bold mt-2 tracking-widest text-[10px] uppercase">Exclusive footage from our expeditions</p>
           </div>
 
           <div className="relative group">
@@ -58,18 +58,16 @@ export default function VideoSection({ videos }: VideoSectionProps) {
                   className="flex-shrink-0 w-[280px] md:w-[400px] cursor-pointer group/video active:scale-[0.98] transition-transform"
                 >
                   <div className="relative aspect-video rounded-[20px] md:rounded-[32px] overflow-hidden mb-4 shadow-xl border border-zinc-100">
-                    <Image 
+                    <OptimizedImage 
                       src={`https://img.youtube.com/vi/${video.id}/maxresdefault.jpg`}
-                      alt={video.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover/video:scale-110"
+                      alt={video.title} className="object-cover transition-transform duration-700 group-hover/video:scale-110"
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover/video:bg-black/10 transition-colors" />
                     
                     {/* YouTube Style Play Button */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="w-14 h-10 md:w-16 md:h-12 bg-[#FF0000] rounded-xl flex items-center justify-center text-white transition-transform duration-300 group-hover/video:scale-110 shadow-2xl">
-                         <Play className="w-5 h-5 md:w-6 md:h-6 fill-current" />
+                         <Play className="w-5 h-5 md:w-6 md:h-6 -current" />
                       </div>
                     </div>
 

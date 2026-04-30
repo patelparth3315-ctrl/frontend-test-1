@@ -43,7 +43,15 @@ export default function TripDetailView({ trip }: TripDetailViewProps) {
       </div>
 
       <div id="highlights" className="space-y-16">
-        <TripHighlightsList title="Activities & Experiences" items={trip.highlights || []} />
+        {trip.attractions && trip.attractions.length > 0 && (
+          <TripHighlightsList title="Major Attractions" items={trip.attractions} />
+        )}
+        {trip.activities && trip.activities.length > 0 && (
+          <TripHighlightsList title="Activities & Experiences" items={trip.activities} />
+        )}
+        {(!trip.attractions || trip.attractions.length === 0) && (!trip.activities || trip.activities.length === 0) && trip.highlights && trip.highlights.length > 0 && (
+          <TripHighlightsList title="Trip Highlights" items={trip.highlights} />
+        )}
       </div>
 
       <div id="stay">

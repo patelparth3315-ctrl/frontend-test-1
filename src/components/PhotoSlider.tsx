@@ -1,116 +1,65 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import { normalizeImageUrl } from "@/lib/api";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Slide {
   image: string;
+  link?: string;
 }
 
 interface PhotoSliderProps {
   slides?: Slide[];
-  autoPlay?: boolean;
-  interval?: number;
+  title?: string;
 }
-
-const variants = {
-  enter: (direction: number) => ({
-    x: direction > 0 ? "100%" : "-100%",
-    opacity: 0
-  }),
-  center: {
-    zIndex: 1,
-    x: 0,
-    opacity: 1
-  },
-  exit: (direction: number) => ({
-    zIndex: 0,
-    x: direction < 0 ? "100%" : "-100%",
-    opacity: 0
-  })
-};
 
 export default function PhotoSlider({
   slides = [],
-  autoPlay = true,
-  interval = 5000
+  title
 }: PhotoSliderProps) {
-  const [[page, direction], setPage] = useState([0, 0]);
-
-  const index = Math.abs(page % slides.length);
-
-  const paginate = (newDirection: number) => {
-    setPage([page + newDirection, newDirection]);
-  };
-
-  useEffect(() => {
-    if (!autoPlay || slides.length <= 1) return;
-    const timer = setInterval(() => {
-      paginate(1);
-    }, interval);
-    return () => clearInterval(timer);
-  }, [slides.length, autoPlay, interval, page]);
-
-  if (!slides || slides.length === 0) return null;
+  // Fallback slides if none provided
+  const displaySlides = slides.length > 0 ? slides : [
+    { image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470" },
+    { image: "https://images.unsplash.com/photo-1472396961693-142e6e269027" },
+    { image: "https://images.unsplash.com/photo-1493246507139-91e8bef99c17" },
+    { image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb" },
+    { image: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b" },
+    { image: "https://images.unsplash.com/photo-1501785888041-af3ef285b470" }
+  ];
 
   return (
-    <section className="py-12 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative h-[450px] md:h-[600px] w-full rounded-[16px] overflow-hidden group shadow-xl bg-zinc-900">
-          <AnimatePresence initial={false} custom={direction}>
+    <section className="py-16 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 relative">
+        {title && (
+          <h2 className="text-3xl font-black text-navy uppercase tracking-tighter mb-10">{title}</h2>
+        )}
+        
+        <div 
+          id="photo-slider-container"
+          className="flex gap-6 overflow-x-auto no-scrollbar snap-x pb-8"
+        >
+          {/* Duplicate slides for a semi-infinite feel if few items */}
+          {[...displaySlides, ...displaySlides].map((slide, i) => (
             <motion.div
-              key={page}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-              }}
-              className="absolute inset-0"
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: (i % displaySlides.length) * 0.1 }}
+              viewport={{ once: true }}
+              className="flex-none w-[260px] md:w-[280px] h-[160px] md:h-[180px] snap-start bg-white rounded-[24px] overflow-hidden shadow-md hover:shadow-xl transition-all group"
             >
-              <img onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1596230529625-7ee10f7b09b6?q=80&w=2070"; }} 
-                src={normalizeImageUrl(slides[index].image)} 
-                alt="Cinematic View" 
-                className="w-full h-full object-cover"
-              />
-              {/* Optional Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+              <Link href={slide.link || "/trips"} className="block w-full h-full">
+                <OptimizedImage 
+                  src={normalizeImageUrl(slide.image)} 
+                  alt={`Slide ${i + 1}`} 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                />
+              </Link>
             </motion.div>
-          </AnimatePresence>
-
-          {/* Controls */}
-          {slides.length > 1 && (
-            <>
-              <button 
-                onClick={() => paginate(-1)}
-                className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/40 z-20"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <button 
-                onClick={() => paginate(1)}
-                className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/20 backdrop-blur-md border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/40 z-20"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
-              
-              {/* Pagination Dots */}
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
-                {slides.map((_, i) => (
-                  <button 
-                    key={i}
-                    onClick={() => setPage([i, i > index ? 1 : -1])}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${i === index ? 'w-8 bg-white shadow-lg' : 'w-2 bg-white/40'}`}
-                  />
-                ))}
-              </div>
-            </>
-          )}
+          ))}
         </div>
       </div>
     </section>

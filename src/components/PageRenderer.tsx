@@ -83,11 +83,25 @@ export default function PageRenderer({ sections = [], trips = [], reviews = [], 
                   paddingTop: data.padding || '80px',
                   paddingBottom: data.padding || '80px'
                 }}
-                className="px-6"
+                className="px-6 relative"
               >
-                <div className={`mx-auto ${data.maxWidth === 'narrow' ? 'max-w-2xl' : data.maxWidth === 'full' ? 'max-w-none' : 'max-w-5xl'}`}>
-                  {data.title && <h2 className="text-3xl md:text-5xl font-bold mb-8 uppercase tracking-tight">{data.title}</h2>}
-                  <div className="prose prose-lg max-w-none prose-headings:uppercase prose-headings:tracking-tight" dangerouslySetInnerHTML={{ __html: data.body || '' }} />
+                <div className={`mx-auto ${data.maxWidth === 'narrow' ? 'max-w-2xl' : data.maxWidth === 'full' ? 'max-w-none' : 'max-w-4xl'}`}>
+                  {data.title && (
+                    <h2 className="text-3xl md:text-4xl font-black mb-12 uppercase tracking-tighter text-[#ff4e00]">
+                      {data.title}
+                    </h2>
+                  )}
+                  <div 
+                    className="rich-content prose prose-stone prose-lg max-w-none 
+                               prose-headings:text-[#ff4e00] prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
+                               prose-p:text-gray-700 prose-p:leading-relaxed 
+                               prose-strong:text-gray-900 prose-strong:font-black
+                               prose-li:text-gray-700
+                               prose-h1:text-4xl prose-h1:mb-8
+                               prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+                               prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4" 
+                    dangerouslySetInnerHTML={{ __html: data.body || '' }} 
+                  />
                 </div>
               </section>
             );

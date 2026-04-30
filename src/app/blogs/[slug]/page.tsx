@@ -1,11 +1,11 @@
 import { fetchBlogBySlug, normalizeImageUrl } from "@/lib/api";
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import Footer from "@/components/Footer";
 export const dynamic = 'force-dynamic';
 
 import { ChevronLeft, Calendar, Clock, User } from "lucide-react";
 import Link from "next/link";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -26,11 +26,9 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
         {/* Hero Section */}
         <section className="relative w-full h-[60vh] min-h-[500px] flex items-center justify-center">
           <div className="absolute inset-0 z-0">
-            <Image 
+            <OptimizedImage 
               src={normalizeImageUrl(blog.image) || "https://images.unsplash.com/photo-1597037750734-450f6f406560?q=80&w=2070"} 
-              alt={blog.title}
-              fill
-              className="object-cover"
+              alt={blog.title} className="object-cover"
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />

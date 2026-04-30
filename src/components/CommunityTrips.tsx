@@ -7,6 +7,7 @@ import { Clock, MapPin, ChevronRight, ChevronLeft, TrendingUp, CheckCircle2 } fr
 import Link from "next/link";
 import { Trip } from "@/types";
 import { normalizeImageUrl } from "@/lib/api";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface CommunityTripsProps {
   trips: Trip[];
@@ -115,11 +116,10 @@ export default function CommunityTrips({
                 className="flex-none w-[85vw] md:w-[350px] snap-start"
               >
                 <div className="group relative h-[450px] md:h-[500px] rounded-[24px] overflow-hidden shadow-2xl bg-zinc-100 border border-zinc-100">
-                  <img 
+                  <OptimizedImage 
                     src={normalizeImageUrl(trip.heroImage) || "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"} 
                     alt={trip.title} 
                     loading="lazy"
-                    onError={(e) => { e.currentTarget.src = "https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070"; }}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110"
                   />
                   
@@ -156,15 +156,19 @@ export default function CommunityTrips({
                             </div>
                           </div>
                         </div>
-                        <Link 
-                          href={`/trips/${trip.slug}`}
-                          className="w-14 h-14 bg-white text-navy rounded-2xl flex items-center justify-center hover:bg-primary-orange hover:text-white transition-all shadow-2xl group/btn"
-                        >
+                        <div className="w-14 h-14 bg-white text-navy rounded-2xl flex items-center justify-center hover:bg-primary-orange hover:text-white transition-all shadow-2xl group/btn">
                           <ChevronRight className="w-8 h-8 group-hover/btn:translate-x-1 transition-transform" />
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
+
+                  {/* Invisible Link Overlay - Moved to very end for top-layer priority */}
+                  <Link 
+                    href={`/trips/${trip.slug}`} 
+                    className="absolute inset-0 z-[50] cursor-pointer"
+                    aria-label={`View ${trip.title}`}
+                  />
                 </div>
               </motion.div>
             ))}

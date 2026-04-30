@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Bed, Utensils, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface Stay {
   location: string;
@@ -88,7 +88,7 @@ export default function StayDetails() {
       {/* Stay Card */}
       <div className="bg-zinc-50 rounded-[40px] p-8 md:p-12 flex flex-col md:flex-row gap-10 items-center">
         <div className="w-full md:w-80 aspect-video relative rounded-[30px] overflow-hidden shadow-xl">
-           <Image src={stay.image} alt={stay.hotelName} fill className="object-cover" />
+           <OptimizedImage src={stay.image} alt={stay.hotelName} className="object-cover" />
            <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-lg text-[10px] font-black uppercase">
               Gallery
            </div>

@@ -3,9 +3,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, Camera } from "lucide-react";
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { normalizeImageUrl } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface PhotoGalleryModalProps {
   isOpen: boolean;
@@ -113,13 +113,10 @@ export default function PhotoGalleryModal({
                   transition={{ delay: i * 0.05 }}
                   className="relative aspect-square rounded-[24px] overflow-hidden shadow-md bg-zinc-100 group"
                 >
-                  <Image
+                  <OptimizedImage
                     src={errorImages[photo] ? FALLBACK : (normalizeImageUrl(photo) || FALLBACK)}
                     alt={`Photo ${i}`}
-                    fill
-                    onError={() => handleImageError(photo)}
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
                 </motion.div>
               ))}
