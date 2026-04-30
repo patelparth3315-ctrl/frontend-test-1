@@ -19,6 +19,9 @@ const satisfy = Satisfy({
 export const metadata = {
   title: "Youthcamping | Your Story Starts Here",
   description: "Join the community of 10,000+ travelers. Authentic adventure experiences since 2019.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default async function RootLayout({
