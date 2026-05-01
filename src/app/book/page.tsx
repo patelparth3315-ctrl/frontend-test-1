@@ -20,9 +20,12 @@ function BookingForm() {
   const [formData, setFormData] = useState({
     tripName: searchParams.get('trip') || '',
     date: searchParams.get('date') || '',
+    salesPersonName: searchParams.get('salesperson') || 'Direct',
     name: '',
     phone: '',
     email: '',
+    pickupCity: '',
+    specialRequests: '',
     participants: 1,
     roomSharing: 'Triple Sharing',
     trainOption: 'No',
@@ -38,7 +41,6 @@ function BookingForm() {
   }, [formData.tripName, formData.date]);
 
   // Sync participants list when count changes
-
   useEffect(() => {
     const count = formData.participants;
     setFormData(prev => {
@@ -127,12 +129,12 @@ function BookingForm() {
         </h1>
         <div className="flex flex-wrap gap-4 pt-2">
           {formData.tripName && (
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700">
+            <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full text-xs font-bold text-gray-700">
               <MapPin className="w-3 h-3" /> {formData.tripName}
             </div>
           )}
           {formData.date && (
-            <div className="flex items-center gap-2 bg-slate-100 px-3 py-1.5 rounded-full text-xs font-bold text-slate-700">
+            <div className="flex items-center gap-2 bg-gray-100 px-3 py-1.5 rounded-full text-xs font-bold text-gray-700">
               <Calendar className="w-3 h-3" /> {formData.date}
             </div>
           )}
@@ -143,12 +145,12 @@ function BookingForm() {
         {/* Personal Info */}
         <div className="space-y-4">
           <div className="relative group">
-            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-emerald-600 transition-colors" />
+            <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
             <input 
               required
               type="text"
               placeholder="Full Name"
-              className="w-full bg-white border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
+              className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
             />
@@ -156,26 +158,37 @@ function BookingForm() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="relative group">
-              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-emerald-600 transition-colors" />
+              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
               <input 
                 required
                 type="tel"
                 placeholder="Phone / WhatsApp"
-                className="w-full bg-white border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
+                className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
                 value={formData.phone}
                 onChange={(e) => setFormData({...formData, phone: e.target.value})}
               />
             </div>
             <div className="relative group">
-              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-emerald-600 transition-colors" />
+              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
               <input 
                 type="email"
                 placeholder="Email Address"
-                className="w-full bg-white border-2 border-slate-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
+                className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
                 value={formData.email}
                 onChange={(e) => setFormData({...formData, email: e.target.value})}
               />
             </div>
+          </div>
+          <div className="relative group">
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 group-focus-within:text-emerald-600 transition-colors" />
+            <input 
+              required
+              type="text"
+              placeholder="Pickup City (e.g. Delhi, Mumbai)"
+              className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 pl-12 pr-4 focus:outline-none focus:border-emerald-600 focus:ring-4 focus:ring-emerald-50 transition-all font-medium"
+              value={formData.pickupCity}
+              onChange={(e) => setFormData({...formData, pickupCity: e.target.value})}
+            />
           </div>
         </div>
 
@@ -195,7 +208,7 @@ function BookingForm() {
                   className={`flex-1 py-3 rounded-xl font-bold transition-all ${
                     (num === '5+' ? formData.participants >= 5 : formData.participants === num)
                       ? 'bg-emerald-600 text-white shadow-lg'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:border-emerald-600'
+                      : 'bg-white text-gray-600 border border-gray-200 hover:border-emerald-600'
                   }`}
                 >
                   {num}
@@ -252,7 +265,7 @@ function BookingForm() {
               <Bed className="w-3 h-3" /> Room Sharing Preference
             </label>
             <select 
-              className="w-full bg-white border-2 border-slate-100 rounded-xl py-3 px-4 focus:outline-none focus:border-emerald-600 transition-all font-bold text-slate-700 appearance-none"
+              className="w-full bg-white border-2 border-gray-100 rounded-xl py-3 px-4 focus:outline-none focus:border-emerald-600 transition-all font-bold text-gray-700 appearance-none"
               value={formData.roomSharing}
               onChange={(e) => setFormData({...formData, roomSharing: e.target.value})}
             >
@@ -279,13 +292,24 @@ function BookingForm() {
                   <div className={`py-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-1 ${
                     formData.trainOption === opt 
                       ? 'bg-white border-emerald-600 shadow-md ring-4 ring-emerald-50' 
-                      : 'bg-slate-100/50 border-transparent text-slate-400 grayscale'
+                      : 'bg-gray-100/50 border-transparent text-gray-400 grayscale'
                   }`}>
                     <span className="font-black uppercase text-xs tracking-tighter">{opt}</span>
                   </div>
                 </label>
               ))}
             </div>
+          </div>
+          <div className="space-y-3">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2 px-1">
+              Special Requests / Notes
+            </label>
+            <textarea 
+              placeholder="Any medical conditions, food preferences, or special requests?"
+              className="w-full bg-white border-2 border-gray-100 rounded-2xl py-4 px-4 focus:outline-none focus:border-emerald-600 transition-all font-medium min-h-[100px]"
+              value={formData.specialRequests}
+              onChange={(e) => setFormData({...formData, specialRequests: e.target.value})}
+            />
           </div>
         </div>
 
@@ -301,7 +325,8 @@ function BookingForm() {
 
         <button 
           disabled={loading}
-          className="w-full bg-slate-900 text-white rounded-[24px] py-6 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 hover:bg-slate-800 hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-70"
+          type="submit"
+          className="w-full bg-navy text-white rounded-[24px] py-6 font-black uppercase tracking-[0.2em] text-xs flex items-center justify-center gap-3 hover:bg-black hover:shadow-xl transition-all active:scale-[0.98] disabled:opacity-70 shadow-lg relative z-10"
         >
           {loading ? (
             <Loader2 className="w-5 h-5 animate-spin" />
