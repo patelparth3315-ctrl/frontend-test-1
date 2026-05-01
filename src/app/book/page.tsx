@@ -25,8 +25,33 @@ function BookingForm() {
     email: '',
     participants: 1,
     roomSharing: 'Triple Sharing',
-    trainOption: 'No'
+    trainOption: 'No',
+    participantsList: [{ name: '', phone: '', govId: '' }] as { name: string, phone: string, govId: string }[]
   });
+
+  // Sync participants list when count changes
+  useEffect(() => {
+    const count = formData.participants;
+    setFormData(prev => {
+      const newList = [...prev.participantsList];
+      if (newList.length < count) {
+        for (let i = newList.length; i < count; i++) {
+          newList.push({ name: '', phone: '', govId: '' });
+        }
+      } else if (newList.length > count) {
+        newList.splice(count);
+      }
+      return { ...prev, participantsList: newList };
+    });
+  }, [formData.participants]);
+
+  const handleParticipantChange = (index: number, field: string, value: string) => {
+    setFormData(prev => {
+      const newList = [...prev.participantsList];
+      newList[index] = { ...newList[index], [field]: value };
+      return { ...prev, participantsList: newList };
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,9 +69,6 @@ function BookingForm() {
 
       if (data.success) {
         setSuccess(true);
-        setTimeout(() => {
-          // Redirect or reset after success
-        }, 5000);
       } else {
         setError(data.message || 'Something went wrong. Please try again.');
       }
@@ -56,6 +78,7 @@ function BookingForm() {
       setLoading(false);
     }
   };
+
 
   if (success) {
     return (
@@ -145,6 +168,7 @@ function BookingForm() {
 
         {/* Trip Details */}
         <div className="bg-slate-50 p-6 rounded-[32px] space-y-6">
+          {/* Participants Count */}
           <div className="space-y-3">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2 px-1">
               <Users className="w-3 h-3" /> Number of Participants
@@ -166,6 +190,41 @@ function BookingForm() {
               ))}
             </div>
           </div>
+
+          {/* Individual Participant Details */}
+          <AnimatePresence>
+            {formData.participantsList.map((p, idx) => (
+              <motion.div 
+                key={idx}
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="space-y-4 pt-4 border-t border-slate-200"
+              >
+                <div className="flex items-center justify-between px-1">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-emerald-700">
+                    Traveler {idx + 1} {idx === 0 && "(Primary)"}
+                  </h3>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <input 
+                    placeholder="Full Name (as per ID)"
+                    className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 focus:outline-none focus:border-emerald-600 font-medium text-sm"
+                    value={p.name}
+                    onChange={(e) => handleParticipantChange(idx, 'name', e.target.value)}
+                    required
+                  />
+                  <input 
+                    placeholder="Aadhar / Gov ID Number"
+                    className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 focus:outline-none focus:border-emerald-600 font-medium text-sm"
+                    value={p.govId}
+                    onChange={(e) => handleParticipantChange(idx, 'govId', e.target.value)}
+                    required
+                  />
+                </div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
 
           <div className="space-y-3">
             <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 flex items-center gap-2 px-1">
