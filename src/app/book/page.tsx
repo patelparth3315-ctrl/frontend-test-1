@@ -28,8 +28,17 @@ function BookingForm() {
     trainOption: 'No',
     participantsList: [{ name: '', phone: '', email: '' }] as { name: string, phone: string, email: string }[]
   });
+  
+  // Check for existing submission in this session/browser
+  useEffect(() => {
+    const key = `booked_${formData.tripName}_${formData.date}`;
+    if (localStorage.getItem(key)) {
+      setSuccess(true);
+    }
+  }, [formData.tripName, formData.date]);
 
   // Sync participants list when count changes
+
   useEffect(() => {
     const count = formData.participants;
     setFormData(prev => {
@@ -69,6 +78,9 @@ function BookingForm() {
       const data = await response.json();
 
       if (data.success) {
+        // Save to localStorage to prevent re-filling
+        const key = `booked_${formData.tripName}_${formData.date}`;
+        localStorage.setItem(key, 'true');
         setSuccess(true);
       } else {
         setError(data.message || 'Something went wrong. Please try again.');
