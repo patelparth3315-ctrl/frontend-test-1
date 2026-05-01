@@ -26,7 +26,7 @@ function BookingForm() {
     participants: 1,
     roomSharing: 'Triple Sharing',
     trainOption: 'No',
-    participantsList: [{ name: '', phone: '', govId: '' }] as { name: string, phone: string, govId: string }[]
+    participantsList: [{ name: '', phone: '', email: '' }] as { name: string, phone: string, email: string }[]
   });
 
   // Sync participants list when count changes
@@ -36,7 +36,7 @@ function BookingForm() {
       const newList = [...prev.participantsList];
       if (newList.length < count) {
         for (let i = newList.length; i < count; i++) {
-          newList.push({ name: '', phone: '', govId: '' });
+          newList.push({ name: '', phone: '', email: '' });
         }
       } else if (newList.length > count) {
         newList.splice(count);
@@ -44,6 +44,7 @@ function BookingForm() {
       return { ...prev, participantsList: newList };
     });
   }, [formData.participants]);
+
 
   const handleParticipantChange = (index: number, field: string, value: string) => {
     setFormData(prev => {
@@ -208,21 +209,29 @@ function BookingForm() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <input 
-                    placeholder="Full Name (as per ID)"
+                    placeholder="Full Name"
                     className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 focus:outline-none focus:border-emerald-600 font-medium text-sm"
                     value={p.name}
                     onChange={(e) => handleParticipantChange(idx, 'name', e.target.value)}
                     required
                   />
                   <input 
-                    placeholder="Aadhar / Gov ID Number"
+                    placeholder="Mobile Number"
                     className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 focus:outline-none focus:border-emerald-600 font-medium text-sm"
-                    value={p.govId}
-                    onChange={(e) => handleParticipantChange(idx, 'govId', e.target.value)}
+                    value={p.phone}
+                    onChange={(e) => handleParticipantChange(idx, 'phone', e.target.value)}
                     required
+                  />
+                  <input 
+                    placeholder="Email Address"
+                    type="email"
+                    className="w-full bg-white border border-slate-200 rounded-xl py-2.5 px-4 focus:outline-none focus:border-emerald-600 font-medium text-sm md:col-span-2"
+                    value={p.email}
+                    onChange={(e) => handleParticipantChange(idx, 'email', e.target.value)}
                   />
                 </div>
               </motion.div>
+
             ))}
           </AnimatePresence>
 
