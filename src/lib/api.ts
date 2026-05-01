@@ -124,3 +124,19 @@ export async function fetchSettings(): Promise<any | null> {
   const json = await res.json();
   return json.data || null;
 }
+
+export async function submitInquiry(data: any): Promise<{ success: boolean; message?: string }> {
+  const res = await fetch(`${API_BASE_URL}/inquiries`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+  
+  const json = await res.json();
+  return {
+    success: res.ok && json.success,
+    message: json.message || (res.ok ? undefined : 'Failed to submit inquiry')
+  };
+}

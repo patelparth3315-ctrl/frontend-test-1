@@ -30,6 +30,7 @@ export default function TripInquiryAutoTrigger({ trip }: TripInquiryAutoTriggerP
       isOpen={isOpen}
       onClose={() => setIsOpen(false)}
       destination={{
+        id: trip.id || (trip as any)._id,
         name: trip.title,
         img: trip.heroImage,
         duration: trip.duration,

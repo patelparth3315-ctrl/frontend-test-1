@@ -2,14 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Calendar, Users, Send } from "lucide-react";
-import { normalizeImageUrl } from "@/lib/api";
+import { X, Calendar, Users, Send, AlertCircle } from "lucide-react";
+import { normalizeImageUrl, submitInquiry } from "@/lib/api";
 import { OptimizedImage } from "@/components/ui/OptimizedImage";
 
 interface DestinationInquiryModalProps {
   isOpen: boolean;
   onClose: () => void;
   destination: {
+    id?: string;
     name: string;
     img: string;
     duration?: string;
@@ -33,6 +34,7 @@ export default function DestinationInquiryModal({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -48,13 +50,32 @@ export default function DestinationInquiryModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const result = await submitInquiry({
+        name: formData.name,
+        phone: formData.mobile,
+        email: formData.email,
+        date: formData.date,
+        count: parseInt(formData.count),
+        message: formData.message,
+        tripId: destination?.id,
+        tripTitle: destination?.name,
+        source: 'website_booking_button'
+      });
+
+      if (result.success) {
+        setIsSuccess(true);
+        setTimeout(() => onClose(), 3000);
+      } else {
+        setError(result.message || "Failed to submit inquiry. Please try again.");
+      }
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      setTimeout(() => onClose(), 2000);
-    }, 1500);
+    }
   };
 
   return (
@@ -120,6 +141,12 @@ export default function DestinationInquiryModal({
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  {error && (
+                    <div className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600 text-sm font-bold">
+                      <AlertCircle className="w-5 h-5 shrink-0" />
+                      {error}
+                    </div>
+                  )}
                   <div>
                     <input
                       required

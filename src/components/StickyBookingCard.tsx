@@ -1,8 +1,10 @@
 "use client";
 
 import { Check, MessageCircle } from "lucide-react";
+import { useState } from "react";
 import { useTripSelection } from "@/store/trip-selection";
 import { Trip } from "@/types";
+import DestinationInquiryModal from "./DestinationInquiryModal";
 
 interface StickyBookingCardProps {
   trip: Trip;
@@ -10,6 +12,7 @@ interface StickyBookingCardProps {
 
 export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
   const { currentPrice } = useTripSelection();
+  const [isInquiryModalOpen, setIsInquiryModalOpen] = useState(false);
   
   // Initial price if store is empty
   const displayPrice = currentPrice || trip.price;
@@ -38,7 +41,10 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
               <p className="text-navy font-bold">{trip.duration}</p>
             </div>
 
-            <button className="w-full py-6 bg-primary-orange text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-[#FF5B00]/90 transition-all shadow-xl shadow-orange-100">
+            <button 
+              onClick={() => setIsInquiryModalOpen(true)}
+              className="w-full py-6 bg-primary-orange text-white rounded-[24px] font-black uppercase text-xs tracking-widest hover:bg-[#FF5B00]/90 transition-all shadow-xl shadow-orange-100"
+            >
               Book My Spot
             </button>
           </div>
@@ -74,11 +80,26 @@ export default function StickyBookingCard({ trip }: StickyBookingCardProps) {
               <span className="text-zinc-400 text-[10px] font-medium uppercase tracking-wider">per person</span>
             </div>
           </div>
-          <button className="bg-primary-orange text-white px-8 py-4 rounded-xl font-bold text-sm tracking-tight active:scale-95 transition-all shadow-lg shadow-orange-500/20">
+          <button 
+            onClick={() => setIsInquiryModalOpen(true)}
+            className="bg-primary-orange text-white px-8 py-4 rounded-xl font-bold text-sm tracking-tight active:scale-95 transition-all shadow-lg shadow-orange-500/20"
+          >
             Book Now
           </button>
         </div>
       </div>
+
+      <DestinationInquiryModal
+        isOpen={isInquiryModalOpen}
+        onClose={() => setIsInquiryModalOpen(false)}
+        destination={{
+          id: trip.id || trip._id,
+          name: trip.title,
+          img: trip.heroImage,
+          duration: trip.duration,
+          subtext: `Join our curated ${trip.location} expedition`
+        }}
+      />
     </>
   );
 }
